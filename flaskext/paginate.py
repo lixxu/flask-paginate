@@ -24,7 +24,33 @@ displaying <b>{start} - {end}</b>'''
 
 
 class Pagination(object):
+    '''A simple pagination extension for flask
+    '''
     def __init__(self, found=0, **kwargs):
+        '''provides the params:
+
+            **found**: is used when searching
+
+            **page**: current page
+
+            **per_page**: how many links displayed on one page
+
+            **inner_window**: how many links arround current page
+
+            **outer_window**: how many links near first/last link
+
+            **prev_label**: text for previous page, default is **&laquo;**
+
+            **next_label**: text for next page, default is **&raquo;**
+
+            **search**: search or not?
+
+            **total**: total records for pagination
+
+            **display_msg**: text for pagation information
+
+            **search_msg**: text for search information
+        '''
         self.found = found
         self.page = kwargs.get('page', 1)
         self.per_page = kwargs.get('per_page', 10)
@@ -157,6 +183,7 @@ class Pagination(object):
 
     @property
     def links(self):
+        '''get all the pagination links'''
         if self.total_pages <= 1:
             return ''
 
@@ -171,6 +198,7 @@ class Pagination(object):
 
     @property
     def info(self):
+        '''get the pagination information'''
         start = 1 + (self.page - 1) * self.per_page
         end = start + self.per_page - 1
         if end > self.total:
