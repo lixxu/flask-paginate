@@ -9,12 +9,19 @@ Overview
 `Flask`_ which is reference to `will_paginate`_,
 and use twitter `bootstrap`_ as css framework.
 
+**Note**: Flask-Paginate requires Python 2.6+ (use **string.format** syntax)
+
 .. sourcecode:: html+jinja
 
     {{ pagination.info|safe }}
 
 .. figure:: _static/paginate-info.png
     :alt: The screenshot of paginate information
+
+or
+
+.. figure:: _static/paginate-info2.png
+    :alt: The screenshot of paginate information when search
 
 .. sourcecode:: html+jinja
 
