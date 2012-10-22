@@ -108,6 +108,7 @@ In the **users/index.html**:
       <tbody>
         {% for user in users %}
           <tr>
+            <td>{{ loop.index }}</td>
             <td>{{ user.name }}</td>
             <td>{{ user.email }}</td>
           </tr>
