@@ -126,7 +126,7 @@ Below are the params for **Paginate.__init__()**, you can change the settings he
 
     **page**: current page
 
-    **per_page**: how many links displayed on one page
+    **per_page**: how many items displayed on one page
 
     **inner_window**: how many links arround current page
 
