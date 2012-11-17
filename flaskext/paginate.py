@@ -89,12 +89,12 @@ class Pagination(object):
     @property
     def prev_page(self):
         if self.has_prev:
-            return prev_page.format(url_for(self.endpoint,
-                                            page=self.page - 1,
-                                            **self.args
-                                            ),
-                                    self.prev_label
-                                    )
+            return prev_page.format(
+                url_for(self.endpoint,
+                    page=self.page - 1 if self.page > 2 else None,
+                    **self.args
+                ),
+                self.prev_label)
 
         return disabled_page.format(self.prev_label)
 
