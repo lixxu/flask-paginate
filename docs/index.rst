@@ -5,8 +5,8 @@ flask-paginate |release| documentation
 
 Overview
 ---------
-**flask-paginate** is an simple paginate extension for
-`Flask`_ which is reference to `will_paginate`_,
+**flask-paginate** is a simple paginate extension for
+`flask`_ which is reference to `will_paginate`_,
 and use twitter `bootstrap`_ as css framework.
 
 **Note**: flask-paginate requires Python 2.6+ (use **string.format** syntax)
@@ -69,7 +69,7 @@ css file.
 
 How to use
 ------------
-In your Flask views file (e.g. views/users.py)::
+In your flask views file (e.g. views/users.py)::
 
     from flask import Blueprint
     from flask.ext.paginate import Pagination
@@ -120,7 +120,7 @@ In the **users/index.html**:
 Deep into the Pagination
 --------------------------
 
-Below are the params for **Paginate.__init__()**, you can change the settings here.
+Below are the params for **Pagination.__init__()**, you can change the settings here.
 
     **found**: used when searching
 
