@@ -1,15 +1,15 @@
-Flask-Paginate |release| documentation
+flask-paginate |release| documentation
 ===========================================
 
 .. module:: flaskext.paginate
 
 Overview
 ---------
-**Flask-Paginate** is an simple paginate extension for
+**flask-paginate** is an simple paginate extension for
 `Flask`_ which is reference to `will_paginate`_,
 and use twitter `bootstrap`_ as css framework.
 
-**Note**: Flask-Paginate requires Python 2.6+ (use **string.format** syntax)
+**Note**: flask-paginate requires Python 2.6+ (use **string.format** syntax)
 
 .. sourcecode:: html+jinja
 

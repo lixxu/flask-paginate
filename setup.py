@@ -1,20 +1,20 @@
 """
-Flask-paginate
+flask-paginate
 --------------
 
-Simple paginate for Flask (study from will_paginate).
+Simple paginate for flask (study from will_paginate).
 Use bootstrap css framework
 """
 from setuptools import setup
 
 setup(
-    name='Flask-paginate',
-    version='0.1.1',
+    name='flask-paginate',
+    version='0.1.2',
     url='https://github.com/lixxu/flask-paginate',
     license='BSD',
     author='Lix Xu',
     author_email='xuzenglin@gmail.com',
-    description='Simple Paginate support for Flask',
+    description='Simple paginate support for flask',
     long_description=__doc__,
     namespace_packages=['flaskext'],
     packages=['flaskext'],
