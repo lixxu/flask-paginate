@@ -22,6 +22,8 @@ display_msg = '''Displaying <b>{start} - {end}</b> records in total
 search_msg = '''Found <b>{found}</b> records in total <b>{total}</b>,
 displaying <b>{start} - {end}</b>'''
 
+link_css = '<div class="pagination{0}"><ul>'
+
 
 class Pagination(object):
     '''A simple pagination extension for flask
@@ -29,7 +31,7 @@ class Pagination(object):
     def __init__(self, found=0, **kwargs):
         '''provides the params:
 
-            **found**: is used when searching
+            **found**: used when searching
 
             **page**: current page
 
@@ -50,6 +52,8 @@ class Pagination(object):
             **display_msg**: text for pagation information
 
             **search_msg**: text for search information
+
+            **link_size**: font size of page links
         '''
         self.found = found
         self.page = kwargs.get('page', 1)
@@ -62,6 +66,9 @@ class Pagination(object):
         self.total = kwargs.get('total', 0)
         self.display_msg = kwargs.get('display_msg') or display_msg
         self.search_msg = kwargs.get('search_msg') or search_msg
+        self.link_size = kwargs.get('link_size')
+        if self.link_size and self.link_size != 'normal':
+            self.link_size = ' pagination-{0}'.format(self.link_size)
 
     @property
     def total_pages(self):
@@ -89,8 +96,9 @@ class Pagination(object):
     @property
     def prev_page(self):
         if self.has_prev:
+            page = self.page - 1 if self.page > 2 else None
             return prev_page.format(url_for(self.endpoint,
-                                            page=self.page - 1,
+                                            page=page,
                                             **self.args
                                             ),
                                     self.prev_label
@@ -187,7 +195,7 @@ class Pagination(object):
         if self.total_pages <= 1:
             return ''
 
-        s = ['<div class="pagination"><ul>']
+        s = [link_css.format(self.link_size)]
         s.append(self.prev_page)
         for page in self.pages:
             s.append(self.single_page(page) if page else gap_marker)
