@@ -122,7 +122,7 @@ Deep into the Pagination
 
 Below are the params for **Paginate.__init__()**, you can change the settings here.
 
-    **found**: is used when searching
+    **found**: used when searching
 
     **page**: current page
 
@@ -143,6 +143,8 @@ Below are the params for **Paginate.__init__()**, you can change the settings he
     **display_msg**: text for pagation information
 
     **search_msg**: text for search information
+
+    **link_size**: font size of page links
 
 API
 ------------------
