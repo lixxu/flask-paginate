@@ -108,7 +108,7 @@ In the **users/index.html**:
       <tbody>
         {% for user in users %}
           <tr>
-            <td>{{ loop.index }}</td>
+            <td>{{ loop.index + users.skip }}</td>
             <td>{{ user.name }}</td>
             <td>{{ user.email }}</td>
           </tr>
@@ -145,6 +145,8 @@ Below are the params for **Pagination.__init__()**, you can change the settings 
     **search_msg**: text for search information
 
     **link_size**: font size of page links
+
+    **alignment**: the alignment of pagination links
 
 API
 ------------------

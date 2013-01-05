@@ -22,7 +22,7 @@ display_msg = '''Displaying <b>{start} - {end}</b> records in total
 search_msg = '''Found <b>{found}</b> records in total <b>{total}</b>,
 displaying <b>{start} - {end}</b>'''
 
-link_css = '<div class="pagination{0}"><ul>'
+link_css = '<div class="pagination{0}{1}"><ul>'
 
 
 class Pagination(object):
@@ -54,6 +54,8 @@ class Pagination(object):
             **search_msg**: text for search information
 
             **link_size**: font size of page links
+
+            **alignment**: the alignment of pagination links
         '''
         self.found = found
         self.page = kwargs.get('page', 1)
@@ -66,9 +68,13 @@ class Pagination(object):
         self.total = kwargs.get('total', 0)
         self.display_msg = kwargs.get('display_msg') or display_msg
         self.search_msg = kwargs.get('search_msg') or search_msg
-        self.link_size = kwargs.get('link_size')
-        if self.link_size and self.link_size != 'normal':
+        self.link_size = kwargs.get('link_size', '')
+        if self.link_size:
             self.link_size = ' pagination-{0}'.format(self.link_size)
+
+        self.alignment = kwargs.get('alignment', '')
+        if self.alignment:
+            self.alignment = ' pagination-{0}'.format(self.alignment)
 
     @property
     def total_pages(self):
@@ -195,7 +201,7 @@ class Pagination(object):
         if self.total_pages <= 1:
             return ''
 
-        s = [link_css.format(self.link_size)]
+        s = [link_css.format(self.link_size, self.alignment)]
         s.append(self.prev_page)
         for page in self.pages:
             s.append(self.single_page(page) if page else gap_marker)
