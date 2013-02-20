@@ -95,7 +95,7 @@ class Pagination(object):
 
     @property
     def args(self):
-        args = request.args.to_dict()
+        args = dict(request.args.to_dict().items() + request.view_args.items())
         args.pop('page', None)
         return args
 
