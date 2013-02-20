@@ -27,3 +27,5 @@ please add below lines to your css file::
         padding: .1em .25em;
         font-size: 150%;
     }
+
+Full documention: <http://pythonhosted.org/Flask-paginate/>
