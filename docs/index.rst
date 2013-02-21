@@ -85,7 +85,7 @@ In your flask views file (e.g. views/users.py)::
             search = True
 
         users = User.find(...)
-        pagination = Pagination(users.count, search=search)
+        pagination = Pagination(users.count, search=search, record_name='users')
         return render_template('users/index.html',
                                users=users,
                                pagination=pagination,
