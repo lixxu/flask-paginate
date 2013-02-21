@@ -144,6 +144,8 @@ Below are the params for **Pagination.__init__()**, you can change the settings 
 
     **search_msg**: text for search information
 
+    **record_name**: record name showed in pagination information
+
     **link_size**: font size of page links
 
     **alignment**: the alignment of pagination links

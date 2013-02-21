@@ -2,7 +2,7 @@
 #-*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
-from flask import request, url_for, session
+from flask import request, url_for
 
 first_page = '<li class="disabled"><a href="#">{0}</a></li>'
 last_page = '<li class="disabled"><a href="#">{0}</a></li>'
@@ -15,11 +15,12 @@ disabled_page = '<li class="disabled"><a href="#">{0}</a></li>'
 
 prev_label = ' &laquo; '
 next_label = ' &raquo; '
+record_name = 'records'
 
-display_msg = '''Displaying <b>{start} - {end}</b> records in total
+display_msg = '''Displaying <b>{start} - {end}</b> {record_name} in total
 <b>{total}</b>'''
 
-search_msg = '''Found <b>{found}</b> records in total <b>{total}</b>,
+search_msg = '''Found <b>{found}</b> {record_name} in total <b>{total}</b>,
 displaying <b>{start} - {end}</b>'''
 
 link_css = '<div class="pagination{0}{1}"><ul>'
@@ -53,6 +54,8 @@ class Pagination(object):
 
             **search_msg**: text for search information
 
+            **record_name**: record name showed in pagination information
+
             **link_size**: font size of page links
 
             **alignment**: the alignment of pagination links
@@ -68,6 +71,7 @@ class Pagination(object):
         self.total = kwargs.get('total', 0)
         self.display_msg = kwargs.get('display_msg') or display_msg
         self.search_msg = kwargs.get('search_msg') or search_msg
+        self.record_name = kwargs.get('record_name') or record_name
         self.link_size = kwargs.get('link_size', '')
         if self.link_size:
             self.link_size = ' pagination-{0}'.format(self.link_size)
@@ -227,6 +231,7 @@ class Pagination(object):
                                  total=self.total,
                                  start=start,
                                  end=end,
+                                 record_name=self.record_name,
                                  )
                  )
         s.append('</div>')
