@@ -9,15 +9,14 @@ from setuptools import setup
 
 setup(
     name='flask-paginate',
-    version='0.1.4',
+    version='0.1.5',
     url='https://github.com/lixxu/flask-paginate',
     license='BSD',
     author='Lix Xu',
     author_email='xuzenglin@gmail.com',
     description='Simple paginate support for flask',
     long_description=__doc__,
-    namespace_packages=['flaskext'],
-    packages=['flaskext'],
+    packages=['flask_paginate'],
     zip_safe=False,
     platforms='any',
     install_requires=[

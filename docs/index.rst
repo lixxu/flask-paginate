@@ -1,7 +1,7 @@
 flask-paginate |release| documentation
 ===========================================
 
-.. module:: flaskext.paginate
+.. module:: flask.ext.paginate
 
 Overview
 ---------
@@ -149,6 +149,8 @@ Below are the params for **Pagination.__init__()**, you can change the settings 
     **link_size**: font size of page links
 
     **alignment**: the alignment of pagination links
+
+    **bs_version**: the version of bootstrap, default is **2**
 
 API
 ------------------
