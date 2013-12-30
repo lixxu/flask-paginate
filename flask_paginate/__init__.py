@@ -14,12 +14,13 @@
 from __future__ import unicode_literals
 from flask import request, url_for
 
-PREV_PAGE = '<li><a href="{0}">{1}</a></li>'
-NEXT_PAGE = '<li><a href="{0}">{1}</a></li>'
+PREV_PAGE = '<li class="previous"><a href="{0}">{1}</a></li>'
+NEXT_PAGE = '<li class="next"><a href="{0}">{1}</a></li>'
 ACTIVE_PAGE = '<li class="active"><a href="#">{0}</a></li>'
 LINK = '<li><a href="{0}">{1}</a></li>'
 GAP_MARKER = '<li class="disabled"><a href="#">...</a></li>'
-DISABLED_PAGE = '<li class="disabled"><a href="#">{0}</a></li>'
+PREV_DISABLED_PAGE = '<li class="previous disabled"><a href="#">{0}</a></li>'
+NEXT_DISABLED_PAGE = '<li class="next disabled"><a href="#">{0}</a></li>'
 
 PREV_LABEL = ' &laquo; '
 NEXT_LABEL = ' &raquo; '
