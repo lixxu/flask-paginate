@@ -128,7 +128,7 @@ class Pagination(object):
                                     self.prev_label
                                     )
 
-        return DISABLED_PAGE.format(self.prev_label)
+        return PREV_DISABLED_PAGE.format(self.prev_label)
 
     @property
     def next_page(self):
@@ -140,7 +140,7 @@ class Pagination(object):
                                     self.next_label
                                     )
 
-        return DISABLED_PAGE.format(self.next_label)
+        return NEXT_DISABLED_PAGE.format(self.next_label)
 
     @property
     def first_page(self):
