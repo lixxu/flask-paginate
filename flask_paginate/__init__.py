@@ -96,7 +96,8 @@ class Pagination(object):
 
     @property
     def total_pages(self):
-        pages = divmod(self.total, self.per_page)
+        current_total = self.found if self.search else self.total
+        pages = divmod(current_total, self.per_page)
         return pages[0] + 1 if pages[1] else pages[0]
 
     @property
