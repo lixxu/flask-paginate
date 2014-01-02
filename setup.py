@@ -3,13 +3,13 @@ flask-paginate
 --------------
 
 Simple paginate for flask (study from will_paginate).
-Use bootstrap css framework
+Use bootstrap css framework, supports bootstrap2&3
 """
 from setuptools import setup
 
 setup(
     name='flask-paginate',
-    version='0.1.6',
+    version='0.1.7',
     url='https://github.com/lixxu/flask-paginate',
     license='BSD',
     author='Lix Xu',
