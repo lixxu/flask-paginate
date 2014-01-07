@@ -14,16 +14,52 @@
 from __future__ import unicode_literals
 from flask import request, url_for
 
-PREV_PAGE = '<li class="previous"><a href="{0}">{1}</a></li>'
-NEXT_PAGE = '<li class="next"><a href="{0}">{1}</a></li>'
-ACTIVE_PAGE = '<li class="active"><a href="#">{0}</a></li>'
-LINK = '<li><a href="{0}">{1}</a></li>'
-GAP_MARKER = '<li class="disabled"><a href="#">...</a></li>'
-PREV_DISABLED_PAGE = '<li class="previous disabled"><a href="#">{0}</a></li>'
-NEXT_DISABLED_PAGE = '<li class="next disabled"><a href="#">{0}</a></li>'
+_bs_prev_page = '<li class="previous"><a href="{0}">{1}</a></li>'
+PREV_PAGES = dict(bootstrap=_bs_prev_page,
+    bootstrap2=_bs_prev_page,
+    bootstrap3=_bs_prev_page,
+    foundation='<li class="arrow"><a href="{0}">{1}</a></li>',
+    )
 
-PREV_LABEL = ' &laquo; '
-NEXT_LABEL = ' &raquo; '
+_bs_next_page = '<li class="next"><a href="{0}">{1}</a></li>'
+NEXT_PAGES = dict(bootstrap=_bs_next_page,
+    bootstrap2=_bs_next_page,
+    bootstrap3=_bs_next_page,
+    foundation='<li class="arrow"><a href="{0}">{1}</a></li>',
+    )
+
+CURRENT_PAGES = dict(bootstrap='<li class="active"><a href="#">{0}</a></li>',
+    bootstrap3='<li class="active"><a href="#">{0}</a></li>',
+    foundation='<li class="current"><a href="#">{0}</a></li>',
+    )
+CURRENT_PAGES.update(bootstrap2=CURRENT_PAGES['bootstrap'])
+
+LINK = '<li><a href="{0}">{1}</a></li>'
+GAP_MARKERS = dict(bootstrap='<li class="disabled"><a href="#">...</a></li>',
+    foundation='<li class="unavailable"><a href="#">...</a></li>',
+    )
+GAP_MARKERS.update(bootstrap2=GAP_MARKERS['bootstrap'],
+    bootstrap3=GAP_MARKERS['bootstrap3'],
+    )
+
+_bs_prev_disabled_page = '<li class="previous disabled unavailable">\
+<a href="#"> {0} </a></li>'
+PREV_DISABLED_PAGES = dict(bootstrap=_bs_prev_disabled_page,
+    bootstrap2=_bs_prev_disabled_page,
+    bootstrap3=_bs_prev_disabled_page,
+    foundation='<li class="unavailable"><a href="#">{0}</a></li>',
+    )
+
+_bs_next_disabled_page = '<li class="next disabled">\
+<a href="#"> {0} </a></li>'
+NEXT_DISABLED_PAGES = dict(bootstrap=_bs_next_disabled_page,
+    bootstrap2=_bs_next_disabled_page,
+    bootstrap3=_bs_next_disabled_page,
+    foundation='<li class="unavailable"><a href="#">{0}</a></li>',
+    )
+
+PREV_LABEL = '&laquo;'
+NEXT_LABEL = '&raquo;'
 RECORD_NAME = 'records'
 
 DISPLAY_MSG = '''Displaying <b>{start} - {end}</b> {record_name} in total
@@ -32,8 +68,19 @@ DISPLAY_MSG = '''Displaying <b>{start} - {end}</b> {record_name} in total
 SEARCH_MSG = '''Found <b>{found}</b> {record_name} in total <b>{total}</b>,
 displaying <b>{start} - {end}</b>'''
 
-LINK_CSS = '<div class="pagination{0}{1}"><ul>'
-BS3_LINK_CSS = '<ul class="pagination{0}{1}">'
+CSS_LINKS = dict(bootstrap='<div class="pagination{0}{1}"><ul>',
+    bootstrap2='<div class="pagination{0}{1}"><ul>',
+    bootstrap3='<ul class="pagination{0}{1}">',
+    foundation='<ul class="pagination{0}{1}">',
+    )
+CSS_LINKS_END = dict(bootstrap='</ul></div>',
+    bootstrap2='</ul></div>',
+    bootstrap3='</ul>',
+    foundation='</ul>',
+    )
+
+# foundation aligment
+F_ALIGNMENT = '<div class="pagination-{0}">'
 
 
 class Pagination(object):
@@ -46,7 +93,7 @@ class Pagination(object):
 
             **page**: current page
 
-            **per_page**: how many links displayed on one page
+            **per_page**: how many records displayed on one page
 
             **inner_window**: how many links arround current page
 
@@ -71,6 +118,8 @@ class Pagination(object):
             **alignment**: the alignment of pagination links
 
             **bs_version**: the version of bootstrap, default is **2**
+
+            **css_framework**: the css framework, default is **bootstrap**
         '''
         self.found = found
         self.page = kwargs.get('page', 1)
@@ -84,15 +133,34 @@ class Pagination(object):
         self.display_msg = kwargs.get('display_msg') or DISPLAY_MSG
         self.search_msg = kwargs.get('search_msg') or SEARCH_MSG
         self.record_name = kwargs.get('record_name') or RECORD_NAME
-        self.link_size = kwargs.get('link_size', '')
-        if self.link_size:
-            self.link_size = ' pagination-{0}'.format(self.link_size)
-
-        self.alignment = kwargs.get('alignment', '')
-        if self.alignment:
-            self.alignment = ' pagination-{0}'.format(self.alignment)
+        self.css_framework = kwargs.get('css_framework', 'bootstrap').lower()
+        if self.css_framework not in CURRENT_PAGES:
+            self.css_framework = 'bootstrap'
 
         self.bs_version = kwargs.get('bs_version') or 2
+        if self.css_framework.startswith('bootstrap'):
+            if self.bs_version in (3, '3'):
+                self.css_framework = 'bootstrap3'
+
+        self.link_size = kwargs.get('link_size', '')
+        if self.link_size:
+            if self.css_framework == 'foundation':
+                self.link_size = ''
+            else:
+                self.link_size = ' pagination-{0}'.format(self.link_size)
+
+        self.alignment = kwargs.get('alignment', '')
+        if self.alignment and self.css_framework.startswith('bootstrap'):
+            self.alignment = ' pagination-{0}'.format(self.alignment)
+
+        self.current_page_fmt = CURRENT_PAGES[self.css_framework]
+        self.link_css_fmt = CSS_LINKS[self.css_framework]
+        self.gap_marker_fmt = GAP_MARKERS[self.css_framework]
+        self.prev_disabled_page_fmt = PREV_DISABLED_PAGES[self.css_framework]
+        self.next_disabled_page_fmt = NEXT_DISABLED_PAGES[self.css_framework]
+        self.prev_page_fmt = PREV_PAGES[self.css_framework]
+        self.next_page_fmt = NEXT_PAGES[self.css_framework]
+        self.css_end_fmt = CSS_LINKS_END[self.css_framework]
 
     @property
     def total_pages(self):
@@ -122,26 +190,18 @@ class Pagination(object):
     def prev_page(self):
         if self.has_prev:
             page = self.page - 1 if self.page > 2 else None
-            return PREV_PAGE.format(url_for(self.endpoint,
-                                            page=page,
-                                            **self.args
-                                            ),
-                                    self.prev_label
-                                    )
+            url = url_for(self.endpoint, page=page, **self.args)
+            return self.prev_page_fmt.format(url, self.prev_label)
 
-        return PREV_DISABLED_PAGE.format(self.prev_label)
+        return self.prev_disabled_page_fmt.format(self.prev_label)
 
     @property
     def next_page(self):
         if self.has_next:
-            return NEXT_PAGE.format(url_for(self.endpoint,
-                                            page=self.page + 1,
-                                            **self.args
-                                            ),
-                                    self.next_label
-                                    )
+            url = url_for(self.endpoint, page=self.page + 1, **self.args)
+            return self.next_page_fmt.format(url, self.next_label)
 
-        return NEXT_DISABLED_PAGE.format(self.next_label)
+        return self.next_disabled_page_fmt.format(self.next_label)
 
     @property
     def first_page(self):
@@ -149,19 +209,15 @@ class Pagination(object):
         if self.has_prev:
             return LINK.format(url_for(self.endpoint, page=1, **self.args), 1)
 
-        return ACTIVE_PAGE.format(1)
+        return self.current_page_fmt.format(1)
 
     @property
     def last_page(self):
         if self.has_next:
-            return LINK.format(url_for(self.endpoint,
-                                       page=self.total_pages,
-                                       **self.args
-                                       ),
-                               self.total_pages
-                               )
+            url = url_for(self.endpoint, page=self.total_pages, **self.args)
+            return LINK.format(url, self.total_pages)
 
-        return ACTIVE_PAGE.format(self.page)
+        return self.current_page_fmt.format(self.page)
 
     @property
     def pages(self):
@@ -202,7 +258,7 @@ class Pagination(object):
 
     def single_page(self, page):
         if page == self.page:
-            return ACTIVE_PAGE.format(page)
+            return self.current_page_fmt.format(page)
 
         if page == 1:
             return self.first_page
@@ -210,9 +266,7 @@ class Pagination(object):
         if page == self.total_pages:
             return self.last_page
 
-        return LINK.format(url_for(self.endpoint, page=page, **self.args),
-                           page
-                           )
+        return LINK.format(url_for(self.endpoint, page=page, **self.args), page)
 
     @property
     def links(self):
@@ -220,20 +274,16 @@ class Pagination(object):
         if self.total_pages <= 1:
             return ''
 
-        if self.bs_version == 3:
-            s = [BS3_LINK_CSS.format(self.link_size, self.alignment)]
-        else:
-            s = [LINK_CSS.format(self.link_size, self.alignment)]
-
+        s = [self.link_css_fmt.format(self.link_size, self.alignment)]
         s.append(self.prev_page)
         for page in self.pages:
-            s.append(self.single_page(page) if page else GAP_MARKER)
+            s.append(self.single_page(page) if page else self.gap_marker_fmt)
 
         s.append(self.next_page)
-        if self.bs_version == 3:
-            s.append('</ul>')
-        else:
-            s.append('</ul></div>')
+        s.append(self.css_end_fmt)
+        if self.css_framework == 'foundation' and self.alignment:
+            s.insert(0, F_ALIGNMENT.format(self.alignment))
+            s.append('</div>')
 
         return ''.join(s)
 
