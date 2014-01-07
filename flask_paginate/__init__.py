@@ -39,7 +39,7 @@ GAP_MARKERS = dict(bootstrap='<li class="disabled"><a href="#">...</a></li>',
     foundation='<li class="unavailable"><a href="#">...</a></li>',
     )
 GAP_MARKERS.update(bootstrap2=GAP_MARKERS['bootstrap'],
-    bootstrap3=GAP_MARKERS['bootstrap3'],
+    bootstrap3=GAP_MARKERS['bootstrap'],
     )
 
 _bs_prev_disabled_page = '<li class="previous disabled unavailable">\
