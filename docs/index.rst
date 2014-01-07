@@ -5,11 +5,17 @@ flask-paginate |release| documentation
 
 Overview
 ---------
+Latest version: **0.2**
+
 **flask-paginate** is a simple paginate extension for
 `flask`_ which is reference to `will_paginate`_,
-and use twitter `bootstrap`_ as css framework.
+and use `bootstrap`_ as css framework.
 
-**Note**: flask-paginate requires Python 2.6+ (use **string.format** syntax)
+**0.2 update**: `foundation`_ is now supported (use **css_framework** parameter)::
+
+    pagination = Pagination(..., css_framework='foundation', **kwargs)
+
+**Note**: Python 2.6+ is required (**string.format** is used to format text)
 
 .. sourcecode:: html+jinja
 
@@ -156,6 +162,8 @@ Below are the params for **Pagination.__init__()**, you can change the settings 
 
     **bs_version**: the version of bootstrap, default is **2**
 
+    **css_framework**: the css framework, default is **bootstrap**, you can use it instead of **bs_version**
+
 API
 ------------------
 
@@ -168,3 +176,4 @@ API
 .. _Flask: http://flask.pocoo.org/
 .. _will_paginate: https://github.com/mislav/will_paginate/wiki
 .. _bootstrap: http://twitter.github.com/bootstrap/
+.. _foundation: http://foundation.zurb.com/
