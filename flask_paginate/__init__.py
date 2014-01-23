@@ -62,10 +62,10 @@ PREV_LABEL = '&laquo;'
 NEXT_LABEL = '&raquo;'
 RECORD_NAME = 'records'
 
-DISPLAY_MSG = '''Displaying <b>{start} - {end}</b> {record_name} in total
-<b>{total}</b>'''
+DISPLAY_MSG = '''displaying <b>{start} - {end}</b> {record_name} in
+total <b>{total}</b>'''
 
-SEARCH_MSG = '''Found <b>{found}</b> {record_name} in total <b>{total}</b>,
+SEARCH_MSG = '''found <b>{found}</b> {record_name},
 displaying <b>{start} - {end}</b>'''
 
 CSS_LINKS = dict(bootstrap='<div class="pagination{0}{1}"><ul>',
