@@ -207,7 +207,7 @@ class Pagination(object):
     def first_page(self):
         # current page is first page
         if self.has_prev:
-            return LINK.format(url_for(self.endpoint, page=1, **self.args), 1)
+            return LINK.format(url_for(self.endpoint, page=None, **self.args), 1)
 
         return self.current_page_fmt.format(1)
 
