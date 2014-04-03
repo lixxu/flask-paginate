@@ -13,6 +13,7 @@
 
 from __future__ import unicode_literals
 from flask import request, url_for
+from werkzeug.datastructures import MultiDict
 
 _bs_prev_page = '<li class="previous"><a href="{0}">{1}</a></li>'
 PREV_PAGES = dict(bootstrap=_bs_prev_page,
@@ -182,7 +183,7 @@ class Pagination(object):
 
     @property
     def args(self):
-        args = dict(request.args.to_dict().items() + request.view_args.items())
+        args = MultiDict(list(request.args.iteritems(multi=True)) + request.view_args.items())
         args.pop('page', None)
         return args
 
