@@ -121,6 +121,8 @@ class Pagination(object):
             **bs_version**: the version of bootstrap, default is **2**
 
             **css_framework**: the css framework, default is **bootstrap**
+
+            **href**: <a> href parameter, MUST contain {0} to format page number
         '''
         self.found = found
         self.page = kwargs.get('page', 1)
@@ -154,6 +156,8 @@ class Pagination(object):
         if self.alignment and self.css_framework.startswith('bootstrap'):
             self.alignment = ' pagination-{0}'.format(self.alignment)
 
+        self.href = kwargs.get('href', None)
+
         self.current_page_fmt = CURRENT_PAGES[self.css_framework]
         self.link_css_fmt = CSS_LINKS[self.css_framework]
         self.gap_marker_fmt = GAP_MARKERS[self.css_framework]
@@ -162,6 +166,13 @@ class Pagination(object):
         self.prev_page_fmt = PREV_PAGES[self.css_framework]
         self.next_page_fmt = NEXT_PAGES[self.css_framework]
         self.css_end_fmt = CSS_LINKS_END[self.css_framework]
+
+    def page_href(self, page):
+        if self.href:
+            page = 1 if page is None else page
+            return self.href.format(page)
+        else:
+            return url_for(self.endpoint, page=page, **self.args)
 
     @property
     def total_pages(self):
@@ -191,7 +202,7 @@ class Pagination(object):
     def prev_page(self):
         if self.has_prev:
             page = self.page - 1 if self.page > 2 else None
-            url = url_for(self.endpoint, page=page, **self.args)
+            url = self.page_href(page)
             return self.prev_page_fmt.format(url, self.prev_label)
 
         return self.prev_disabled_page_fmt.format(self.prev_label)
@@ -199,7 +210,7 @@ class Pagination(object):
     @property
     def next_page(self):
         if self.has_next:
-            url = url_for(self.endpoint, page=self.page + 1, **self.args)
+            url = self.page_href(self.page + 1)
             return self.next_page_fmt.format(url, self.next_label)
 
         return self.next_disabled_page_fmt.format(self.next_label)
@@ -208,14 +219,14 @@ class Pagination(object):
     def first_page(self):
         # current page is first page
         if self.has_prev:
-            return LINK.format(url_for(self.endpoint, page=None, **self.args), 1)
+            return LINK.format(self.page_href(None), 1)
 
         return self.current_page_fmt.format(1)
 
     @property
     def last_page(self):
         if self.has_next:
-            url = url_for(self.endpoint, page=self.total_pages, **self.args)
+            url = self.page_href(self.total_pages)
             return LINK.format(url, self.total_pages)
 
         return self.current_page_fmt.format(self.page)
@@ -267,7 +278,7 @@ class Pagination(object):
         if page == self.total_pages:
             return self.last_page
 
-        return LINK.format(url_for(self.endpoint, page=page, **self.args), page)
+        return LINK.format(self.page_href(page), page)
 
     @property
     def links(self):
