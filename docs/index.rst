@@ -127,6 +127,20 @@ In the **users/index.html**:
     </table>
     {{ pagination.links|safe }}
 
+
+Example
+--------
+
+.. sourcecode:: sh
+
+    $cd example
+    $python sql.py init_db
+    $python sql.py fill_data
+    $python app.py
+
+Open `<http://localhost:5000>`_
+
+
 Deep into the Pagination
 --------------------------
 
