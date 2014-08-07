@@ -39,4 +39,4 @@ Run example:
 
 Open <http://localhost:5000> to see the example page.
 
-![demo](https://github.com/lixxu/flask-paginate/tree/master/example/demo.png "demo") 
+![demo](/example/demo.png "demo") 
