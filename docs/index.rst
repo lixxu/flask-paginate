@@ -138,8 +138,10 @@ Example
     $python sql.py fill_data
     $python app.py
 
-Open `<http://localhost:5000>`_
+Open `<http://localhost:5000>`_ to see the example page.
 
+.. figure:: _static/demo.png
+    :alt: The screenshot of paginate example
 
 Deep into the Pagination
 --------------------------

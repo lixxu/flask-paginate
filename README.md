@@ -37,4 +37,6 @@ Run example:
     $python sql.py fill_data
     $python app.py
 
-Open <http://localhost:5000> to see the page
+Open <http://localhost:5000> to see the example page.
+
+![demo](https://github.com/lixxu/flask-paginate/tree/master/example/demo.png "demo") 
