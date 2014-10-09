@@ -118,6 +118,8 @@ class Pagination(object):
 
             **alignment**: the alignment of pagination links
 
+            **href**: Add custom href for links - this supports forms with post method
+
             **bs_version**: the version of bootstrap, default is **2**
 
             **css_framework**: the css framework, default is **bootstrap**

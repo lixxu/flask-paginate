@@ -5,7 +5,7 @@ flask-paginate |release| documentation
 
 Overview
 ---------
-Latest version: **0.2**
+Latest version: **0.2.1**
 
 **flask-paginate** is a simple paginate extension for
 `flask`_ which is reference to `will_paginate`_,
@@ -175,6 +175,8 @@ Below are the params for **Pagination.__init__()**, you can change the settings 
     **link_size**: font size of page links
 
     **alignment**: the alignment of pagination links
+
+    **href**: Add custom href for links - this supports forms with post method
 
     **bs_version**: the version of bootstrap, default is **2**
 
