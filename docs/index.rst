@@ -43,11 +43,11 @@ Installation
 
 Install the extension with one of the following commands:::
 
-  $ easy_install flask-paginate
+  $ easy_install -U flask-paginate
 
 or alternatively if you have pip installed::
 
-  $ pip install flask-paginate
+  $ pip install -U flask-paginate
 
 Configuration
 ------------------
