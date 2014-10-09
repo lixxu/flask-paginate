@@ -15,51 +15,54 @@ from __future__ import unicode_literals
 from flask import request, url_for
 from werkzeug.datastructures import MultiDict
 
-__version__ = '0.2.2'
+__version__ = '0.2.3'
 
 _bs_prev_page = '<li class="previous"><a href="{0}">{1}</a></li>'
 PREV_PAGES = dict(bootstrap=_bs_prev_page,
-    bootstrap2=_bs_prev_page,
-    bootstrap3=_bs_prev_page,
-    foundation='<li class="arrow"><a href="{0}">{1}</a></li>',
-    )
+                  bootstrap2=_bs_prev_page,
+                  bootstrap3=_bs_prev_page,
+                  foundation='<li class="arrow"><a href="{0}">{1}</a></li>',
+                  )
 
 _bs_next_page = '<li class="next"><a href="{0}">{1}</a></li>'
 NEXT_PAGES = dict(bootstrap=_bs_next_page,
-    bootstrap2=_bs_next_page,
-    bootstrap3=_bs_next_page,
-    foundation='<li class="arrow"><a href="{0}">{1}</a></li>',
-    )
+                  bootstrap2=_bs_next_page,
+                  bootstrap3=_bs_next_page,
+                  foundation='<li class="arrow"><a href="{0}">{1}</a></li>',
+                  )
 
 CURRENT_PAGES = dict(bootstrap='<li class="active"><a href="#">{0}</a></li>',
-    bootstrap3='<li class="active"><a href="#">{0}</a></li>',
-    foundation='<li class="current"><a href="#">{0}</a></li>',
-    )
+                     bootstrap3='<li class="active"><a href="#">{0}</a></li>',
+                     foundation='<li class="current"><a href="#">{0}</a></li>',
+                     )
 CURRENT_PAGES.update(bootstrap2=CURRENT_PAGES['bootstrap'])
 
 LINK = '<li><a href="{0}">{1}</a></li>'
+FA_LINK = '<li class="unavailable"><a href="#">{0}</a></li>'
+
 GAP_MARKERS = dict(bootstrap='<li class="disabled"><a href="#">...</a></li>',
-    foundation='<li class="unavailable"><a href="#">...</a></li>',
-    )
+                   foundation='<li class="unavailable">\
+                   <a href="#">...</a></li>',
+                   )
 GAP_MARKERS.update(bootstrap2=GAP_MARKERS['bootstrap'],
-    bootstrap3=GAP_MARKERS['bootstrap'],
-    )
+                   bootstrap3=GAP_MARKERS['bootstrap'],
+                   )
 
 _bs_prev_disabled_page = '<li class="previous disabled unavailable">\
 <a href="#"> {0} </a></li>'
 PREV_DISABLED_PAGES = dict(bootstrap=_bs_prev_disabled_page,
-    bootstrap2=_bs_prev_disabled_page,
-    bootstrap3=_bs_prev_disabled_page,
-    foundation='<li class="unavailable"><a href="#">{0}</a></li>',
-    )
+                           bootstrap2=_bs_prev_disabled_page,
+                           bootstrap3=_bs_prev_disabled_page,
+                           foundation=FA_LINK,
+                           )
 
 _bs_next_disabled_page = '<li class="next disabled">\
 <a href="#"> {0} </a></li>'
 NEXT_DISABLED_PAGES = dict(bootstrap=_bs_next_disabled_page,
-    bootstrap2=_bs_next_disabled_page,
-    bootstrap3=_bs_next_disabled_page,
-    foundation='<li class="unavailable"><a href="#">{0}</a></li>',
-    )
+                           bootstrap2=_bs_next_disabled_page,
+                           bootstrap3=_bs_next_disabled_page,
+                           foundation=FA_LINK,
+                           )
 
 PREV_LABEL = '&laquo;'
 NEXT_LABEL = '&raquo;'
@@ -72,15 +75,15 @@ SEARCH_MSG = '''found <b>{found}</b> {record_name},
 displaying <b>{start} - {end}</b>'''
 
 CSS_LINKS = dict(bootstrap='<div class="pagination{0}{1}"><ul>',
-    bootstrap2='<div class="pagination{0}{1}"><ul>',
-    bootstrap3='<ul class="pagination{0}{1}">',
-    foundation='<ul class="pagination{0}{1}">',
-    )
+                 bootstrap2='<div class="pagination{0}{1}"><ul>',
+                 bootstrap3='<ul class="pagination{0}{1}">',
+                 foundation='<ul class="pagination{0}{1}">',
+                 )
 CSS_LINKS_END = dict(bootstrap='</ul></div>',
-    bootstrap2='</ul></div>',
-    bootstrap3='</ul>',
-    foundation='</ul>',
-    )
+                     bootstrap2='</ul></div>',
+                     bootstrap3='</ul>',
+                     foundation='</ul>',
+                     )
 
 # foundation aligment
 F_ALIGNMENT = '<div class="pagination-{0}">'
@@ -122,6 +125,8 @@ class Pagination(object):
 
             **href**: Add custom href for links - this supports forms with post method
 
+            **show_single_page**: decide whether or not a single page returns pagination
+
             **bs_version**: the version of bootstrap, default is **2**
 
             **css_framework**: the css framework, default is **bootstrap**
@@ -161,6 +166,7 @@ class Pagination(object):
             self.alignment = ' pagination-{0}'.format(self.alignment)
 
         self.href = kwargs.get('href', None)
+        self.show_single_page = kwargs.get('show_single_page', False)
 
         self.current_page_fmt = CURRENT_PAGES[self.css_framework]
         self.link_css_fmt = CSS_LINKS[self.css_framework]
@@ -284,10 +290,25 @@ class Pagination(object):
 
         return LINK.format(self.page_href(page), page)
 
+    def _get_single_page_link(self):
+        s = [self.link_css_fmt.format(self.link_size, self.alignment)]
+        s.append(self.prev_page)
+        s.append(self.single_page(1))
+        s.append(self.next_page)
+        s.append(self.css_end_fmt)
+        if self.css_framework == 'foundation' and self.alignment:
+            s.insert(0, F_ALIGNMENT.format(self.alignment))
+            s.append('</div>')
+
+        return ''.join(s)
+
     @property
     def links(self):
         '''get all the pagination links'''
         if self.total_pages <= 1:
+            if self.show_single_page:
+                return self._get_single_page_link()
+
             return ''
 
         s = [self.link_css_fmt.format(self.link_size, self.alignment)]

@@ -8,7 +8,7 @@ from flask.ext.paginate import Pagination
 
 app = Flask(__name__)
 app.config['PER_PAGE'] = 10
-app.config['LINK_SIZE'] = 'lg'
+app.config['LINK_SIZE'] = 'sm'
 app.config['CSS_FRAMEWORK'] = 'bootstrap3'
 
 
@@ -38,6 +38,7 @@ def index():
                                 per_page=per_page,
                                 total=total,
                                 record_name='users',
+                                show_single_page=True,
                                 )
     return render_template('index.html', users=users,
                            page=page,

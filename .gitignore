@@ -1,4 +1,5 @@
 *.py[co]
+example/test.db
 
 # Packages
 *.egg
