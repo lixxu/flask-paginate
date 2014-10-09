@@ -41,7 +41,7 @@ or
 Installation
 ------------------------
 
-Install the extension with one of the following commands:::
+Install the extension with one of the following commands::
 
   $ easy_install -U flask-paginate
 
