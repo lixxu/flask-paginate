@@ -134,8 +134,11 @@ Example
 .. sourcecode:: sh
 
     $cd example
+    $python sql.py
     $python sql.py init_db
     $python sql.py fill_data
+    $cp app.cfg.example app.cfg
+    $echo edit app.cfg
     $python app.py
 
 Open `<http://localhost:5000>`_ to see the example page.
