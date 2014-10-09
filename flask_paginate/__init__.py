@@ -15,6 +15,8 @@ from __future__ import unicode_literals
 from flask import request, url_for
 from werkzeug.datastructures import MultiDict
 
+__version__ = '0.2.2'
+
 _bs_prev_page = '<li class="previous"><a href="{0}">{1}</a></li>'
 PREV_PAGES = dict(bootstrap=_bs_prev_page,
     bootstrap2=_bs_prev_page,
