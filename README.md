@@ -33,8 +33,11 @@ Full documention: <http://pythonhosted.org/Flask-paginate/>
 Run example:
 
     $cd example
+    $python sql.py
     $python sql.py init_db
     $python sql.py fill_data
+    $cp app.cfg.example app.cfg
+    $echo edit app.cfg
     $python app.py
 
 Open <http://localhost:5000> to see the example page.
