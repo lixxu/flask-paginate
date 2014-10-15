@@ -12,10 +12,13 @@
 """
 
 from __future__ import unicode_literals
+import sys
 from flask import request, url_for
 from werkzeug.datastructures import MultiDict
 
-__version__ = '0.2.3'
+__version__ = '0.2.4'
+
+PY2 = sys.version_info[0] == 2
 
 _bs_prev_page = '<li class="previous"><a href="{0}">{1}</a></li>'
 PREV_PAGES = dict(bootstrap=_bs_prev_page,
@@ -204,7 +207,12 @@ class Pagination(object):
 
     @property
     def args(self):
-        args = MultiDict(list(request.args.iteritems(multi=True)) + request.view_args.items())
+        if PY2:
+            args_items = request.args.iteritems(multi=True)
+        else:
+            args_items = request.args.items(multi=True)
+
+        args = MultiDict(list(args_items) + request.view_args.items())
         args.pop('page', None)
         return args
 
