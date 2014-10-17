@@ -212,7 +212,7 @@ class Pagination(object):
         else:
             args_items = request.args.items(multi=True)
 
-        args = MultiDict(list(args_items) + request.view_args.items())
+        args = MultiDict(list(args_items) + list(request.view_args.items()))
         args.pop('page', None)
         return args
 
