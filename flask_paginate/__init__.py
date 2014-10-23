@@ -13,10 +13,11 @@
 
 from __future__ import unicode_literals
 import sys
+import urllib
 from flask import request, url_for
 from werkzeug.datastructures import MultiDict
 
-__version__ = '0.2.4'
+__version__ = '0.2.6'
 
 PY2 = sys.version_info[0] == 2
 
@@ -184,8 +185,8 @@ class Pagination(object):
         if self.href:
             page = 1 if page is None else page
             return self.href.format(page)
-        else:
-            return url_for(self.endpoint, page=page, **self.args)
+
+        return self.get_link(url_for(self.endpoint, page=page, **self.args))
 
     @property
     def total_pages(self):
@@ -204,6 +205,9 @@ class Pagination(object):
     @property
     def endpoint(self):
         return request.endpoint
+
+    def get_link(self, url):
+        return urllib.unquote(url)
 
     @property
     def args(self):
