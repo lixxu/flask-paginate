@@ -17,7 +17,7 @@ import urllib
 from flask import request, url_for
 from werkzeug.datastructures import MultiDict
 
-__version__ = '0.2.6'
+__version__ = '0.2.7'
 
 PY2 = sys.version_info[0] == 2
 
@@ -207,7 +207,10 @@ class Pagination(object):
         return request.endpoint
 
     def get_link(self, url):
-        return urllib.unquote(url)
+        if PY2:
+            return urllib.unquote(url)
+
+        return urllib.parse.unquote(url)
 
     @property
     def args(self):
