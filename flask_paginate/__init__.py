@@ -14,7 +14,7 @@
 from __future__ import unicode_literals
 import sys
 import urllib
-from flask import request, url_for
+from flask import request, url_for, Markup
 from werkzeug.datastructures import MultiDict
 
 __version__ = '0.2.8'
@@ -320,7 +320,7 @@ class Pagination(object):
             s.insert(0, F_ALIGNMENT.format(self.alignment))
             s.append('</div>')
 
-        return ''.join(s)
+        return Markup(''.join(s))
 
     @property
     def links(self):
@@ -342,7 +342,7 @@ class Pagination(object):
             s.insert(0, F_ALIGNMENT.format(self.alignment))
             s.append('</div>')
 
-        return ''.join(s)
+        return Markup(''.join(s))
 
     @property
     def info(self):
@@ -365,4 +365,4 @@ class Pagination(object):
                                  )
                  )
         s.append('</div>')
-        return ''.join(s)
+        return Markup(''.join(s))

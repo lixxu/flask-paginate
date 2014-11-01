@@ -2,8 +2,8 @@
 
 {% block body %}
 {% if users %}
-  {{ pagination.info|safe }}
-  {{ pagination.links|safe }}
+  {{ pagination.info }}
+  {{ pagination.links }}
   <div class="table-responsive">
     <table class="table table-hover">
     <thead>
@@ -19,7 +19,7 @@
     </tbody>
     </table>
   </div>
-  {{ pagination.links|safe }}
+  {{ pagination.links }}
   {% endif %}
 {% endblock %}
 
