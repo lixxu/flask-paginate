@@ -17,7 +17,7 @@ import urllib
 from flask import request, url_for
 from werkzeug.datastructures import MultiDict
 
-__version__ = '0.2.7'
+__version__ = '0.2.8'
 
 PY2 = sys.version_info[0] == 2
 
@@ -221,7 +221,12 @@ class Pagination(object):
 
         args = MultiDict(list(args_items) + list(request.view_args.items()))
         args.pop('page', None)
-        return args
+        # flat dict if non-multi values used
+        for k in args:
+            if len(args.getlist(k)) > 1:
+                return args
+
+        return args.to_dict()
 
     @property
     def prev_page(self):

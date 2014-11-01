@@ -5,7 +5,7 @@ flask-paginate |release| documentation
 
 Overview
 ---------
-Latest version: **0.2.7**
+Latest version: **0.2.8**
 
 **flask-paginate** is a simple paginate extension for
 `flask`_ which is reference to `will_paginate`_,
@@ -196,7 +196,21 @@ API
 .. toctree::
    :maxdepth: 2
 
+Changelog
+---------
+
+Version 0.2.8
+-------------
+
+(bugfix release, released on Nov 2nd 2014)
+
+- Flat args for non-multi values style urls. This is used to fix the bug
+  `<https://github.com/lixxu/flask-paginate/issues/24>`_
+  when generated url likes this (`http://xxxxxx/something/[u'param']?page=2`)
+
 .. _Flask: http://flask.pocoo.org/
 .. _will_paginate: https://github.com/mislav/will_paginate/wiki
 .. _bootstrap: http://twitter.github.com/bootstrap/
 .. _foundation: http://foundation.zurb.com/
+
+
