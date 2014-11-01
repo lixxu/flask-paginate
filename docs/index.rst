@@ -207,6 +207,8 @@ Version 0.2.8
 - Flat args for non-multi values style urls. This is used to fix the bug
   `<https://github.com/lixxu/flask-paginate/issues/24>`_
   when generated url likes this (`http://xxxxxx/something/[u'param']?page=2`)
+- Use `<http://flask.pocoo.org/docs/0.10/api/#flask.Markup>`_ when generating
+  url so that template no need to use `safe` filter any more.
 
 .. _Flask: http://flask.pocoo.org/
 .. _will_paginate: https://github.com/mislav/will_paginate/wiki
