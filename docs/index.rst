@@ -19,7 +19,7 @@ and use `bootstrap`_ as css framework.
 
 .. sourcecode:: html+jinja
 
-    {{ pagination.info|safe }}
+    {{ pagination.info }}
 
 .. figure:: _static/paginate-info.png
     :alt: The screenshot of paginate information
@@ -31,7 +31,7 @@ or
 
 .. sourcecode:: html+jinja
 
-    {{ pagination.links|safe }}
+    {{ pagination.links }}
 
 .. figure:: _static/paginate-links.png
     :alt: The screenshot of paginate links
@@ -105,8 +105,8 @@ In the **users/index.html**:
 
 .. sourcecode:: html+jinja
 
-    {{ pagination.info|safe }}
-    {{ pagination.links|safe }}
+    {{ pagination.info }}
+    {{ pagination.links }}
     <table>
       <thead>
         <tr>
@@ -125,7 +125,7 @@ In the **users/index.html**:
         {% endfor %}
       </tbody>
     </table>
-    {{ pagination.links|safe }}
+    {{ pagination.links }}
 
 
 Example
