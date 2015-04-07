@@ -184,9 +184,12 @@ class Pagination(object):
     def page_href(self, page):
         if self.href:
             page = 1 if page is None else page
-            return self.href.format(page)
-
-        return self.get_link(url_for(self.endpoint, page=page, **self.args))
+            url = self.href.format(page)
+        else:
+            url = self.get_link(url_for(self.endpoint, page=page, **self.args))
+        
+        # Need to return a unicode object
+        return url.decode('utf8')
 
     @property
     def total_pages(self):
