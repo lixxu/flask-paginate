@@ -15,7 +15,6 @@ from __future__ import unicode_literals
 import sys
 import urllib
 from flask import request, url_for, Markup
-from werkzeug.datastructures import MultiDict
 
 __version__ = '0.2.8'
 
@@ -218,18 +217,24 @@ class Pagination(object):
     @property
     def args(self):
         if PY2:
-            args_items = request.args.iteritems(multi=True)
+            request_args = request.args.iteritems(multi=True)
+            view_args = request.view_args.iteritems()
         else:
-            args_items = request.args.items(multi=True)
+            request_args = request.args.items(multi=True)
+            view_args = request.view_args.items()
 
-        args = MultiDict(list(args_items) + list(request.view_args.items()))
-        args.pop('page', None)
-        # flat dict if non-multi values used
-        for k in args:
-            if len(args.getlist(k)) > 1:
-                return args
+        args = {}
+        for k, value in list(request_args) + list(view_args):
+            if k == 'page':
+                continue
+            if k not in args:
+                args[k] = value
+            elif not isinstance(args[k], list):
+                args[k] = [args[k], value]
+            else:
+                args[k].append(value)
 
-        return args.to_dict()
+        return args
 
     @property
     def prev_page(self):
