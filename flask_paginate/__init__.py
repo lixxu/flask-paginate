@@ -16,7 +16,7 @@ import sys
 import urllib
 from flask import request, url_for, Markup
 
-__version__ = '0.2.8'
+__version__ = '0.2.9'
 
 PY2 = sys.version_info[0] == 2
 
@@ -186,7 +186,7 @@ class Pagination(object):
             url = self.href.format(page)
         else:
             url = self.get_link(url_for(self.endpoint, page=page, **self.args))
-        
+
         # Need to return a unicode object
         return url.decode('utf8')
 

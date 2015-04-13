@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 import sqlite3
 from flask import Flask, render_template, g, current_app, request
 from flask.ext.paginate import Pagination
+import click
 
 app = Flask(__name__)
 app.config.from_pyfile('app.cfg')
@@ -31,6 +32,29 @@ def index():
     sql = 'select name from users order by name limit {}, {}'\
         .format(offset, per_page)
     g.cur.execute(sql)
+    users = g.cur.fetchall()
+    pagination = get_pagination(page=page,
+                                per_page=per_page,
+                                total=total,
+                                record_name='users',
+                                )
+    return render_template('index.html', users=users,
+                           page=page,
+                           per_page=per_page,
+                           pagination=pagination,
+                           )
+
+
+@app.route('/search/<name>/')
+@app.route('/search/<name>')
+def search(name):
+    '''This function is used to test multi values url'''
+    sql = 'select {} from users where name like ?'
+    args = ('%{}%'.format(name), )
+    g.cur.execute(sql.format('count(*)'), args)
+    total = g.cur.fetchone()[0]
+    page, per_page, offset = get_page_items()
+    g.cur.execute(sql.format('*'), args)
     users = g.cur.fetchall()
     pagination = get_pagination(page=page,
                                 per_page=per_page,
@@ -76,6 +100,12 @@ def get_pagination(**kwargs):
                       **kwargs
                       )
 
-if __name__ == '__main__':
-    app.run(debug=True)
 
+@click.command()
+@click.option('--port', '-p', default=5000, help='listening port')
+def run(port):
+    app.run(debug=True, port=port)
+
+
+if __name__ == '__main__':
+    run()

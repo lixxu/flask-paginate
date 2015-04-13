@@ -5,7 +5,7 @@ flask-paginate |release| documentation
 
 Overview
 ---------
-Latest version: **0.2.8**
+Latest version: **0.2.9**
 
 **flask-paginate** is a simple paginate extension for
 `flask`_ which is reference to `will_paginate`_,
@@ -129,17 +129,19 @@ In the **users/index.html**:
 
 
 Example
---------
+-------
+
+**Note**: 0.2.9 requires `click <http://click.pocoo.org/>`_ to run example.
 
 .. sourcecode:: sh
 
     $cd example
     $python sql.py
     $python sql.py init_db
-    $python sql.py fill_data
+    $python sql.py fill_data --total=310
     $cp app.cfg.example app.cfg
     $echo edit app.cfg
-    $python app.py
+    $python app.py --port 5000
 
 Open `<http://localhost:5000>`_ to see the example page.
 
@@ -196,8 +198,32 @@ API
 .. toctree::
    :maxdepth: 2
 
+
+Contributors
+------------
+
+- `DoctorMalboro <https://github.com/DoctorMalboro>`_
+- `MasterMind2k <https://github.com/MasterMind2k>`_
+- `alcaras <https://github.com/alcaras>`_
+- `mozillazg <https://github.com/mozillazg>`_
+- `DYFeng <https://github.com/DYFeng>`_
+- `ilya-il <https://github.com/ilya-il>`_
+- `mkaplenko <https://github.com/mkaplenko>`_
+- `trein <https://github.com/trein>`_
+- `tark-hidden <https://github.com/tark-hidden>`_
+
+
 Changelog
 ---------
+
+Version 0.2.9
+-------------
+
+(bugfix release, released on Apr 13th 2015)
+
+- Last release did not fix the bug `bug 24 <https://github.com/lixxu/flask-paginate/issues/24>`_ actually.
+  Thanks `MasterMind2k <https://github.com/MasterMind2k>`_ fix it finally.
+- Use `click <http://click.pocoo.org/>`_ for example code
 
 Version 0.2.8
 -------------
