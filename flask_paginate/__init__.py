@@ -16,7 +16,7 @@ import sys
 import urllib
 from flask import request, url_for, Markup
 
-__version__ = '0.2.9'
+__version__ = '0.3.0'
 
 PY2 = sys.version_info[0] == 2
 
@@ -126,15 +126,24 @@ class Pagination(object):
 
             **alignment**: the alignment of pagination links
 
-            **href**: Add custom href for links - this supports forms with post method
+            **href**: Add custom href for links - this supports forms \
+            with post method
 
-            **show_single_page**: decide whether or not a single page returns pagination
+            **show_single_page**: decide whether or not a single page \
+            returns pagination
 
             **bs_version**: the version of bootstrap, default is **2**
 
             **css_framework**: the css framework, default is **bootstrap**
 
-            **href**: <a> href parameter, MUST contain {0} to format page number
+            **href**: <a> href parameter, MUST contain {0} to format \
+            page number
+
+            **format_total**: number format total, like **1,234**, \
+            default is False
+
+            **format_number**: number format start and end, like **1,234**, \
+            default is False
         '''
         self.found = found
         self.page = kwargs.get('page', 1)
@@ -145,6 +154,8 @@ class Pagination(object):
         self.next_label = kwargs.get('next_label') or NEXT_LABEL
         self.search = kwargs.get('search', False)
         self.total = kwargs.get('total', 0)
+        self.format_total = kwargs.get('format_total', False)
+        self.format_number = kwargs.get('format_number', False)
         self.display_msg = kwargs.get('display_msg') or DISPLAY_MSG
         self.search_msg = kwargs.get('search_msg') or SEARCH_MSG
         self.record_name = kwargs.get('record_name') or RECORD_NAME
@@ -365,10 +376,22 @@ class Pagination(object):
 
         s = ['<div class="pagination-page-info">']
         page_msg = self.search_msg if self.search else self.display_msg
+        if self.format_total:
+            total_text = '{0:,}'.format(self.total)
+        else:
+            total_text = '{0}'.format(self.total)
+
+        if self.format_number:
+            start_text = '{0:,}'.format(start)
+            end_text = '{0:,}'.format(end)
+        else:
+            start_text = start
+            end_text = end
+
         s.append(page_msg.format(found=self.found,
-                                 total=self.total,
-                                 start=start,
-                                 end=end,
+                                 total=total_text,
+                                 start=start_text,
+                                 end=end_text,
                                  record_name=self.record_name,
                                  )
                  )

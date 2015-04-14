@@ -37,6 +37,8 @@ def index():
                                 per_page=per_page,
                                 total=total,
                                 record_name='users',
+                                format_total=True,
+                                format_number=True,
                                 )
     return render_template('index.html', users=users,
                            page=page,
@@ -49,12 +51,14 @@ def index():
 @app.route('/search/<name>')
 def search(name):
     '''This function is used to test multi values url'''
-    sql = 'select {} from users where name like ?'
+    sql = 'select count(*) from users where name like ?'
     args = ('%{}%'.format(name), )
-    g.cur.execute(sql.format('count(*)'), args)
+    g.cur.execute(sql, args)
     total = g.cur.fetchone()[0]
+
     page, per_page, offset = get_page_items()
-    g.cur.execute(sql.format('*'), args)
+    sql = 'select * from users where name like ? limit {}, {}'
+    g.cur.execute(sql.format(offset, per_page), args)
     users = g.cur.fetchall()
     pagination = get_pagination(page=page,
                                 per_page=per_page,
@@ -105,7 +109,6 @@ def get_pagination(**kwargs):
 @click.option('--port', '-p', default=5000, help='listening port')
 def run(port):
     app.run(debug=True, port=port)
-
 
 if __name__ == '__main__':
     run()

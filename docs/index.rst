@@ -5,7 +5,7 @@ flask-paginate |release| documentation
 
 Overview
 ---------
-Latest version: **0.2.9**
+Latest version: **0.3.0**
 
 **flask-paginate** is a simple paginate extension for
 `flask`_ which is reference to `will_paginate`_,
@@ -189,6 +189,12 @@ Below are the params for **Pagination.__init__()**, you can change the settings 
 
     **css_framework**: the css framework, default is **bootstrap**, you can use it instead of **bs_version**
 
+    **href**: <a> href parameter, MUST contain {0} to format page number
+
+    **format_total**: number format total, like **1,234**, default is False
+
+    **format_number**: number format start and end, like **1,234**, default is False
+
 API
 ------------------
 
@@ -215,6 +221,13 @@ Contributors
 
 Changelog
 ---------
+
+Version 0.3.0
+-------------
+
+(small feature release, released on Apr 14th 2015)
+
+- Add option to number format total `issue 29 <https://github.com/lixxu/flask-paginate/issues/29>`_, and also can format start and end
 
 Version 0.2.9
 -------------
