@@ -13,10 +13,9 @@
 
 from __future__ import unicode_literals
 import sys
-import urllib
 from flask import request, url_for, Markup
 
-__version__ = '0.3.0'
+__version__ = '0.3.1'
 
 PY2 = sys.version_info[0] == 2
 
@@ -196,10 +195,10 @@ class Pagination(object):
             page = 1 if page is None else page
             url = self.href.format(page)
         else:
-            url = self.get_link(url_for(self.endpoint, page=page, **self.args))
+            url = url_for(self.endpoint, page=page, **self.args)
 
         # Need to return a unicode object
-        return url.decode('utf8')
+        return url.decode('utf8') if PY2 else url
 
     @property
     def total_pages(self):
@@ -218,12 +217,6 @@ class Pagination(object):
     @property
     def endpoint(self):
         return request.endpoint
-
-    def get_link(self, url):
-        if PY2:
-            return urllib.unquote(url)
-
-        return urllib.parse.unquote(url)
 
     @property
     def args(self):
