@@ -26,7 +26,6 @@ def teardown(error):
 
 @app.route('/')
 def index():
-    print(repr(request.args.get('where')))
     g.cur.execute('select count(*) from users')
     total = g.cur.fetchone()[0]
     page, per_page, offset = get_page_items()
@@ -41,7 +40,6 @@ def index():
                                 format_total=True,
                                 format_number=True,
                                 )
-    print(repr(pagination.page_href(3)))
     return render_template('index.html', users=users,
                            page=page,
                            per_page=per_page,
