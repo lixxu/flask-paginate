@@ -5,7 +5,7 @@ flask-paginate |release| documentation
 
 Overview
 ---------
-Latest version: **0.3.1**
+Latest version: **0.3.2**
 
 **flask-paginate** is a simple paginate extension for
 `flask`_ which is reference to `will_paginate`_,
@@ -221,6 +221,10 @@ Contributors
 
 Changelog
 ---------
+Version 0.3.2
+-------------
+
+0.3.1 file upload failed, increase the version number.
 
 Version 0.3.1
 -------------
