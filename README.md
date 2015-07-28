@@ -29,3 +29,17 @@ please add below lines to your css file::
     }
 
 Full documention: <http://pythonhosted.org/Flask-paginate/>
+
+Run example:
+
+    $cd example
+    $python sql.py
+    $python sql.py init_db
+    $python sql.py fill_data --total=310
+    $cp app.cfg.example app.cfg
+    $echo edit app.cfg
+    $python app.py --port 5000
+
+Open <http://localhost:5000> to see the example page.
+
+![demo](/example/demo.png "demo") 

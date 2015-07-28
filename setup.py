@@ -9,7 +9,7 @@ from setuptools import setup
 
 setup(
     name='flask-paginate',
-    version='0.1.7',
+    version='0.3.2',
     url='https://github.com/lixxu/flask-paginate',
     license='BSD',
     author='Lix Xu',
@@ -29,6 +29,9 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
-        'Topic :: Software Development :: Libraries :: Python Modules'
+        'Topic :: Software Development :: Libraries :: Python Modules',
+        'Programming Language :: Python :: 2.6',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.4',
     ]
 )

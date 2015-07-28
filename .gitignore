@@ -1,4 +1,6 @@
 *.py[co]
+example/test.db
+example/app.cfg
 
 # Packages
 *.egg
