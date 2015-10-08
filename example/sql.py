@@ -27,7 +27,7 @@ def init_db():
 
 
 @cli.command(short_help='fill records to database')
-@click.option('--total', '-t', default=310, help='fill data for example')
+@click.option('--total', '-t', default=300, help='fill data for example')
 def fill_data(total):
     conn = sqlite3.connect('test.db')
     cur = conn.cursor()
