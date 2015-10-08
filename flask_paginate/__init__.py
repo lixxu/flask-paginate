@@ -3,7 +3,7 @@
 
 """
     flask.ext.paginate
-    ~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~
 
     Adds pagination support to your application.
 
@@ -15,7 +15,7 @@ from __future__ import unicode_literals
 import sys
 from flask import request, url_for, Markup
 
-__version__ = '0.3.2'
+__version__ = '0.4.1'
 
 PY2 = sys.version_info[0] == 2
 
@@ -33,25 +33,25 @@ NEXT_PAGES = dict(bootstrap=_bs_next_page,
                   foundation='<li class="arrow"><a href="{0}">{1}</a></li>',
                   )
 
-CURRENT_PAGES = dict(bootstrap='<li class="active"><a href="#">{0}</a></li>',
-                     bootstrap3='<li class="active"><a href="#">{0}</a></li>',
-                     foundation='<li class="current"><a href="#">{0}</a></li>',
+CURRENT_PAGES = dict(bootstrap='<li class="active"><a>{0}</a></li>',
+                     bootstrap3='<li class="active"><a>{0}</a></li>',
+                     foundation='<li class="current"><a>{0}</a></li>',
                      )
 CURRENT_PAGES.update(bootstrap2=CURRENT_PAGES['bootstrap'])
 
 LINK = '<li><a href="{0}">{1}</a></li>'
-FA_LINK = '<li class="unavailable"><a href="#">{0}</a></li>'
+FA_LINK = '<li class="unavailable"><a>{0}</a></li>'
 
-GAP_MARKERS = dict(bootstrap='<li class="disabled"><a href="#">...</a></li>',
+GAP_MARKERS = dict(bootstrap='<li class="disabled"><a>...</a></li>',
                    foundation='<li class="unavailable">\
-                   <a href="#">...</a></li>',
+                   <a>...</a></li>',
                    )
 GAP_MARKERS.update(bootstrap2=GAP_MARKERS['bootstrap'],
                    bootstrap3=GAP_MARKERS['bootstrap'],
                    )
 
 _bs_prev_disabled_page = '<li class="previous disabled unavailable">\
-<a href="#"> {0} </a></li>'
+<a> {0} </a></li>'
 PREV_DISABLED_PAGES = dict(bootstrap=_bs_prev_disabled_page,
                            bootstrap2=_bs_prev_disabled_page,
                            bootstrap3=_bs_prev_disabled_page,
@@ -59,7 +59,7 @@ PREV_DISABLED_PAGES = dict(bootstrap=_bs_prev_disabled_page,
                            )
 
 _bs_next_disabled_page = '<li class="next disabled">\
-<a href="#"> {0} </a></li>'
+<a> {0} </a></li>'
 NEXT_DISABLED_PAGES = dict(bootstrap=_bs_next_disabled_page,
                            bootstrap2=_bs_next_disabled_page,
                            bootstrap3=_bs_next_disabled_page,
