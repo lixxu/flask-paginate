@@ -215,7 +215,7 @@ Contributors
 - `mkaplenko <https://github.com/mkaplenko>`_
 - `trein <https://github.com/trein>`_
 - `tark-hidden <https://github.com/tark-hidden>`_
-- `wong2` <https://github.com/wong2>`_
+- `wong2 <https://github.com/wong2>`_
 
 
 Changelog
