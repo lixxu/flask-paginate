@@ -89,10 +89,8 @@ In your flask views file (e.g. views/users.py)::
         q = request.args.get('q')
         if q:
             search = True
-        try:
-            page = int(request.args.get('page', 1))
-        except ValueError:
-            page = 1
+            
+        page = request.args.get('page', type=int, default=1)
 
         users = User.find(...)
         pagination = Pagination(page=page, total=users.count(), search=search, record_name='users')
@@ -217,6 +215,7 @@ Contributors
 - `mkaplenko <https://github.com/mkaplenko>`_
 - `trein <https://github.com/trein>`_
 - `tark-hidden <https://github.com/tark-hidden>`_
+- `wong2 <https://github.com/wong2>`_
 
 
 Changelog
