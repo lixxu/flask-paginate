@@ -1,11 +1,13 @@
 #!/usr/bin/env python
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
 import sqlite3
-from flask import Flask, render_template, g, current_app, request
-from flask.ext.paginate import Pagination
+from flask import Flask, render_template, g, current_app
+from flask.ext.paginate import Pagination, get_page_args
 import click
+
+click.disable_unicode_literals_warning = True
 
 app = Flask(__name__)
 app.config.from_pyfile('app.cfg')
@@ -28,7 +30,7 @@ def teardown(error):
 def index():
     g.cur.execute('select count(*) from users')
     total = g.cur.fetchone()[0]
-    page, per_page, offset = get_page_items()
+    page, per_page, offset = get_page_args()
     sql = 'select name from users order by name limit {}, {}'\
         .format(offset, per_page)
     g.cur.execute(sql)
@@ -47,16 +49,43 @@ def index():
                            )
 
 
+@app.route('/users/', defaults={'page': 1})
+@app.route('/users', defaults={'page': 1})
+@app.route('/users/page/<int:page>/')
+@app.route('/users/page/<int:page>')
+def users(page):
+    g.cur.execute('select count(*) from users')
+    total = g.cur.fetchone()[0]
+    page, per_page, offset = get_page_args()
+    sql = 'select name from users order by name limit {}, {}'\
+        .format(offset, per_page)
+    g.cur.execute(sql)
+    users = g.cur.fetchall()
+    pagination = get_pagination(page=page,
+                                per_page=per_page,
+                                total=total,
+                                record_name='users',
+                                format_total=True,
+                                format_number=True,
+                                )
+    return render_template('index.html', users=users,
+                           page=page,
+                           per_page=per_page,
+                           pagination=pagination,
+                           active_url='users-page-url',
+                           )
+
+
 @app.route('/search/<name>/')
 @app.route('/search/<name>')
 def search(name):
-    '''This function is used to test multi values url'''
+    """The function is used to test multi values url."""
     sql = 'select count(*) from users where name like ?'
     args = ('%{}%'.format(name), )
     g.cur.execute(sql, args)
     total = g.cur.fetchone()[0]
 
-    page, per_page, offset = get_page_items()
+    page, per_page, offset = get_page_args()
     sql = 'select * from users where name like ? limit {}, {}'
     g.cur.execute(sql.format(offset, per_page), args)
     users = g.cur.fetchall()
@@ -82,18 +111,6 @@ def get_link_size():
 
 def show_single_page_or_not():
     return current_app.config.get('SHOW_SINGLE_PAGE', False)
-
-
-def get_page_items():
-    page = int(request.args.get('page', 1))
-    per_page = request.args.get('per_page')
-    if not per_page:
-        per_page = current_app.config.get('PER_PAGE', 10)
-    else:
-        per_page = int(per_page)
-
-    offset = (page - 1) * per_page
-    return page, per_page, offset
 
 
 def get_pagination(**kwargs):
