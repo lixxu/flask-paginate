@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 """
     flask.ext.paginate
@@ -13,9 +13,9 @@
 
 from __future__ import unicode_literals
 import sys
-from flask import request, url_for, Markup
+from flask import request, url_for, Markup, current_app
 
-__version__ = '0.4.1'
+__version__ = '0.4.2'
 
 PY2 = sys.version_info[0] == 2
 
@@ -91,11 +91,25 @@ CSS_LINKS_END = dict(bootstrap='</ul></div>',
 F_ALIGNMENT = '<div class="pagination-{0}">'
 
 
+def get_page_args():
+    args = request.args.copy()
+    args.update(request.view_args.copy())
+    page = int(args.get('page', 1))
+    per_page = args.get('per_page')
+    if not per_page:
+        per_page = current_app.config.get('PER_PAGE', 10)
+    else:
+        per_page = int(per_page)
+
+    offset = (page - 1) * per_page
+    return page, per_page, offset
+
+
 class Pagination(object):
-    '''A simple pagination extension for flask
-    '''
+    """A simple pagination extension for flask."""
+
     def __init__(self, found=0, **kwargs):
-        '''provides the params:
+        '''Detail parameters.
 
             **found**: used when searching
 
@@ -189,56 +203,35 @@ class Pagination(object):
         self.prev_page_fmt = PREV_PAGES[self.css_framework]
         self.next_page_fmt = NEXT_PAGES[self.css_framework]
         self.css_end_fmt = CSS_LINKS_END[self.css_framework]
+        self.init_values()
 
     def page_href(self, page):
         if self.href:
-            page = 1 if page is None else page
-            url = self.href.format(page)
+            url = self.href.format(page or 1)
         else:
-            url = url_for(self.endpoint, page=page, **self.args)
+            self.args['page'] = page
+            url = url_for(self.endpoint, **self.args)
 
         # Need to return a unicode object
         return url.decode('utf8') if PY2 else url
 
-    @property
-    def total_pages(self):
+    def init_values(self):
         current_total = self.found if self.search else self.total
         pages = divmod(current_total, self.per_page)
-        return pages[0] + 1 if pages[1] else pages[0]
+        self.total_pages = pages[0] + 1 if pages[1] else pages[0]
+        self.has_prev = self.page > 1
+        self.has_next = self.page < self.total_pages
 
-    @property
-    def has_prev(self):
-        return self.page > 1
-
-    @property
-    def has_next(self):
-        return self.page < self.total_pages
-
-    @property
-    def endpoint(self):
-        return request.endpoint
-
-    @property
-    def args(self):
-        if PY2:
-            request_args = request.args.iteritems(multi=True)
-            view_args = request.view_args.iteritems()
-        else:
-            request_args = request.args.items(multi=True)
-            view_args = request.view_args.items()
-
-        args = {}
-        for k, value in list(request_args) + list(view_args):
-            if k == 'page':
-                continue
-            if k not in args:
-                args[k] = value
-            elif not isinstance(args[k], list):
-                args[k] = [args[k], value]
+        args = request.args.copy()
+        args.update(request.view_args.copy())
+        self.args = {}
+        for k, v in args.lists():
+            if len(v) == 1:
+                self.args[k] = v[0]
             else:
-                args[k].append(value)
+                self.args[k] = v
 
-        return args
+        self.endpoint = request.endpoint
 
     @property
     def prev_page(self):
@@ -336,7 +329,7 @@ class Pagination(object):
 
     @property
     def links(self):
-        '''get all the pagination links'''
+        """Get all the pagination links."""
         if self.total_pages <= 1:
             if self.show_single_page:
                 return self._get_single_page_link()
@@ -358,7 +351,7 @@ class Pagination(object):
 
     @property
     def info(self):
-        '''get the pagination information'''
+        """Get the pagination information."""
         start = 1 + (self.page - 1) * self.per_page
         end = start + self.per_page - 1
         if end > self.total:

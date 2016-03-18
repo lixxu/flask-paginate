@@ -24,5 +24,9 @@
 {% endblock %}
 
 {% block js %}
+  {% if active_url %}
+    $('#{{ active_url }}').addClass('active');
+  {% else %}
   $('#users-url').addClass('active');
+  {% endif %}
 {% endblock %}

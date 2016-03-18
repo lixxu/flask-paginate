@@ -1,9 +1,11 @@
 #!/usr/bin/env python
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
 import sqlite3
 import click
+
+click.disable_unicode_literals_warning = True
 
 sql = '''create table if not exists users(
     id integer primary key autoincrement,

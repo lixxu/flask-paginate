@@ -5,7 +5,7 @@ flask-paginate |release| documentation
 
 Overview
 ---------
-Latest version: **0.4.1**
+Latest version: **0.4.2**
 
 **flask-paginate** is a simple paginate extension for
 `flask`_ which is reference to `will_paginate`_,
@@ -116,7 +116,7 @@ In the **users/index.html**:
       <tbody>
         {% for user in users %}
           <tr>
-            <td>{{ loop.index + users.skip }}</td>
+            <td>{{ loop.index + pagination.skip }}</td>
             <td>{{ user.name }}</td>
             <td>{{ user.email }}</td>
           </tr>
@@ -136,7 +136,7 @@ Example
     $cd example
     $python sql.py
     $python sql.py init_db
-    $python sql.py fill_data --total=310
+    $python sql.py fill_data --total=300
     $cp app.cfg.example app.cfg
     $echo edit app.cfg
     $python app.py --port 5000
@@ -220,6 +220,11 @@ Contributors
 
 Changelog
 ---------
+Version 0.4.2
+-------------
+
+add get_page_args() function, and change the way to get url args
+
 Version 0.4.1
 -------------
 
