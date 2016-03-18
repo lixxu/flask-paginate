@@ -89,7 +89,7 @@ In your flask views file (e.g. views/users.py)::
         q = request.args.get('q')
         if q:
             search = True
-            
+
         page = request.args.get('page', type=int, default=1)
 
         users = User.find(...)
@@ -134,7 +134,7 @@ Example
 .. sourcecode:: sh
 
     $cd example
-    $python sql.py
+    $python sql.py --help
     $python sql.py init_db
     $python sql.py fill_data --total=300
     $cp app.cfg.example app.cfg
