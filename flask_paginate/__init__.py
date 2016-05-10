@@ -194,7 +194,8 @@ class Pagination(object):
 
         self.href = kwargs.get('href', None)
         self.show_single_page = kwargs.get('show_single_page', False)
-
+        
+        self.link = LINK
         self.current_page_fmt = CURRENT_PAGES[self.css_framework]
         self.link_css_fmt = CSS_LINKS[self.css_framework]
         self.gap_marker_fmt = GAP_MARKERS[self.css_framework]
@@ -254,7 +255,7 @@ class Pagination(object):
     def first_page(self):
         # current page is first page
         if self.has_prev:
-            return LINK.format(self.page_href(None), 1)
+            return self.link.format(self.page_href(None), 1)
 
         return self.current_page_fmt.format(1)
 
@@ -262,7 +263,7 @@ class Pagination(object):
     def last_page(self):
         if self.has_next:
             url = self.page_href(self.total_pages)
-            return LINK.format(url, self.total_pages)
+            return self.link.format(url, self.total_pages)
 
         return self.current_page_fmt.format(self.page)
 
@@ -313,7 +314,7 @@ class Pagination(object):
         if page == self.total_pages:
             return self.last_page
 
-        return LINK.format(self.page_href(page), page)
+        return self.link.format(self.page_href(page), page)
 
     def _get_single_page_link(self):
         s = [self.link_css_fmt.format(self.link_size, self.alignment)]
