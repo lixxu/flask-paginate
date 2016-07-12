@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-    flask.ext.paginate
+    flask_paginate
     ~~~~~~~~~~~~~~~~~~
 
     Adds pagination support to your application.

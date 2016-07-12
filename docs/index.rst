@@ -1,11 +1,11 @@
 flask-paginate |release| documentation
 ===========================================
 
-.. module:: flask.ext.paginate
+.. module:: flask_paginate
 
 Overview
 ---------
-Latest version: **0.4.2**
+Latest version: **0.4.3**
 
 **flask-paginate** is a simple paginate extension for
 `flask`_ which is reference to `will_paginate`_,
@@ -78,7 +78,7 @@ How to use
 In your flask views file (e.g. views/users.py)::
 
     from flask import Blueprint
-    from flask.ext.paginate import Pagination
+    from flask_paginate import Pagination
 
     mod = Blueprint('users', __name__)
 
@@ -155,7 +155,7 @@ Below are the params for **Pagination.__init__()**, you can change the settings 
 
     **page**: current page
 
-    **per_page**: how many items displayed on one page
+    **per_page**: how many records displayed on one page
 
     **inner_window**: how many links arround current page
 
@@ -179,19 +179,26 @@ Below are the params for **Pagination.__init__()**, you can change the settings 
 
     **alignment**: the alignment of pagination links
 
-    **href**: Add custom href for links - this supports forms with post method
+    **href**: Add custom href for links - this supports forms \
+    with post method
 
-    **show_single_page**: decide whether or not a single page returns pagination
+    **show_single_page**: decide whether or not a single page \
+    returns pagination
 
     **bs_version**: the version of bootstrap, default is **2**
 
-    **css_framework**: the css framework, default is **bootstrap**, you can use it instead of **bs_version**
+    **css_framework**: the css framework, default is **bootstrap**
 
-    **href**: <a> href parameter, MUST contain {0} to format page number
+    **href**: <a> href parameter, MUST contain {0} to format \
+    page number
 
-    **format_total**: number format total, like **1,234**, default is False
+    **anchor**: anchor parameter, appends to page href
 
-    **format_number**: number format start and end, like **1,234**, default is False
+    **format_total**: number format total, like **1,234**, \
+    default is False
+
+    **format_number**: number format start and end, like **1,234**, \
+    default is False
 
 API
 ------------------
@@ -220,6 +227,11 @@ Contributors
 
 Changelog
 ---------
+Version 0.4.3
+-------------
+
+use `flask_paginate` insetad of `flask.ext.paginate` for new version of flask
+
 Version 0.4.2
 -------------
 

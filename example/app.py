@@ -4,7 +4,7 @@
 from __future__ import unicode_literals
 import sqlite3
 from flask import Flask, render_template, g, current_app
-from flask.ext.paginate import Pagination, get_page_args
+from flask_paginate import Pagination, get_page_args
 import click
 
 click.disable_unicode_literals_warning = True
