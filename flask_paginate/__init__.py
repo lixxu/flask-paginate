@@ -152,6 +152,8 @@ class Pagination(object):
             **href**: <a> href parameter, MUST contain {0} to format \
             page number
 
+            **anchor**: anchor parameter, appends to page href
+
             **format_total**: number format total, like **1,234**, \
             default is False
 
@@ -193,8 +195,9 @@ class Pagination(object):
             self.alignment = ' pagination-{0}'.format(self.alignment)
 
         self.href = kwargs.get('href', None)
+        self.anchor = kwargs.get('anchor', None)
         self.show_single_page = kwargs.get('show_single_page', False)
-        
+
         self.link = LINK
         self.current_page_fmt = CURRENT_PAGES[self.css_framework]
         self.link_css_fmt = CSS_LINKS[self.css_framework]
@@ -210,8 +213,11 @@ class Pagination(object):
         if self.href:
             url = self.href.format(page or 1)
         else:
-            self.args['page'] = page
-            url = url_for(self.endpoint, **self.args)
+            if self.anchor:
+                url = url_for(self.endpoint, page=page, _anchor=self.anchor,
+                              **self.args)
+            else:
+                url = url_for(self.endpoint, page=page, **self.args)
 
         # Need to return a unicode object
         return url.decode('utf8') if PY2 else url
