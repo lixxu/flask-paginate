@@ -213,11 +213,11 @@ class Pagination(object):
         if self.href:
             url = self.href.format(page or 1)
         else:
+            self.args.update(page=page)
             if self.anchor:
-                url = url_for(self.endpoint, page=page, _anchor=self.anchor,
-                              **self.args)
+                url = url_for(self.endpoint, _anchor=self.anchor, **self.args)
             else:
-                url = url_for(self.endpoint, page=page, **self.args)
+                url = url_for(self.endpoint, **self.args)
 
         # Need to return a unicode object
         return url.decode('utf8') if PY2 else url
