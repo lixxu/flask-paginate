@@ -15,7 +15,7 @@ from __future__ import unicode_literals
 import sys
 from flask import request, url_for, Markup, current_app
 
-__version__ = '0.4.2'
+__version__ = '0.4.5'
 
 PY2 = sys.version_info[0] == 2
 
@@ -140,7 +140,10 @@ class Pagination(object):
             **alignment**: the alignment of pagination links
 
             **href**: Add custom href for links - this supports forms \
-            with post method
+            with post method;
+
+            **href**: <a> href parameter, MUST contain {0} to format \
+            page number
 
             **show_single_page**: decide whether or not a single page \
             returns pagination
@@ -149,8 +152,6 @@ class Pagination(object):
 
             **css_framework**: the css framework, default is **bootstrap**
 
-            **href**: <a> href parameter, MUST contain {0} to format \
-            page number
 
             **anchor**: anchor parameter, appends to page href
 
@@ -159,9 +160,14 @@ class Pagination(object):
 
             **format_number**: number format start and end, like **1,234**, \
             default is False
+
+            **page_parameter**: a name(string) of a GET parameter that holds a page index\
+            default is 'page'. Usage: page = int(request.args.get('page_parameter'))
+            Pagination(page_parameter = page_parameter, page=page, **args)
         '''
         self.found = found
         self.page = kwargs.get('page', 1)
+        self.page_parameter = kwargs.get('page_parameter', 'page')
         self.per_page = kwargs.get('per_page', 10)
         self.inner_window = kwargs.get('inner_window', 2)
         self.outer_window = kwargs.get('outer_window', 1)
@@ -213,7 +219,7 @@ class Pagination(object):
         if self.href:
             url = self.href.format(page or 1)
         else:
-            self.args.update(page=page)
+            self.args[self.page_parameter] = page
             if self.anchor:
                 url = url_for(self.endpoint, _anchor=self.anchor, **self.args)
             else:
