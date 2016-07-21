@@ -94,7 +94,8 @@ F_ALIGNMENT = '<div class="pagination-{0}">'
 def get_page_args():
     args = request.args.copy()
     args.update(request.view_args.copy())
-    page = int(args.get('page', 1))
+    page_parameter = args.get('page_parameter', 'page')
+    page = int(args.get(page_parameter, 1))
     per_page = args.get('per_page')
     if not per_page:
         per_page = current_app.config.get('PER_PAGE', 10)
@@ -116,6 +117,11 @@ class Pagination(object):
             **page**: current page
 
             **per_page**: how many records displayed on one page
+
+            **page_parameter**: a name(string) of a GET parameter that holds \
+            a page index, Use it if you want to iterate over multiple Pagination \
+            objects simultaniously.
+            default is 'page'.
 
             **inner_window**: how many links arround current page
 
@@ -140,10 +146,7 @@ class Pagination(object):
             **alignment**: the alignment of pagination links
 
             **href**: Add custom href for links - this supports forms \
-            with post method;
-
-            **href**: <a> href parameter, MUST contain {0} to format \
-            page number
+            with post method. It MUST contain {0} to format page number
 
             **show_single_page**: decide whether or not a single page \
             returns pagination
@@ -151,7 +154,6 @@ class Pagination(object):
             **bs_version**: the version of bootstrap, default is **2**
 
             **css_framework**: the css framework, default is **bootstrap**
-
 
             **anchor**: anchor parameter, appends to page href
 
@@ -161,13 +163,10 @@ class Pagination(object):
             **format_number**: number format start and end, like **1,234**, \
             default is False
 
-            **page_parameter**: a name(string) of a GET parameter that holds a page index\
-            default is 'page'. Usage: page = int(request.args.get('page_parameter'))
-            Pagination(page_parameter = page_parameter, page=page, **args)
         '''
         self.found = found
-        self.page = kwargs.get('page', 1)
         self.page_parameter = kwargs.get('page_parameter', 'page')
+        self.page = kwargs.get(self.page_parameter, 1)
         self.per_page = kwargs.get('per_page', 10)
         self.inner_window = kwargs.get('inner_window', 2)
         self.outer_window = kwargs.get('outer_window', 1)
@@ -214,6 +213,10 @@ class Pagination(object):
         self.next_page_fmt = NEXT_PAGES[self.css_framework]
         self.css_end_fmt = CSS_LINKS_END[self.css_framework]
         self.init_values()
+
+        print "\n" * 4
+        print self.page
+        print "\n" * 4
 
     def page_href(self, page):
         if self.href:
