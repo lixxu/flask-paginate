@@ -5,7 +5,7 @@ flask-paginate |release| documentation
 
 Overview
 ---------
-Latest version: **0.4.4**
+Latest version: **0.4.5**
 
 **flask-paginate** is a simple paginate extension for
 `flask`_ which is reference to `will_paginate`_,
@@ -157,6 +157,10 @@ Below are the params for **Pagination.__init__()**, you can change the settings 
 
     **per_page**: how many records displayed on one page
 
+    **page_parameter**: a name(string) of a GET parameter that holds 
+    a page index. Use it if you want to iterate over multiple Pagination 
+    objects simultaniously.
+
     **inner_window**: how many links arround current page
 
     **outer_window**: how many links near first/last link
@@ -180,7 +184,7 @@ Below are the params for **Pagination.__init__()**, you can change the settings 
     **alignment**: the alignment of pagination links
 
     **href**: Add custom href for links - this supports forms \
-    with post method
+    with post method. MUST contain {0} to format page number
 
     **show_single_page**: decide whether or not a single page \
     returns pagination
@@ -188,9 +192,6 @@ Below are the params for **Pagination.__init__()**, you can change the settings 
     **bs_version**: the version of bootstrap, default is **2**
 
     **css_framework**: the css framework, default is **bootstrap**
-
-    **href**: <a> href parameter, MUST contain {0} to format \
-    page number
 
     **anchor**: anchor parameter, appends to page href
 
@@ -223,10 +224,15 @@ Contributors
 - `trein <https://github.com/trein>`_
 - `tark-hidden <https://github.com/tark-hidden>`_
 - `wong2 <https://github.com/wong2>`_
-
+- `voltterra <https://github.com/voltterra>`_
 
 Changelog
 ---------
+Version 0.4.5
+-------------
+Added new parameter `page_parameter` to simultaniously interate over multiple Pagination objects.
+See documentation
+
 Version 0.4.4
 -------------
 
