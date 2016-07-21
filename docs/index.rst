@@ -224,10 +224,15 @@ Contributors
 - `trein <https://github.com/trein>`_
 - `tark-hidden <https://github.com/tark-hidden>`_
 - `wong2 <https://github.com/wong2>`_
-
+- `voltterra <https://github.com/voltterra>`_
 
 Changelog
 ---------
+Version 0.4.5
+-------------
+Added new parameter `page_parameter` to simultaniously interate over multiple Pagination objects.
+See documentation
+
 Version 0.4.4
 -------------
 
