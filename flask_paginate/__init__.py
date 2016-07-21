@@ -214,10 +214,6 @@ class Pagination(object):
         self.css_end_fmt = CSS_LINKS_END[self.css_framework]
         self.init_values()
 
-        print "\n" * 4
-        print self.page
-        print "\n" * 4
-
     def page_href(self, page):
         if self.href:
             url = self.href.format(page or 1)
