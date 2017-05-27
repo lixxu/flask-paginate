@@ -28,3 +28,6 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 /docs/_build
+
+# pytest cache dir
+.cache
