@@ -307,7 +307,10 @@ class Pagination(object):
                 pages.extend(range(win_from, win_to + 1))
 
             pages.append(None)
-            pages.extend(range(self.total_pages - 1, self.total_pages + 1))
+            if self.outer_window != 0:
+                pages.extend(range(self.total_pages - 1, self.total_pages + 1))
+            else:
+                pages.extend(range(self.total_pages, self.total_pages + 1))
         elif win_from > self.inner_window:
             pages.extend(range(win_from, self.total_pages + 1))
         else:
