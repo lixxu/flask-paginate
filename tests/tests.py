@@ -4,10 +4,11 @@ import unittest
 from flask import Flask
 import pytest
 
-from . import (get_page_args, Pagination, PREV_LABEL, NEXT_LABEL, DISPLAY_MSG,
-               SEARCH_MSG, RECORD_NAME, CURRENT_PAGES, GAP_MARKERS,
-               PREV_DISABLED_PAGES, NEXT_DISABLED_PAGES, PREV_PAGES, NEXT_PAGES,
-               CSS_LINKS_END, CSS_LINKS, LINK)
+from flask_paginate import (get_page_args, Pagination, PREV_LABEL, NEXT_LABEL,
+                            DISPLAY_MSG, SEARCH_MSG, RECORD_NAME,
+                            CURRENT_PAGES, GAP_MARKERS, PREV_DISABLED_PAGES,
+                            NEXT_DISABLED_PAGES, PREV_PAGES, NEXT_PAGES,
+                            CSS_LINKS_END, CSS_LINKS, LINK)
 
 
 class FlaskTestMixin(unittest.TestCase):
@@ -29,7 +30,8 @@ class TestGetPageArgs(FlaskTestMixin):
     """Tests for the get_page_args function."""
 
     def test_get_page_args_fails_outside_of_request_context(self):
-        """get_page_args raises a RuntimeError if called with no request ctx."""
+        """get_page_args raises a RuntimeError if called with no request ctx.
+        """
         with pytest.raises(RuntimeError):
             get_page_args()
 

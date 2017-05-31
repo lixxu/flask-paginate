@@ -15,7 +15,7 @@ from __future__ import unicode_literals
 import sys
 from flask import request, url_for, Markup, current_app
 
-__version__ = '0.4.5'
+__version__ = '0.4.6'
 
 PY2 = sys.version_info[0] == 2
 
@@ -307,10 +307,11 @@ class Pagination(object):
                 pages.extend(range(win_from, win_to + 1))
 
             pages.append(None)
-            if self.outer_window != 0:
-                pages.extend(range(self.total_pages - 1, self.total_pages + 1))
-            else:
+            if self.outer_window == 0:
                 pages.extend(range(self.total_pages, self.total_pages + 1))
+            else:
+                pages.extend(range(self.total_pages - 1, self.total_pages + 1))
+
         elif win_from > self.inner_window:
             pages.extend(range(win_from, self.total_pages + 1))
         else:

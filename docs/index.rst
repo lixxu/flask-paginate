@@ -5,7 +5,7 @@ flask-paginate |release| documentation
 
 Overview
 ---------
-Latest version: **0.4.5**
+Latest version: **0.4.6**
 
 **flask-paginate** is a simple paginate extension for
 `flask`_ which is reference to `will_paginate`_,
@@ -72,6 +72,14 @@ css file.
         padding: .1em .25em;
         font-size: 150%;
     }
+
+Test
+----
+Test file was added since *0.4.6* (thanks to `Rdbaker <https://github.com/Rdbaker>`_)::
+
+  $ pip install -r test-requirements.txt
+  $ cd tests
+  $ pytest tests.py
 
 How to use
 ------------
@@ -157,8 +165,8 @@ Below are the params for **Pagination.__init__()**, you can change the settings 
 
     **per_page**: how many records displayed on one page
 
-    **page_parameter**: a name(string) of a GET parameter that holds 
-    a page index. Use it if you want to iterate over multiple Pagination 
+    **page_parameter**: a name(string) of a GET parameter that holds
+    a page index. Use it if you want to iterate over multiple Pagination
     objects simultaniously.
 
     **inner_window**: how many links arround current page
@@ -225,9 +233,18 @@ Contributors
 - `tark-hidden <https://github.com/tark-hidden>`_
 - `wong2 <https://github.com/wong2>`_
 - `voltterra <https://github.com/voltterra>`_
+- `Rdbaker <https://github.com/Rdbaker>`_
 
 Changelog
 ---------
+Version 0.4.6
+-------------
+
+(bug fix release, released on May 31th 2017)
+
+- bug fix: - Incorrect right-most window value on outer_window=0 `issue 51 <https://github.com/lixxu/flask-paginate/issues/51>`_
+- add tests file
+
 Version 0.4.5
 -------------
 Added new parameter `page_parameter` to simultaniously interate over multiple Pagination objects.
