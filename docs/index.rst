@@ -5,7 +5,7 @@ flask-paginate |release| documentation
 
 Overview
 ---------
-Latest version: **0.4.6**
+Latest version: **0.5.0**
 
 **flask-paginate** is a simple paginate extension for
 `flask`_ which is reference to `will_paginate`_,
@@ -86,7 +86,7 @@ How to use
 In your flask views file (e.g. views/users.py)::
 
     from flask import Blueprint
-    from flask_paginate import Pagination
+    from flask_paginate import Pagination, get_page_parameter
 
     mod = Blueprint('users', __name__)
 
@@ -98,10 +98,17 @@ In your flask views file (e.g. views/users.py)::
         if q:
             search = True
 
-        page = request.args.get('page', type=int, default=1)
+        page = request.args.get(get_page_parameter(), type=int, default=1)
 
         users = User.find(...)
         pagination = Pagination(page=page, total=users.count(), search=search, record_name='users')
+        # 'page' is the default name of the page parameter, it can be customized
+        # e.g. Pagination(page_parameter='p', ...)
+        # or set PAGE_PARAMETER in config file
+        # also likes page_parameter, you can customize for per_page_parameter
+        # you can set PER_PAGE_PARAMETER in config file
+        # e.g. Pagination(per_page_parameter='pp')
+
         return render_template('users/index.html',
                                users=users,
                                pagination=pagination,
@@ -167,15 +174,18 @@ Below are the params for **Pagination.__init__()**, you can change the settings 
 
     **page_parameter**: a name(string) of a GET parameter that holds
     a page index. Use it if you want to iterate over multiple Pagination
-    objects simultaniously.
+    objects simultaniously. defautl is **'page'**.
+
+    **per_page_parameter**: a name for `per_page` likes page_parameter.
+    default is **'per_page'**.
 
     **inner_window**: how many links arround current page
 
     **outer_window**: how many links near first/last link
 
-    **prev_label**: text for previous page, default is **&laquo;**
+    **prev_label**: text for previous page, default is **'&laquo;'**
 
-    **next_label**: text for next page, default is **&raquo;**
+    **next_label**: text for next page, default is **'&raquo;'**
 
     **search**: search or not?
 
@@ -199,7 +209,7 @@ Below are the params for **Pagination.__init__()**, you can change the settings 
 
     **bs_version**: the version of bootstrap, default is **2**
 
-    **css_framework**: the css framework, default is **bootstrap**
+    **css_framework**: the css framework, default is **'bootstrap'**
 
     **anchor**: anchor parameter, appends to page href
 
@@ -237,6 +247,12 @@ Contributors
 
 Changelog
 ---------
+Version 0.5.0
+-------------
+
+- Make clear and easy customized for page/per_page parameter per on `issue 50 <https://github.com/lixxu/flask-paginate/issues/50>`_
+- add `get_page_parameter` and `get_per_page_parameter` for customization
+
 Version 0.4.6
 -------------
 
@@ -313,5 +329,3 @@ Version 0.2.8
 .. _will_paginate: https://github.com/mislav/will_paginate/wiki
 .. _bootstrap: http://twitter.github.com/bootstrap/
 .. _foundation: http://foundation.zurb.com/
-
-

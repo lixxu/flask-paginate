@@ -40,6 +40,15 @@ class TestGetPageArgs(FlaskTestMixin):
         with self.app.test_request_context('/'):
             self.app.preprocess_request()
             get_page_args()
+            page_param, per_page_param = get_page_args(page_parameter='p',
+                                                       for_test=True)
+            assert page_param == 'p'
+            assert per_page_param == 'per_page'
+
+            page_param, per_page_param = get_page_args(per_page_parameter='pp',
+                                                       for_test=True)
+            assert page_param == 'page'
+            assert per_page_param == 'pp'
 
 
 class TestPagination(FlaskTestMixin):
@@ -51,6 +60,7 @@ class TestPagination(FlaskTestMixin):
             pagination = Pagination()
             assert pagination.found == 0
             assert pagination.page_parameter == 'page'
+            assert pagination.per_page_parameter == 'per_page'
             assert pagination.page == 1
             assert pagination.per_page == 10
             assert pagination.inner_window == 2
@@ -101,3 +111,15 @@ class TestPagination(FlaskTestMixin):
             pagination = Pagination(total=100, found=100, search=True,
                                     outer_window=0, page=5, inner_window=1)
             assert pagination.pages == [1, None, 4, 5, 6, None, 10]
+
+    def test_customize_page_parameter(self):
+        with self.app.test_request_context('/'):
+            pagination = Pagination(page_parameter='p')
+            assert pagination.page_parameter == 'p'
+            assert pagination.per_page_parameter == 'per_page'
+
+    def test_customize_per_page_parameter(self):
+        with self.app.test_request_context('/'):
+            pagination = Pagination(per_page_parameter='pp')
+            assert pagination.page_parameter == 'page'
+            assert pagination.per_page_parameter == 'pp'

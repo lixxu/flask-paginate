@@ -1,2 +1,2 @@
 pytest
-flask-paginate
+flask-paginate>=0.5.0

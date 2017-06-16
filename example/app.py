@@ -30,7 +30,8 @@ def teardown(error):
 def index():
     g.cur.execute('select count(*) from users')
     total = g.cur.fetchone()[0]
-    page, per_page, offset = get_page_args()
+    page, per_page, offset = get_page_args(page_parameter='page',
+                                           per_page_parameter='per_page')
     sql = 'select name from users order by name limit {}, {}'\
         .format(offset, per_page)
     g.cur.execute(sql)

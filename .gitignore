@@ -1,7 +1,7 @@
 *.py[co]
 example/test.db
 example/app.cfg
-
+venv
 # Packages
 *.egg
 *.egg-info

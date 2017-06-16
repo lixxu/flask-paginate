@@ -15,7 +15,7 @@ from __future__ import unicode_literals
 import sys
 from flask import request, url_for, Markup, current_app
 
-__version__ = '0.4.6'
+__version__ = '0.5.0'
 
 PY2 = sys.version_info[0] == 2
 
@@ -91,14 +91,44 @@ CSS_LINKS_END = dict(bootstrap='</ul></div>',
 F_ALIGNMENT = '<div class="pagination-{0}">'
 
 
-def get_page_args():
+def get_parameter(param=None, args=None, default='page'):
+    if not args:
+        args = request.args.copy()
+        args.update(request.view_args.copy())
+
+    if not param:
+        pk = 'page_parameter' if default == 'page' else 'per_page_parameter'
+        param = args.get(pk)
+        if not param:
+            param = current_app.config.get(pk.upper())
+
+    return param or default
+
+
+def get_page_parameter(param=None, args=None):
+    return get_parameter(param, args, 'page')
+
+
+def get_per_page_parameter(param=None, args=None):
+    return get_parameter(param, args, 'per_page')
+
+
+def get_page_args(page_parameter=None, per_page_parameter=None,
+                  for_test=False):
+    '''param order: 1. passed parameter 2. request.args 3: config value
+    for_test will return page_parameter and per_page_parameter'''
     args = request.args.copy()
     args.update(request.view_args.copy())
-    page_parameter = args.get('page_parameter', 'page')
-    page = int(args.get(page_parameter, 1))
-    per_page = args.get('per_page')
+
+    page_name = get_page_parameter(page_parameter, args)
+    per_page_name = get_per_page_parameter(per_page_parameter, args)
+    if for_test:
+        return page_name, per_page_name
+
+    page = int(args.get(page_name, 1))
+    per_page = args.get(per_page_name)
     if not per_page:
-        per_page = current_app.config.get('PER_PAGE', 10)
+        per_page = current_app.config.get(per_page_name.upper(), 10)
     else:
         per_page = int(per_page)
 
@@ -122,6 +152,9 @@ class Pagination(object):
             a page index, Use it if you want to iterate over multiple Pagination \
             objects simultaniously.
             default is 'page'.
+
+            **per_page_parameter**: a name for per_page likes page_parameter.
+            default is 'per_page'.
 
             **inner_window**: how many links arround current page
 
@@ -165,9 +198,18 @@ class Pagination(object):
 
         '''
         self.found = found
-        self.page_parameter = kwargs.get('page_parameter', 'page')
+        page_parameter = kwargs.get('page_parameter')
+        if not page_parameter:
+            page_parameter = get_page_parameter()
+
+        self.page_parameter = page_parameter
         self.page = kwargs.get(self.page_parameter, 1)
-        self.per_page = kwargs.get('per_page', 10)
+        per_page_param = kwargs.get('per_page_parameter')
+        if not per_page_param:
+            per_page_param = get_per_page_parameter()
+
+        self.per_page_parameter = per_page_param
+        self.per_page = kwargs.get(per_page_param, 10)
         self.inner_window = kwargs.get('inner_window', 2)
         self.outer_window = kwargs.get('outer_window', 1)
         self.prev_label = kwargs.get('prev_label') or PREV_LABEL
