@@ -103,11 +103,15 @@ def search(name):
 
 
 def get_css_framework():
-    return current_app.config.get('CSS_FRAMEWORK', 'bootstrap3')
+    return current_app.config.get('CSS_FRAMEWORK', 'bootstrap4')
 
 
 def get_link_size():
     return current_app.config.get('LINK_SIZE', 'sm')
+
+
+def get_alignment():
+    return current_app.config.get('LINK_ALIGNMENT', '')
 
 
 def show_single_page_or_not():
@@ -118,6 +122,7 @@ def get_pagination(**kwargs):
     kwargs.setdefault('record_name', 'records')
     return Pagination(css_framework=get_css_framework(),
                       link_size=get_link_size(),
+                      alignment=get_alignment(),
                       show_single_page=show_single_page_or_not(),
                       **kwargs
                       )
