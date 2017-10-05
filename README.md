@@ -28,7 +28,7 @@ please add below lines to your css file::
         font-size: 150%;
     }
 
-Full documention: <http://pythonhosted.org/Flask-paginate/>
+Full documention: <http://flask-paginate.readthedocs.io>
 
 Run example:
 
@@ -42,4 +42,4 @@ Run example:
 
 Open <http://localhost:5000> to see the example page.
 
-![demo](/example/demo.png "demo") 
+![demo](/example/demo.png "demo")
