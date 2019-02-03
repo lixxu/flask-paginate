@@ -5,11 +5,22 @@ flask-paginate
 Simple paginate for flask (study from will_paginate).
 Use bootstrap css framework, supports bootstrap2&3 and foundation
 """
+import io
+import os.path
 from setuptools import setup
+
+work_dir = os.path.dirname(os.path.abspath(__file__))
+fp = os.path.join(work_dir, "flask_paginate/__init__.py")
+
+with io.open(fp, encoding="utf-8") as f:
+    for line in f:
+        if line.startswith("__version__ = "):
+            version = line.split("=")[-1].strip().replace("'", "")
+            break
 
 setup(
     name='flask-paginate',
-    version='0.5.1',
+    version=version.replace('"', ""),
     url='https://github.com/lixxu/flask-paginate',
     license='BSD',
     author='Lix Xu',

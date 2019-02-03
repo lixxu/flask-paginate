@@ -15,7 +15,7 @@ from __future__ import unicode_literals
 import sys
 from flask import request, url_for, Markup, current_app
 
-__version__ = '0.5.1'
+__version__ = '0.5.2'
 
 PY2 = sys.version_info[0] == 2
 
@@ -174,8 +174,8 @@ class Pagination(object):
             **per_page**: how many records displayed on one page
 
             **page_parameter**: a name(string) of a GET parameter that holds \
-            a page index, Use it if you want to iterate over multiple Pagination \
-            objects simultaniously.
+            a page index, Use it if you want to iterate over multiple \
+            Pagination objects simultaniously.
             default is 'page'.
 
             **per_page_parameter**: a name for per_page likes page_parameter.
@@ -235,6 +235,7 @@ class Pagination(object):
 
         self.per_page_parameter = per_page_param
         self.per_page = kwargs.get(per_page_param, 10)
+        self.skip = (self.page - 1) * self.per_page
         self.inner_window = kwargs.get('inner_window', 2)
         self.outer_window = kwargs.get('outer_window', 1)
         self.prev_label = kwargs.get('prev_label') or PREV_LABEL
