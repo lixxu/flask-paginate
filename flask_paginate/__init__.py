@@ -12,10 +12,13 @@
 """
 
 from __future__ import unicode_literals
+
 import sys
+
+from babel.numbers import format_decimal
 from flask import request, url_for, Markup, current_app
 
-__version__ = '0.5.2'
+__version__ = '0.5.3'
 
 PY2 = sys.version_info[0] == 2
 
@@ -221,6 +224,7 @@ class Pagination(object):
             **format_number**: number format start and end, like **1,234**, \
             default is False
 
+            **country_code**: the country to use for numeric formatting
         '''
         self.found = found
         page_parameter = kwargs.get('page_parameter')
@@ -244,6 +248,7 @@ class Pagination(object):
         self.total = kwargs.get('total', 0)
         self.format_total = kwargs.get('format_total', False)
         self.format_number = kwargs.get('format_number', False)
+        self.country_code = kwargs.get('country_code', 'en_US')
         self.display_msg = kwargs.get('display_msg') or DISPLAY_MSG
         self.search_msg = kwargs.get('search_msg') or SEARCH_MSG
         self.record_name = kwargs.get('record_name') or RECORD_NAME
@@ -459,13 +464,13 @@ class Pagination(object):
         s = ['<div class="pagination-page-info">']
         page_msg = self.search_msg if self.search else self.display_msg
         if self.format_total:
-            total_text = '{0:,}'.format(self.total)
+            total_text = format_decimal(self.total, locale=self.country_code)
         else:
             total_text = '{0}'.format(self.total)
 
         if self.format_number:
-            start_text = '{0:,}'.format(start)
-            end_text = '{0:,}'.format(end)
+            start_text = format_decimal(start, locale=self.country_code)
+            end_text = format_decimal(end, locale=self.country_code)
         else:
             start_text = start
             end_text = end
