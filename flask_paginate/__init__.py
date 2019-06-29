@@ -115,7 +115,7 @@ CSS_LINKS_END = dict(bootstrap='</ul></div>',
                      foundation='</ul>',
                      )
 
-# foundation aligment
+# foundation alignment
 F_ALIGNMENT = '<div class="pagination-{0}">'
 
 
@@ -440,8 +440,11 @@ class Pagination(object):
         s = [self.link_css_fmt.format(self.link_size, self.alignment)]
         s.append(self.prev_page)
         for page in self.pages:
-            s.append(self.single_page(page) if page else self.gap_marker_fmt)
-
+            if self.format_number:
+                s.append(
+                    format_decimal(self.single_page(page), locale=self.country_code) if page else self.gap_marker_fmt)
+            else:
+                s.append(self.single_page(page) if page else self.gap_marker_fmt)
         s.append(self.next_page)
         s.append(self.css_end_fmt)
         if self.css_framework == 'foundation' and self.alignment:
