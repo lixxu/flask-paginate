@@ -15,11 +15,13 @@ from __future__ import unicode_literals
 import sys
 from flask import request, url_for, Markup, current_app
 
-__version__ = '0.5.2'
+__version__ = '0.5.3'
 
 PY2 = sys.version_info[0] == 2
 
 _bs = '<li class="previous"><a href="{0}">{1}</a></li>'
+_bs33 = '<li><a href="{0}" aria-label="Previous">\
+<span aria-hidden="true">{1}</span></a></li>'
 _bs4 = '<li class="page-item">\
 <a class="page-link" href="{0}" aria-label="Previous">\
 <span aria-hidden="true">{1}</span>\
@@ -27,11 +29,14 @@ _bs4 = '<li class="page-item">\
 PREV_PAGES = dict(bootstrap=_bs,
                   bootstrap2=_bs,
                   bootstrap3=_bs,
+                  bootstrap3_3=_bs33,
                   bootstrap4=_bs4,
                   foundation='<li class="arrow"><a href="{0}">{1}</a></li>',
                   )
 
 _bs = '<li class="next"><a href="{0}">{1}</a></li>'
+_bs33 = '<li><a href="{0}" aria-label="Next">\
+<span aria-hidden="true">{1}</span></a></li>'
 _bs4 = '<li class="page-item">\
 <a class="page-link" href="{0}" aria-label="Next">\
 <span aria-hidden="true">{1}</span>\
@@ -39,16 +44,20 @@ _bs4 = '<li class="page-item">\
 NEXT_PAGES = dict(bootstrap=_bs,
                   bootstrap2=_bs,
                   bootstrap3=_bs,
+                  bootstrap3_3=_bs33,
                   bootstrap4=_bs4,
                   foundation='<li class="arrow"><a href="{0}">{1}</a></li>',
                   )
 
 _bs = '<li class="active"><a>{0}</a></li>'
+_bs33 = '<li class="active"><span>{0} \
+<span class="sr-only">(current)</span></span></li>'
 _bs4 = '<li class="page-item active"><a class="page-link">{0} \
 <span class="sr-only">(current)</span></a></li>'
 CURRENT_PAGES = dict(bootstrap=_bs,
                      bootstrap2=_bs,
                      bootstrap3=_bs,
+                     bootstrap3_3=_bs33,
                      bootstrap4=_bs4,
                      foundation='<li class="current"><a>{0}</a></li>',
                      )
@@ -57,33 +66,42 @@ LINK = '<li><a href="{0}">{1}</a></li>'
 BS4_LINK = '<li class="page-item"><a class="page-link" href="{0}">{1}</a></li>'
 
 _bs = '<li class="disabled"><a>...</a></li>'
+_bs33 = '<li class="disabled"><span>\
+<span aria-hidden="true">...</span></span></li>'
 _bs4 = '<li class="page-item disabled"><span class="page-link">...</span></li>'
 _fa = '<li class="unavailable"><a>...</a></li>'
 GAP_MARKERS = dict(bootstrap=_bs,
                    bootstrap2=_bs,
                    bootstrap3=_bs,
+                   bootstrap3_3=_bs33,
                    bootstrap4=_bs4,
                    foundation=_fa,
                    )
 
 _bs = '<li class="previous disabled unavailable"><a> {0} </a></li>'
+_bs33 = '<li class="disabled"><span>\
+<span aria-hidden="true">{0}</span></span></li>'
 _bs4 = '<li class="page-item disabled"><span class="page-link"> {0} \
 </span></li>'
 _fa = '<li class="unavailable"><a>{0}</a></li>'
 PREV_DISABLED_PAGES = dict(bootstrap=_bs,
                            bootstrap2=_bs,
                            bootstrap3=_bs,
+                           bootstrap3_3=_bs33,
                            bootstrap4=_bs4,
                            foundation=_fa,
                            )
 
 _bs = '<li class="next disabled"><a> {0} </a></li>'
+_bs33 = '<li class="disabled"><span>\
+<span aria-hidden="true">{0}</span></span></li>'
 _bs4 = '<li class="page-item disabled"><span class="page-link"> {0} \
 </span></li>'
 _fa = '<li class="unavailable"><a>{0}</a></li>'
 NEXT_DISABLED_PAGES = dict(bootstrap=_bs,
                            bootstrap2=_bs,
                            bootstrap3=_bs,
+                           bootstrap3_3=_bs33,
                            bootstrap4=_bs4,
                            foundation=_fa,
                            )
@@ -99,15 +117,18 @@ SEARCH_MSG = '''found <b>{found}</b> {record_name},
 displaying <b>{start} - {end}</b>'''
 
 _bs4 = '<nav aria-label="..."><ul class="pagination{0}{1}">'
+_bs33 = '<nav aria-label="..."><ul class="pagination{0}{1}">'
 CSS_LINKS = dict(bootstrap='<div class="pagination{0}{1}"><ul>',
                  bootstrap2='<div class="pagination{0}{1}"><ul>',
                  bootstrap3='<ul class="pagination{0}{1}">',
+                 bootstrap3_3=_bs33,
                  bootstrap4=_bs4,
                  foundation='<ul class="pagination{0}{1}">',
                  )
 CSS_LINKS_END = dict(bootstrap='</ul></div>',
                      bootstrap2='</ul></div>',
                      bootstrap3='</ul>',
+                     bootstrap3_3='</ul></nav>',
                      bootstrap4='</ul></nav>',
                      foundation='</ul>',
                      )
@@ -255,6 +276,8 @@ class Pagination(object):
         if self.css_framework.startswith('bootstrap'):
             if self.bs_version in (3, '3'):
                 self.css_framework = 'bootstrap3'
+            elif self.bs_version in ("3.3", "3_3"):
+                self.css_framework = "bootstrap3_3"
             elif self.bs_version in (4, '4'):
                 self.css_framework = 'bootstrap4'
 
@@ -273,8 +296,12 @@ class Pagination(object):
                 elif self.alignment in ('right', 'end'):
                     self.alignment = ' justify-content-end'
 
-            else:
+            elif self.css_framework == "bootstrap2":
                 self.alignment = ' pagination-{0}'.format(self.alignment)
+            else:
+                # v3 does not support this way
+                # use this way: <div class="text-center/right">...</div>
+                self.alignment = ''
 
         self.href = kwargs.get('href', None)
         self.anchor = kwargs.get('anchor', None)
