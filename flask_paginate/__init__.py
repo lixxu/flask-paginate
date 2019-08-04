@@ -468,13 +468,20 @@ class Pagination(object):
         s = ['<div class="pagination-page-info">']
         page_msg = self.search_msg if self.search else self.display_msg
         if self.format_total:
-            total_text = format_number(self.total, locale=self.country_code)
+            try:
+                total_text = format_number(self.total, locale=self.country_code)
+            except:
+                total_text = '{0}'.format(self.total)
         else:
             total_text = '{0}'.format(self.total)
 
         if self.format_number:
-            start_text = format_number(start, locale=self.country_code)
-            end_text = format_number(end, locale=self.country_code)
+            try:
+                start_text = format_number(start, locale=self.country_code)
+                end_text = format_number(end, locale=self.country_code)
+            except:
+                start_text = start
+                end_text = end
         else:
             start_text = start
             end_text = end
