@@ -15,7 +15,7 @@ from __future__ import unicode_literals
 import sys
 from flask import request, url_for, Markup, current_app
 
-__version__ = '0.5.3'
+__version__ = '0.5.4'
 
 PY2 = sys.version_info[0] == 2
 
@@ -147,6 +147,7 @@ CSS_LINKS_END = dict(bootstrap='</ul></div>',
 
 # foundation aligment
 F_ALIGNMENT = '<div class="pagination-{0}">'
+
 
 def get_parameter(param=None, args=None, default='page'):
     if not args:
@@ -321,7 +322,7 @@ class Pagination(object):
         self.link = LINK
         if self.css_framework == 'bootstrap4':
             self.link = BS4_LINK
-        if self.css_framework == 'semantic':
+        elif self.css_framework == 'semantic':
             self.link = SEMANTIC_LINK
 
         self.current_page_fmt = CURRENT_PAGES[self.css_framework]
@@ -519,4 +520,3 @@ class Pagination(object):
                  )
         s.append('</div>')
         return Markup(''.join(s))
-

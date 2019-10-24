@@ -5,11 +5,15 @@ flask-paginate |release| documentation
 
 Overview
 ---------
-Latest version: **0.5.3**
+Latest version: **0.5.4**
 
 **flask-paginate** is a simple paginate extension for
 `flask`_ which is reference to `will_paginate`_,
 and use `bootstrap`_ as css framework.
+
+**0.5.4 update**: `semantic`_ is now supported (use **css_framework** parameter)::
+
+    pagination = Pagination(..., css_framework='semantic', **kwargs)
 
 **0.2 update**: `foundation`_ is now supported (use **css_framework** parameter)::
 
@@ -244,9 +248,15 @@ Contributors
 - `wong2 <https://github.com/wong2>`_
 - `voltterra <https://github.com/voltterra>`_
 - `Rdbaker <https://github.com/Rdbaker>`_
+- `skybber <https://github.com/skybber>`_
 
 Changelog
 ---------
+Version 0.5.4
+-------------
+
+- support for SemanticUI
+
 Version 0.5.3
 -------------
 
