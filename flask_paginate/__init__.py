@@ -31,6 +31,7 @@ PREV_PAGES = dict(bootstrap=_bs,
                   bootstrap3=_bs,
                   bootstrap3_3=_bs33,
                   bootstrap4=_bs4,
+                  semantic='<a class="item arrow" href="{0}">{1}</a>',
                   foundation='<li class="arrow"><a href="{0}">{1}</a></li>',
                   )
 
@@ -46,6 +47,7 @@ NEXT_PAGES = dict(bootstrap=_bs,
                   bootstrap3=_bs,
                   bootstrap3_3=_bs33,
                   bootstrap4=_bs4,
+                  semantic='<a class="item arrow" href="{0}">{1}</a>',
                   foundation='<li class="arrow"><a href="{0}">{1}</a></li>',
                   )
 
@@ -59,22 +61,26 @@ CURRENT_PAGES = dict(bootstrap=_bs,
                      bootstrap3=_bs,
                      bootstrap3_3=_bs33,
                      bootstrap4=_bs4,
+                     semantic='<a class="item active">{0}</a>',
                      foundation='<li class="current"><a>{0}</a></li>',
                      )
 
 LINK = '<li><a href="{0}">{1}</a></li>'
+SEMANTIC_LINK = '<a class="item" href="{0}">{1}</a>'
 BS4_LINK = '<li class="page-item"><a class="page-link" href="{0}">{1}</a></li>'
 
 _bs = '<li class="disabled"><a>...</a></li>'
 _bs33 = '<li class="disabled"><span>\
 <span aria-hidden="true">...</span></span></li>'
 _bs4 = '<li class="page-item disabled"><span class="page-link">...</span></li>'
+_se = '<a class="disabled item">...</a>'
 _fa = '<li class="unavailable"><a>...</a></li>'
 GAP_MARKERS = dict(bootstrap=_bs,
                    bootstrap2=_bs,
                    bootstrap3=_bs,
                    bootstrap3_3=_bs33,
                    bootstrap4=_bs4,
+                   semantic=_se,
                    foundation=_fa,
                    )
 
@@ -83,12 +89,14 @@ _bs33 = '<li class="disabled"><span>\
 <span aria-hidden="true">{0}</span></span></li>'
 _bs4 = '<li class="page-item disabled"><span class="page-link"> {0} \
 </span></li>'
+_se = '<a class="item arrow disabled">{0}</a>'
 _fa = '<li class="unavailable"><a>{0}</a></li>'
 PREV_DISABLED_PAGES = dict(bootstrap=_bs,
                            bootstrap2=_bs,
                            bootstrap3=_bs,
                            bootstrap3_3=_bs33,
                            bootstrap4=_bs4,
+                           semantic=_se,
                            foundation=_fa,
                            )
 
@@ -97,12 +105,14 @@ _bs33 = '<li class="disabled"><span>\
 <span aria-hidden="true">{0}</span></span></li>'
 _bs4 = '<li class="page-item disabled"><span class="page-link"> {0} \
 </span></li>'
+_se = '<a class="item arrow disabled">{0}</a>'
 _fa = '<li class="unavailable"><a>{0}</a></li>'
 NEXT_DISABLED_PAGES = dict(bootstrap=_bs,
                            bootstrap2=_bs,
                            bootstrap3=_bs,
                            bootstrap3_3=_bs33,
                            bootstrap4=_bs4,
+                           semantic=_se,
                            foundation=_fa,
                            )
 
@@ -123,6 +133,7 @@ CSS_LINKS = dict(bootstrap='<div class="pagination{0}{1}"><ul>',
                  bootstrap3='<ul class="pagination{0}{1}">',
                  bootstrap3_3=_bs33,
                  bootstrap4=_bs4,
+                 semantic='<div class="ui pagination menu">',
                  foundation='<ul class="pagination{0}{1}">',
                  )
 CSS_LINKS_END = dict(bootstrap='</ul></div>',
@@ -130,12 +141,12 @@ CSS_LINKS_END = dict(bootstrap='</ul></div>',
                      bootstrap3='</ul>',
                      bootstrap3_3='</ul></nav>',
                      bootstrap4='</ul></nav>',
+                     semantic='</div>',
                      foundation='</ul>',
                      )
 
 # foundation aligment
 F_ALIGNMENT = '<div class="pagination-{0}">'
-
 
 def get_parameter(param=None, args=None, default='page'):
     if not args:
@@ -310,6 +321,8 @@ class Pagination(object):
         self.link = LINK
         if self.css_framework == 'bootstrap4':
             self.link = BS4_LINK
+        if self.css_framework == 'semantic':
+            self.link = SEMANTIC_LINK
 
         self.current_page_fmt = CURRENT_PAGES[self.css_framework]
         self.link_css_fmt = CSS_LINKS[self.css_framework]
@@ -506,3 +519,4 @@ class Pagination(object):
                  )
         s.append('</div>')
         return Markup(''.join(s))
+
