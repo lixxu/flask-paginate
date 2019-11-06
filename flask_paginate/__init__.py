@@ -15,7 +15,7 @@ from __future__ import unicode_literals
 import sys
 from flask import request, url_for, Markup, current_app
 
-__version__ = '0.5.4'
+__version__ = '0.5.5'
 
 PY2 = sys.version_info[0] == 2
 
@@ -254,6 +254,8 @@ class Pagination(object):
             **format_number**: number format start and end, like **1,234**, \
             default is False
 
+            **url_coding**: coding for url encoding, default is **utf-8**
+
         '''
         self.found = found
         page_parameter = kwargs.get('page_parameter')
@@ -277,6 +279,7 @@ class Pagination(object):
         self.total = kwargs.get('total', 0)
         self.format_total = kwargs.get('format_total', False)
         self.format_number = kwargs.get('format_number', False)
+        self.url_coding = kwargs.get("url_coding", "utf-8")
         self.display_msg = kwargs.get('display_msg') or DISPLAY_MSG
         self.search_msg = kwargs.get('search_msg') or SEARCH_MSG
         self.record_name = kwargs.get('record_name') or RECORD_NAME
@@ -346,7 +349,10 @@ class Pagination(object):
                 url = url_for(self.endpoint, **self.args)
 
         # Need to return a unicode object
-        return url.decode('utf8') if PY2 else url
+        if self.url_coding:
+            return url.decode(self.url_coding) if PY2 else url
+
+        return url
 
     def init_values(self):
         current_total = self.found if self.search else self.total

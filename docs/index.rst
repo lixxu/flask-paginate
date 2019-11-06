@@ -5,7 +5,7 @@ flask-paginate |release| documentation
 
 Overview
 ---------
-Latest version: **0.5.4**
+Latest version: **0.5.5**
 
 **flask-paginate** is a simple paginate extension for
 `flask`_ which is reference to `will_paginate`_,
@@ -223,6 +223,8 @@ Below are the params for **Pagination.__init__()**, you can change the settings 
     **format_number**: number format start and end, like **1,234**, \
     default is False
 
+    **url_coding**: coding for url encoding, default is **utf-8**
+
 API
 ------------------
 
@@ -252,6 +254,11 @@ Contributors
 
 Changelog
 ---------
+Version 0.5.5
+-------------
+
+- add option for url encoding or not
+
 Version 0.5.4
 -------------
 
