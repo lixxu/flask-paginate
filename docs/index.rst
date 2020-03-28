@@ -178,7 +178,7 @@ Below are the params for **Pagination.__init__()**, you can change the settings 
 
     **page_parameter**: a name(string) of a GET parameter that holds
     a page index. Use it if you want to iterate over multiple Pagination
-    objects simultaniously. defautl is **'page'**.
+    objects simultaneously. defautl is **'page'**.
 
     **per_page_parameter**: a name for `per_page` likes page_parameter.
     default is **'per_page'**.
@@ -296,7 +296,7 @@ Version 0.4.6
 
 Version 0.4.5
 -------------
-Added new parameter `page_parameter` to simultaniously interate over multiple Pagination objects.
+Added new parameter `page_parameter` to simultaneously interate over multiple Pagination objects.
 See documentation
 
 Version 0.4.4

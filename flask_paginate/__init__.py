@@ -208,7 +208,7 @@ class Pagination(object):
 
             **page_parameter**: a name(string) of a GET parameter that holds \
             a page index, Use it if you want to iterate over multiple \
-            Pagination objects simultaniously.
+            Pagination objects simultaneously.
             default is 'page'.
 
             **per_page_parameter**: a name for per_page likes page_parameter.
