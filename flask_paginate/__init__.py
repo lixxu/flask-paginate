@@ -26,6 +26,7 @@ _bs4 = '<li class="page-item">\
 <a class="page-link" href="{0}" aria-label="Previous">\
 <span aria-hidden="true">{1}</span>\
 <span class="sr-only">Previous</span></a></li>'
+_bulma = '<a class="pagination-previous" href={0} aria-label="Previous">{1}</a>'
 PREV_PAGES = dict(bootstrap=_bs,
                   bootstrap2=_bs,
                   bootstrap3=_bs,
@@ -33,6 +34,7 @@ PREV_PAGES = dict(bootstrap=_bs,
                   bootstrap4=_bs4,
                   semantic='<a class="item arrow" href="{0}">{1}</a>',
                   foundation='<li class="arrow"><a href="{0}">{1}</a></li>',
+                  bulma=_bulma
                   )
 
 _bs = '<li class="next"><a href="{0}">{1}</a></li>'
@@ -42,6 +44,7 @@ _bs4 = '<li class="page-item">\
 <a class="page-link" href="{0}" aria-label="Next">\
 <span aria-hidden="true">{1}</span>\
 <span class="sr-only">Next</span></a></li>'
+_bulma = '<a class="pagination-next" href={0} aria-label="Next">{1}</a>'
 NEXT_PAGES = dict(bootstrap=_bs,
                   bootstrap2=_bs,
                   bootstrap3=_bs,
@@ -49,6 +52,7 @@ NEXT_PAGES = dict(bootstrap=_bs,
                   bootstrap4=_bs4,
                   semantic='<a class="item arrow" href="{0}">{1}</a>',
                   foundation='<li class="arrow"><a href="{0}">{1}</a></li>',
+                  bulma=_bulma
                   )
 
 _bs = '<li class="active"><a>{0}</a></li>'
@@ -56,6 +60,8 @@ _bs33 = '<li class="active"><span>{0} \
 <span class="sr-only">(current)</span></span></li>'
 _bs4 = '<li class="page-item active"><a class="page-link">{0} \
 <span class="sr-only">(current)</span></a></li>'
+_bulma = '<li><a class="pagination-link is-current" aria-current="page">{0}</a>\
+</li>'
 CURRENT_PAGES = dict(bootstrap=_bs,
                      bootstrap2=_bs,
                      bootstrap3=_bs,
@@ -63,11 +69,13 @@ CURRENT_PAGES = dict(bootstrap=_bs,
                      bootstrap4=_bs4,
                      semantic='<a class="item active">{0}</a>',
                      foundation='<li class="current"><a>{0}</a></li>',
+                     bulma=_bulma
                      )
 
 LINK = '<li><a href="{0}">{1}</a></li>'
 SEMANTIC_LINK = '<a class="item" href="{0}">{1}</a>'
 BS4_LINK = '<li class="page-item"><a class="page-link" href="{0}">{1}</a></li>'
+BULMA_LINK = '<li><a class="pagination-link" href={0}>{1}</a></li>'
 
 _bs = '<li class="disabled"><a>...</a></li>'
 _bs33 = '<li class="disabled"><span>\
@@ -75,6 +83,7 @@ _bs33 = '<li class="disabled"><span>\
 _bs4 = '<li class="page-item disabled"><span class="page-link">...</span></li>'
 _se = '<a class="disabled item">...</a>'
 _fa = '<li class="unavailable"><a>...</a></li>'
+_bulma = '<li><span class="pagination-ellipsis">&hellip;</span></li>'
 GAP_MARKERS = dict(bootstrap=_bs,
                    bootstrap2=_bs,
                    bootstrap3=_bs,
@@ -82,6 +91,7 @@ GAP_MARKERS = dict(bootstrap=_bs,
                    bootstrap4=_bs4,
                    semantic=_se,
                    foundation=_fa,
+                   bulma=_bulma
                    )
 
 _bs = '<li class="previous disabled unavailable"><a> {0} </a></li>'
@@ -91,6 +101,7 @@ _bs4 = '<li class="page-item disabled"><span class="page-link"> {0} \
 </span></li>'
 _se = '<a class="item arrow disabled">{0}</a>'
 _fa = '<li class="unavailable"><a>{0}</a></li>'
+_bulma = '<a class="pagination-previous" disabled>{0}</a>'
 PREV_DISABLED_PAGES = dict(bootstrap=_bs,
                            bootstrap2=_bs,
                            bootstrap3=_bs,
@@ -98,6 +109,7 @@ PREV_DISABLED_PAGES = dict(bootstrap=_bs,
                            bootstrap4=_bs4,
                            semantic=_se,
                            foundation=_fa,
+                           bulma=_bulma
                            )
 
 _bs = '<li class="next disabled"><a> {0} </a></li>'
@@ -107,6 +119,7 @@ _bs4 = '<li class="page-item disabled"><span class="page-link"> {0} \
 </span></li>'
 _se = '<a class="item arrow disabled">{0}</a>'
 _fa = '<li class="unavailable"><a>{0}</a></li>'
+_bulma = '<a class="pagination-next" disabled>{0}</a>'
 NEXT_DISABLED_PAGES = dict(bootstrap=_bs,
                            bootstrap2=_bs,
                            bootstrap3=_bs,
@@ -114,6 +127,7 @@ NEXT_DISABLED_PAGES = dict(bootstrap=_bs,
                            bootstrap4=_bs4,
                            semantic=_se,
                            foundation=_fa,
+                           bulma=_bulma
                            )
 
 PREV_LABEL = '&laquo;'
@@ -128,6 +142,8 @@ displaying <b>{start} - {end}</b>'''
 
 _bs4 = '<nav aria-label="..."><ul class="pagination{0}{1}">'
 _bs33 = '<nav aria-label="..."><ul class="pagination{0}{1}">'
+_bulma = '<nav class="pagination{0}{1}{2}" role="navigation">\
+{3}{4}<ul class="pagination-list">'
 CSS_LINKS = dict(bootstrap='<div class="pagination{0}{1}"><ul>',
                  bootstrap2='<div class="pagination{0}{1}"><ul>',
                  bootstrap3='<ul class="pagination{0}{1}">',
@@ -135,6 +151,7 @@ CSS_LINKS = dict(bootstrap='<div class="pagination{0}{1}"><ul>',
                  bootstrap4=_bs4,
                  semantic='<div class="ui pagination menu">',
                  foundation='<ul class="pagination{0}{1}">',
+                 bulma=_bulma
                  )
 CSS_LINKS_END = dict(bootstrap='</ul></div>',
                      bootstrap2='</ul></div>',
@@ -143,6 +160,7 @@ CSS_LINKS_END = dict(bootstrap='</ul></div>',
                      bootstrap4='</ul></nav>',
                      semantic='</div>',
                      foundation='</ul>',
+                     bulma='</ul></nav>'
                      )
 
 # foundation aligment
@@ -256,6 +274,8 @@ class Pagination(object):
 
             **url_coding**: coding for url encoding, default is **utf-8**
 
+            **bulma_style**: page link style for bulma css framework
+
         '''
         self.found = found
         page_parameter = kwargs.get('page_parameter')
@@ -300,8 +320,14 @@ class Pagination(object):
         if self.link_size:
             if self.css_framework == 'foundation':
                 self.link_size = ''
+            elif self.css_framework == 'bulma':
+                self.link_size = ' is-{0}'.format(self.link_size)
             else:
                 self.link_size = ' pagination-{0}'.format(self.link_size)
+
+        self.bulma_style = kwargs.get('bulma_style', '')
+        if self.bulma_style:
+            self.bulma_style = ' is-{0}'.format(self.bulma_style)
 
         self.alignment = kwargs.get('alignment', '')
         if self.alignment and self.css_framework.startswith('bootstrap'):
@@ -318,6 +344,9 @@ class Pagination(object):
                 # use this way: <div class="text-center/right">...</div>
                 self.alignment = ''
 
+        if self.alignment and self.css_framework == 'bulma':
+            self.alignment = ' is-{0}'.format(self.alignment)
+
         self.href = kwargs.get('href', None)
         self.anchor = kwargs.get('anchor', None)
         self.show_single_page = kwargs.get('show_single_page', False)
@@ -327,6 +356,8 @@ class Pagination(object):
             self.link = BS4_LINK
         elif self.css_framework == 'semantic':
             self.link = SEMANTIC_LINK
+        elif self.css_framework == 'bulma':
+            self.link = BULMA_LINK
 
         self.current_page_fmt = CURRENT_PAGES[self.css_framework]
         self.link_css_fmt = CSS_LINKS[self.css_framework]
@@ -479,16 +510,23 @@ class Pagination(object):
 
             return ''
 
-        s = [self.link_css_fmt.format(self.link_size, self.alignment)]
-        s.append(self.prev_page)
-        for page in self.pages:
-            s.append(self.single_page(page) if page else self.gap_marker_fmt)
+        if self.css_framework != 'bulma':
+            s = [self.link_css_fmt.format(self.link_size, self.alignment)]
+            s.append(self.prev_page)
+            for page in self.pages:
+                s.append(self.single_page(page) if page else self.gap_marker_fmt)
 
-        s.append(self.next_page)
-        s.append(self.css_end_fmt)
-        if self.css_framework == 'foundation' and self.alignment:
-            s.insert(0, F_ALIGNMENT.format(self.alignment))
-            s.append('</div>')
+            s.append(self.next_page)
+            s.append(self.css_end_fmt)
+            if self.css_framework == 'foundation' and self.alignment:   
+                s.insert(0, F_ALIGNMENT.format(self.alignment))
+                s.append('</div>')
+        else:
+            s = [self.link_css_fmt.format(self.link_size, self.alignment,
+            self.bulma_style, self.prev_page, self.next_page)]
+            for page in self.pages:
+                s.append(self.single_page(page) if page else self.gap_marker_fmt)
+            s.append(self.css_end_fmt)
 
         return Markup(''.join(s))
 
