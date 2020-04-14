@@ -5,11 +5,15 @@ flask-paginate |release| documentation
 
 Overview
 ---------
-Latest version: **0.5.5**
+Latest version: **0.6.0**
 
 **flask-paginate** is a simple paginate extension for
 `flask`_ which is reference to `will_paginate`_,
-and use `bootstrap`_ as css framework.
+and support several css frameworks.
+
+**0.6.0 update**: `bulma`_ is now supported (use **css_framework** parameter)::
+
+    pagination = Pagination(..., css_framework='bulma', **kwargs)
 
 **0.5.4 update**: `semantic`_ is now supported (use **css_framework** parameter)::
 
@@ -225,6 +229,8 @@ Below are the params for **Pagination.__init__()**, you can change the settings 
 
     **url_coding**: coding for url encoding, default is **utf-8**
 
+    **bulma_style**: page link style for bulma css framework
+
 API
 ------------------
 
@@ -251,9 +257,16 @@ Contributors
 - `voltterra <https://github.com/voltterra>`_
 - `Rdbaker <https://github.com/Rdbaker>`_
 - `skybber <https://github.com/skybber>`_
+- `andodet <https://github.com/andodet>`_
 
 Changelog
 ---------
+Version 0.6.0
+-------------
+
+- support for bulma css framework
+- use black for code format
+
 Version 0.5.5
 -------------
 
@@ -362,3 +375,4 @@ Version 0.2.8
 .. _will_paginate: https://github.com/mislav/will_paginate/wiki
 .. _bootstrap: http://twitter.github.com/bootstrap/
 .. _foundation: http://foundation.zurb.com/
+.. _bulma: https://bulma.io/

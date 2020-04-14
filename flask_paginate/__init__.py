@@ -13,9 +13,9 @@
 
 from __future__ import unicode_literals
 import sys
-from flask import request, url_for, Markup, current_app
+from flask import current_app, request, url_for, Markup
 
-__version__ = '0.5.5'
+__version__ = "0.6.0"
 
 PY2 = sys.version_info[0] == 2
 
@@ -26,16 +26,19 @@ _bs4 = '<li class="page-item">\
 <a class="page-link" href="{0}" aria-label="Previous">\
 <span aria-hidden="true">{1}</span>\
 <span class="sr-only">Previous</span></a></li>'
-_bulma = '<a class="pagination-previous" href={0} aria-label="Previous">{1}</a>'
-PREV_PAGES = dict(bootstrap=_bs,
-                  bootstrap2=_bs,
-                  bootstrap3=_bs,
-                  bootstrap3_3=_bs33,
-                  bootstrap4=_bs4,
-                  semantic='<a class="item arrow" href="{0}">{1}</a>',
-                  foundation='<li class="arrow"><a href="{0}">{1}</a></li>',
-                  bulma=_bulma
-                  )
+_bulma = (
+    '<a class="pagination-previous" href={0} aria-label="Previous">{1}</a>'
+)
+PREV_PAGES = dict(
+    bootstrap=_bs,
+    bootstrap2=_bs,
+    bootstrap3=_bs,
+    bootstrap3_3=_bs33,
+    bootstrap4=_bs4,
+    semantic='<a class="item arrow" href="{0}">{1}</a>',
+    foundation='<li class="arrow"><a href="{0}">{1}</a></li>',
+    bulma=_bulma,
+)
 
 _bs = '<li class="next"><a href="{0}">{1}</a></li>'
 _bs33 = '<li><a href="{0}" aria-label="Next">\
@@ -45,32 +48,34 @@ _bs4 = '<li class="page-item">\
 <span aria-hidden="true">{1}</span>\
 <span class="sr-only">Next</span></a></li>'
 _bulma = '<a class="pagination-next" href={0} aria-label="Next">{1}</a>'
-NEXT_PAGES = dict(bootstrap=_bs,
-                  bootstrap2=_bs,
-                  bootstrap3=_bs,
-                  bootstrap3_3=_bs33,
-                  bootstrap4=_bs4,
-                  semantic='<a class="item arrow" href="{0}">{1}</a>',
-                  foundation='<li class="arrow"><a href="{0}">{1}</a></li>',
-                  bulma=_bulma
-                  )
+NEXT_PAGES = dict(
+    bootstrap=_bs,
+    bootstrap2=_bs,
+    bootstrap3=_bs,
+    bootstrap3_3=_bs33,
+    bootstrap4=_bs4,
+    semantic='<a class="item arrow" href="{0}">{1}</a>',
+    foundation='<li class="arrow"><a href="{0}">{1}</a></li>',
+    bulma=_bulma,
+)
 
 _bs = '<li class="active"><a>{0}</a></li>'
 _bs33 = '<li class="active"><span>{0} \
 <span class="sr-only">(current)</span></span></li>'
 _bs4 = '<li class="page-item active"><a class="page-link">{0} \
 <span class="sr-only">(current)</span></a></li>'
-_bulma = '<li><a class="pagination-link is-current" aria-current="page">{0}</a>\
-</li>'
-CURRENT_PAGES = dict(bootstrap=_bs,
-                     bootstrap2=_bs,
-                     bootstrap3=_bs,
-                     bootstrap3_3=_bs33,
-                     bootstrap4=_bs4,
-                     semantic='<a class="item active">{0}</a>',
-                     foundation='<li class="current"><a>{0}</a></li>',
-                     bulma=_bulma
-                     )
+_bulma = '<li><a class="pagination-link is-current" aria-current="page">\
+{0}</a></li>'
+CURRENT_PAGES = dict(
+    bootstrap=_bs,
+    bootstrap2=_bs,
+    bootstrap3=_bs,
+    bootstrap3_3=_bs33,
+    bootstrap4=_bs4,
+    semantic='<a class="item active">{0}</a>',
+    foundation='<li class="current"><a>{0}</a></li>',
+    bulma=_bulma,
+)
 
 LINK = '<li><a href="{0}">{1}</a></li>'
 SEMANTIC_LINK = '<a class="item" href="{0}">{1}</a>'
@@ -84,15 +89,16 @@ _bs4 = '<li class="page-item disabled"><span class="page-link">...</span></li>'
 _se = '<a class="disabled item">...</a>'
 _fa = '<li class="unavailable"><a>...</a></li>'
 _bulma = '<li><span class="pagination-ellipsis">&hellip;</span></li>'
-GAP_MARKERS = dict(bootstrap=_bs,
-                   bootstrap2=_bs,
-                   bootstrap3=_bs,
-                   bootstrap3_3=_bs33,
-                   bootstrap4=_bs4,
-                   semantic=_se,
-                   foundation=_fa,
-                   bulma=_bulma
-                   )
+GAP_MARKERS = dict(
+    bootstrap=_bs,
+    bootstrap2=_bs,
+    bootstrap3=_bs,
+    bootstrap3_3=_bs33,
+    bootstrap4=_bs4,
+    semantic=_se,
+    foundation=_fa,
+    bulma=_bulma,
+)
 
 _bs = '<li class="previous disabled unavailable"><a> {0} </a></li>'
 _bs33 = '<li class="disabled"><span>\
@@ -102,15 +108,16 @@ _bs4 = '<li class="page-item disabled"><span class="page-link"> {0} \
 _se = '<a class="item arrow disabled">{0}</a>'
 _fa = '<li class="unavailable"><a>{0}</a></li>'
 _bulma = '<a class="pagination-previous" disabled>{0}</a>'
-PREV_DISABLED_PAGES = dict(bootstrap=_bs,
-                           bootstrap2=_bs,
-                           bootstrap3=_bs,
-                           bootstrap3_3=_bs33,
-                           bootstrap4=_bs4,
-                           semantic=_se,
-                           foundation=_fa,
-                           bulma=_bulma
-                           )
+PREV_DISABLED_PAGES = dict(
+    bootstrap=_bs,
+    bootstrap2=_bs,
+    bootstrap3=_bs,
+    bootstrap3_3=_bs33,
+    bootstrap4=_bs4,
+    semantic=_se,
+    foundation=_fa,
+    bulma=_bulma,
+)
 
 _bs = '<li class="next disabled"><a> {0} </a></li>'
 _bs33 = '<li class="disabled"><span>\
@@ -120,60 +127,63 @@ _bs4 = '<li class="page-item disabled"><span class="page-link"> {0} \
 _se = '<a class="item arrow disabled">{0}</a>'
 _fa = '<li class="unavailable"><a>{0}</a></li>'
 _bulma = '<a class="pagination-next" disabled>{0}</a>'
-NEXT_DISABLED_PAGES = dict(bootstrap=_bs,
-                           bootstrap2=_bs,
-                           bootstrap3=_bs,
-                           bootstrap3_3=_bs33,
-                           bootstrap4=_bs4,
-                           semantic=_se,
-                           foundation=_fa,
-                           bulma=_bulma
-                           )
+NEXT_DISABLED_PAGES = dict(
+    bootstrap=_bs,
+    bootstrap2=_bs,
+    bootstrap3=_bs,
+    bootstrap3_3=_bs33,
+    bootstrap4=_bs4,
+    semantic=_se,
+    foundation=_fa,
+    bulma=_bulma,
+)
 
-PREV_LABEL = '&laquo;'
-NEXT_LABEL = '&raquo;'
-RECORD_NAME = 'records'
+PREV_LABEL = "&laquo;"
+NEXT_LABEL = "&raquo;"
+RECORD_NAME = "records"
 
-DISPLAY_MSG = '''displaying <b>{start} - {end}</b> {record_name} in
-total <b>{total}</b>'''
+DISPLAY_MSG = "displaying <b>{start} - {end}</b> {record_name} in \
+total <b>{total}</b>"
 
-SEARCH_MSG = '''found <b>{found}</b> {record_name},
-displaying <b>{start} - {end}</b>'''
+SEARCH_MSG = "found <b>{found}</b> {record_name}, \
+displaying <b>{start} - {end}</b>"
 
 _bs4 = '<nav aria-label="..."><ul class="pagination{0}{1}">'
 _bs33 = '<nav aria-label="..."><ul class="pagination{0}{1}">'
 _bulma = '<nav class="pagination{0}{1}{2}" role="navigation">\
 {3}{4}<ul class="pagination-list">'
-CSS_LINKS = dict(bootstrap='<div class="pagination{0}{1}"><ul>',
-                 bootstrap2='<div class="pagination{0}{1}"><ul>',
-                 bootstrap3='<ul class="pagination{0}{1}">',
-                 bootstrap3_3=_bs33,
-                 bootstrap4=_bs4,
-                 semantic='<div class="ui pagination menu">',
-                 foundation='<ul class="pagination{0}{1}">',
-                 bulma=_bulma
-                 )
-CSS_LINKS_END = dict(bootstrap='</ul></div>',
-                     bootstrap2='</ul></div>',
-                     bootstrap3='</ul>',
-                     bootstrap3_3='</ul></nav>',
-                     bootstrap4='</ul></nav>',
-                     semantic='</div>',
-                     foundation='</ul>',
-                     bulma='</ul></nav>'
-                     )
+CSS_LINKS = dict(
+    bootstrap='<div class="pagination{0}{1}"><ul>',
+    bootstrap2='<div class="pagination{0}{1}"><ul>',
+    bootstrap3='<ul class="pagination{0}{1}">',
+    bootstrap3_3=_bs33,
+    bootstrap4=_bs4,
+    semantic='<div class="ui pagination menu">',
+    foundation='<ul class="pagination{0}{1}">',
+    bulma=_bulma,
+)
+CSS_LINKS_END = dict(
+    bootstrap="</ul></div>",
+    bootstrap2="</ul></div>",
+    bootstrap3="</ul>",
+    bootstrap3_3="</ul></nav>",
+    bootstrap4="</ul></nav>",
+    semantic="</div>",
+    foundation="</ul>",
+    bulma="</ul></nav>",
+)
 
 # foundation aligment
 F_ALIGNMENT = '<div class="pagination-{0}">'
 
 
-def get_parameter(param=None, args=None, default='page'):
+def get_parameter(param=None, args=None, default="page"):
     if not args:
         args = request.args.copy()
         args.update(request.view_args.copy())
 
     if not param:
-        pk = 'page_parameter' if default == 'page' else 'per_page_parameter'
+        pk = "page_parameter" if default == "page" else "per_page_parameter"
         param = args.get(pk)
         if not param:
             param = current_app.config.get(pk.upper())
@@ -182,17 +192,18 @@ def get_parameter(param=None, args=None, default='page'):
 
 
 def get_page_parameter(param=None, args=None):
-    return get_parameter(param, args, 'page')
+    return get_parameter(param, args, "page")
 
 
 def get_per_page_parameter(param=None, args=None):
-    return get_parameter(param, args, 'per_page')
+    return get_parameter(param, args, "per_page")
 
 
-def get_page_args(page_parameter=None, per_page_parameter=None,
-                  for_test=False):
-    '''param order: 1. passed parameter 2. request.args 3: config value
-    for_test will return page_parameter and per_page_parameter'''
+def get_page_args(
+    page_parameter=None, per_page_parameter=None, for_test=False
+):
+    """param order: 1. passed parameter 2. request.args 3: config value
+    for_test will return page_parameter and per_page_parameter"""
     args = request.args.copy()
     args.update(request.view_args.copy())
 
@@ -216,7 +227,7 @@ class Pagination(object):
     """A simple pagination extension for flask."""
 
     def __init__(self, found=0, **kwargs):
-        '''Detail parameters.
+        """Detail parameters.
 
             **found**: used when searching
 
@@ -276,87 +287,87 @@ class Pagination(object):
 
             **bulma_style**: page link style for bulma css framework
 
-        '''
+        """
         self.found = found
-        page_parameter = kwargs.get('page_parameter')
+        page_parameter = kwargs.get("page_parameter")
         if not page_parameter:
             page_parameter = get_page_parameter()
 
         self.page_parameter = page_parameter
         self.page = kwargs.get(self.page_parameter, 1)
-        per_page_param = kwargs.get('per_page_parameter')
+        per_page_param = kwargs.get("per_page_parameter")
         if not per_page_param:
             per_page_param = get_per_page_parameter()
 
         self.per_page_parameter = per_page_param
         self.per_page = kwargs.get(per_page_param, 10)
         self.skip = (self.page - 1) * self.per_page
-        self.inner_window = kwargs.get('inner_window', 2)
-        self.outer_window = kwargs.get('outer_window', 1)
-        self.prev_label = kwargs.get('prev_label') or PREV_LABEL
-        self.next_label = kwargs.get('next_label') or NEXT_LABEL
-        self.search = kwargs.get('search', False)
-        self.total = kwargs.get('total', 0)
-        self.format_total = kwargs.get('format_total', False)
-        self.format_number = kwargs.get('format_number', False)
+        self.inner_window = kwargs.get("inner_window", 2)
+        self.outer_window = kwargs.get("outer_window", 1)
+        self.prev_label = kwargs.get("prev_label") or PREV_LABEL
+        self.next_label = kwargs.get("next_label") or NEXT_LABEL
+        self.search = kwargs.get("search", False)
+        self.total = kwargs.get("total", 0)
+        self.format_total = kwargs.get("format_total", False)
+        self.format_number = kwargs.get("format_number", False)
         self.url_coding = kwargs.get("url_coding", "utf-8")
-        self.display_msg = kwargs.get('display_msg') or DISPLAY_MSG
-        self.search_msg = kwargs.get('search_msg') or SEARCH_MSG
-        self.record_name = kwargs.get('record_name') or RECORD_NAME
-        self.css_framework = kwargs.get('css_framework', 'bootstrap').lower()
+        self.display_msg = kwargs.get("display_msg") or DISPLAY_MSG
+        self.search_msg = kwargs.get("search_msg") or SEARCH_MSG
+        self.record_name = kwargs.get("record_name") or RECORD_NAME
+        self.css_framework = kwargs.get("css_framework", "bootstrap").lower()
         if self.css_framework not in CURRENT_PAGES:
-            self.css_framework = 'bootstrap'
+            self.css_framework = "bootstrap"
 
-        self.bs_version = kwargs.get('bs_version') or 2
-        if self.css_framework.startswith('bootstrap'):
-            if self.bs_version in (3, '3'):
-                self.css_framework = 'bootstrap3'
+        self.bs_version = kwargs.get("bs_version") or 2
+        if self.css_framework.startswith("bootstrap"):
+            if self.bs_version in (3, "3"):
+                self.css_framework = "bootstrap3"
             elif self.bs_version in ("3.3", "3_3"):
                 self.css_framework = "bootstrap3_3"
-            elif self.bs_version in (4, '4'):
-                self.css_framework = 'bootstrap4'
+            elif self.bs_version in (4, "4"):
+                self.css_framework = "bootstrap4"
 
-        self.link_size = kwargs.get('link_size', '')
+        self.link_size = kwargs.get("link_size", "")
         if self.link_size:
-            if self.css_framework == 'foundation':
-                self.link_size = ''
-            elif self.css_framework == 'bulma':
-                self.link_size = ' is-{0}'.format(self.link_size)
+            if self.css_framework == "foundation":
+                self.link_size = ""
+            elif self.css_framework == "bulma":
+                self.link_size = " is-{0}".format(self.link_size)
             else:
-                self.link_size = ' pagination-{0}'.format(self.link_size)
+                self.link_size = " pagination-{0}".format(self.link_size)
 
-        self.bulma_style = kwargs.get('bulma_style', '')
+        self.bulma_style = kwargs.get("bulma_style", "")
         if self.bulma_style:
-            self.bulma_style = ' is-{0}'.format(self.bulma_style)
+            self.bulma_style = " is-{0}".format(self.bulma_style)
 
-        self.alignment = kwargs.get('alignment', '')
-        if self.alignment and self.css_framework.startswith('bootstrap'):
-            if self.css_framework == 'bootstrap4':
-                if self.alignment == 'center':
-                    self.alignment = ' justify-content-center'
-                elif self.alignment in ('right', 'end'):
-                    self.alignment = ' justify-content-end'
+        self.alignment = kwargs.get("alignment", "")
+        if self.alignment and self.css_framework.startswith("bootstrap"):
+            if self.css_framework == "bootstrap4":
+                if self.alignment == "center":
+                    self.alignment = " justify-content-center"
+                elif self.alignment in ("right", "end"):
+                    self.alignment = " justify-content-end"
 
             elif self.css_framework == "bootstrap2":
-                self.alignment = ' pagination-{0}'.format(self.alignment)
+                self.alignment = " pagination-{0}".format(self.alignment)
             else:
                 # v3 does not support this way
                 # use this way: <div class="text-center/right">...</div>
-                self.alignment = ''
+                self.alignment = ""
 
-        if self.alignment and self.css_framework == 'bulma':
-            self.alignment = ' is-{0}'.format(self.alignment)
+        if self.alignment and self.css_framework == "bulma":
+            self.alignment = " is-{0}".format(self.alignment)
 
-        self.href = kwargs.get('href', None)
-        self.anchor = kwargs.get('anchor', None)
-        self.show_single_page = kwargs.get('show_single_page', False)
+        self.href = kwargs.get("href", None)
+        self.anchor = kwargs.get("anchor", None)
+        self.show_single_page = kwargs.get("show_single_page", False)
 
         self.link = LINK
-        if self.css_framework == 'bootstrap4':
+        if self.css_framework == "bootstrap4":
             self.link = BS4_LINK
-        elif self.css_framework == 'semantic':
+        elif self.css_framework == "semantic":
             self.link = SEMANTIC_LINK
-        elif self.css_framework == 'bulma':
+        elif self.css_framework == "bulma":
             self.link = BULMA_LINK
 
         self.current_page_fmt = CURRENT_PAGES[self.css_framework]
@@ -495,11 +506,11 @@ class Pagination(object):
         s.append(self.single_page(1))
         s.append(self.next_page)
         s.append(self.css_end_fmt)
-        if self.css_framework == 'foundation' and self.alignment:
+        if self.css_framework == "foundation" and self.alignment:
             s.insert(0, F_ALIGNMENT.format(self.alignment))
-            s.append('</div>')
+            s.append("</div>")
 
-        return Markup(''.join(s))
+        return Markup("".join(s))
 
     @property
     def links(self):
@@ -508,27 +519,38 @@ class Pagination(object):
             if self.show_single_page:
                 return self._get_single_page_link()
 
-            return ''
+            return ""
 
-        if self.css_framework != 'bulma':
+        if self.css_framework == "bulma":
+            s = [
+                self.link_css_fmt.format(
+                    self.link_size,
+                    self.alignment,
+                    self.bulma_style,
+                    self.prev_page,
+                    self.next_page,
+                )
+            ]
+            for page in self.pages:
+                s.append(
+                    self.single_page(page) if page else self.gap_marker_fmt
+                )
+            s.append(self.css_end_fmt)
+        else:
             s = [self.link_css_fmt.format(self.link_size, self.alignment)]
             s.append(self.prev_page)
             for page in self.pages:
-                s.append(self.single_page(page) if page else self.gap_marker_fmt)
+                s.append(
+                    self.single_page(page) if page else self.gap_marker_fmt
+                )
 
             s.append(self.next_page)
             s.append(self.css_end_fmt)
-            if self.css_framework == 'foundation' and self.alignment:   
+            if self.css_framework == "foundation" and self.alignment:
                 s.insert(0, F_ALIGNMENT.format(self.alignment))
-                s.append('</div>')
-        else:
-            s = [self.link_css_fmt.format(self.link_size, self.alignment,
-            self.bulma_style, self.prev_page, self.next_page)]
-            for page in self.pages:
-                s.append(self.single_page(page) if page else self.gap_marker_fmt)
-            s.append(self.css_end_fmt)
+                s.append("</div>")
 
-        return Markup(''.join(s))
+        return Markup("".join(s))
 
     @property
     def info(self):
@@ -544,23 +566,25 @@ class Pagination(object):
         s = ['<div class="pagination-page-info">']
         page_msg = self.search_msg if self.search else self.display_msg
         if self.format_total:
-            total_text = '{0:,}'.format(self.total)
+            total_text = "{0:,}".format(self.total)
         else:
-            total_text = '{0}'.format(self.total)
+            total_text = "{0}".format(self.total)
 
         if self.format_number:
-            start_text = '{0:,}'.format(start)
-            end_text = '{0:,}'.format(end)
+            start_text = "{0:,}".format(start)
+            end_text = "{0:,}".format(end)
         else:
             start_text = start
             end_text = end
 
-        s.append(page_msg.format(found=self.found,
-                                 total=total_text,
-                                 start=start_text,
-                                 end=end_text,
-                                 record_name=self.record_name,
-                                 )
-                 )
-        s.append('</div>')
-        return Markup(''.join(s))
+        s.append(
+            page_msg.format(
+                found=self.found,
+                total=total_text,
+                start=start_text,
+                end=end_text,
+                record_name=self.record_name,
+            )
+        )
+        s.append("</div>")
+        return Markup("".join(s))

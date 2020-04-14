@@ -2,7 +2,7 @@ flask-paginate
 ==============
 
 Paginate support for flask framework (study from will_paginate).
-Use bootstrap for css framework
+It supports several css frameworks.
 It requires Python2.6+ as string.format syntax.
 
 If you want to show pagination-info
