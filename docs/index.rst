@@ -114,7 +114,7 @@ In your flask views file (e.g. views/users.py)::
         # e.g. Pagination(page_parameter='p', ...)
         # or set PAGE_PARAMETER in config file
         # also likes page_parameter, you can customize for per_page_parameter
-        # you can set PER_PAGE_PARAMETER in config file
+        # you can set PER_PAGE parameter in config file
         # e.g. Pagination(per_page_parameter='pp')
 
         return render_template('users/index.html',
@@ -376,3 +376,4 @@ Version 0.2.8
 .. _bootstrap: http://twitter.github.com/bootstrap/
 .. _foundation: http://foundation.zurb.com/
 .. _bulma: https://bulma.io/
+.. _materialize: https://materializecss.com/

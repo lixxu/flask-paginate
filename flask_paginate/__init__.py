@@ -15,7 +15,7 @@ from __future__ import unicode_literals
 import sys
 from flask import current_app, request, url_for, Markup
 
-__version__ = "0.6.0"
+__version__ = "0.7.0"
 
 PY2 = sys.version_info[0] == 2
 
@@ -29,6 +29,8 @@ _bs4 = '<li class="page-item">\
 _bulma = (
     '<a class="pagination-previous" href={0} aria-label="Previous">{1}</a>'
 )
+_materialize = '<li class="waves-effect"><a href="{0}"><i class="material-icons">chevron_left</i></a></li>'
+
 PREV_PAGES = dict(
     bootstrap=_bs,
     bootstrap2=_bs,
@@ -38,6 +40,7 @@ PREV_PAGES = dict(
     semantic='<a class="item arrow" href="{0}">{1}</a>',
     foundation='<li class="arrow"><a href="{0}">{1}</a></li>',
     bulma=_bulma,
+    materialize=_materialize
 )
 
 _bs = '<li class="next"><a href="{0}">{1}</a></li>'
@@ -48,6 +51,7 @@ _bs4 = '<li class="page-item">\
 <span aria-hidden="true">{1}</span>\
 <span class="sr-only">Next</span></a></li>'
 _bulma = '<a class="pagination-next" href={0} aria-label="Next">{1}</a>'
+_materialize = '<li class="waves-effect"><a href="{0}"><i class="material-icons">chevron_right</i></a></li>'
 NEXT_PAGES = dict(
     bootstrap=_bs,
     bootstrap2=_bs,
@@ -57,6 +61,7 @@ NEXT_PAGES = dict(
     semantic='<a class="item arrow" href="{0}">{1}</a>',
     foundation='<li class="arrow"><a href="{0}">{1}</a></li>',
     bulma=_bulma,
+    materialize=_materialize
 )
 
 _bs = '<li class="active"><a>{0}</a></li>'
@@ -66,6 +71,7 @@ _bs4 = '<li class="page-item active"><a class="page-link">{0} \
 <span class="sr-only">(current)</span></a></li>'
 _bulma = '<li><a class="pagination-link is-current" aria-current="page">\
 {0}</a></li>'
+_materialize = '<li class="active"><a href="#!">{0}</a></li>'
 CURRENT_PAGES = dict(
     bootstrap=_bs,
     bootstrap2=_bs,
@@ -75,12 +81,14 @@ CURRENT_PAGES = dict(
     semantic='<a class="item active">{0}</a>',
     foundation='<li class="current"><a>{0}</a></li>',
     bulma=_bulma,
+    materialize=_materialize
 )
 
 LINK = '<li><a href="{0}">{1}</a></li>'
 SEMANTIC_LINK = '<a class="item" href="{0}">{1}</a>'
 BS4_LINK = '<li class="page-item"><a class="page-link" href="{0}">{1}</a></li>'
 BULMA_LINK = '<li><a class="pagination-link" href={0}>{1}</a></li>'
+MATERIALIZE_LINK = '<li><a class="waves-effect" href="{0}">{1}</a></li>'
 
 _bs = '<li class="disabled"><a>...</a></li>'
 _bs33 = '<li class="disabled"><span>\
@@ -89,6 +97,7 @@ _bs4 = '<li class="page-item disabled"><span class="page-link">...</span></li>'
 _se = '<a class="disabled item">...</a>'
 _fa = '<li class="unavailable"><a>...</a></li>'
 _bulma = '<li><span class="pagination-ellipsis">&hellip;</span></li>'
+_materialize='<li class="disabled"><a>...</a></li>'
 GAP_MARKERS = dict(
     bootstrap=_bs,
     bootstrap2=_bs,
@@ -98,6 +107,7 @@ GAP_MARKERS = dict(
     semantic=_se,
     foundation=_fa,
     bulma=_bulma,
+    materialize=_materialize
 )
 
 _bs = '<li class="previous disabled unavailable"><a> {0} </a></li>'
@@ -108,6 +118,7 @@ _bs4 = '<li class="page-item disabled"><span class="page-link"> {0} \
 _se = '<a class="item arrow disabled">{0}</a>'
 _fa = '<li class="unavailable"><a>{0}</a></li>'
 _bulma = '<a class="pagination-previous" disabled>{0}</a>'
+_materialize = '<li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>'
 PREV_DISABLED_PAGES = dict(
     bootstrap=_bs,
     bootstrap2=_bs,
@@ -117,6 +128,7 @@ PREV_DISABLED_PAGES = dict(
     semantic=_se,
     foundation=_fa,
     bulma=_bulma,
+    materialize=_materialize
 )
 
 _bs = '<li class="next disabled"><a> {0} </a></li>'
@@ -127,6 +139,7 @@ _bs4 = '<li class="page-item disabled"><span class="page-link"> {0} \
 _se = '<a class="item arrow disabled">{0}</a>'
 _fa = '<li class="unavailable"><a>{0}</a></li>'
 _bulma = '<a class="pagination-next" disabled>{0}</a>'
+_materialize = '<li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>'
 NEXT_DISABLED_PAGES = dict(
     bootstrap=_bs,
     bootstrap2=_bs,
@@ -136,6 +149,7 @@ NEXT_DISABLED_PAGES = dict(
     semantic=_se,
     foundation=_fa,
     bulma=_bulma,
+    materialize=_materialize
 )
 
 PREV_LABEL = "&laquo;"
@@ -161,6 +175,7 @@ CSS_LINKS = dict(
     semantic='<div class="ui pagination menu">',
     foundation='<ul class="pagination{0}{1}">',
     bulma=_bulma,
+    materialize='<ul class="pagination">'
 )
 CSS_LINKS_END = dict(
     bootstrap="</ul></div>",
@@ -171,6 +186,7 @@ CSS_LINKS_END = dict(
     semantic="</div>",
     foundation="</ul>",
     bulma="</ul></nav>",
+    materialize="</ul>"
 )
 
 # foundation aligment
@@ -369,6 +385,8 @@ class Pagination(object):
             self.link = SEMANTIC_LINK
         elif self.css_framework == "bulma":
             self.link = BULMA_LINK
+        elif self.css_framework == "materialize":
+            self.link = MATERIALIZE_LINK
 
         self.current_page_fmt = CURRENT_PAGES[self.css_framework]
         self.link_css_fmt = CSS_LINKS[self.css_framework]
