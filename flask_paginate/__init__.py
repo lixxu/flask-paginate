@@ -310,13 +310,13 @@ class Pagination(object):
             page_parameter = get_page_parameter()
 
         self.page_parameter = page_parameter
-        self.page = kwargs.get(self.page_parameter, 1)
+        self.page = kwargs.get("page", 1)
         per_page_param = kwargs.get("per_page_parameter")
         if not per_page_param:
             per_page_param = get_per_page_parameter()
 
         self.per_page_parameter = per_page_param
-        self.per_page = kwargs.get(per_page_param, 10)
+        self.per_page = kwargs.get("per_page", 10)
         self.skip = (self.page - 1) * self.per_page
         self.inner_window = kwargs.get("inner_window", 2)
         self.outer_window = kwargs.get("outer_window", 1)
