@@ -15,7 +15,7 @@ from __future__ import unicode_literals
 import sys
 from flask import current_app, request, url_for, Markup
 
-__version__ = "0.7.0"
+__version__ = "0.7.1"
 
 PY2 = sys.version_info[0] == 2
 
@@ -40,7 +40,7 @@ PREV_PAGES = dict(
     semantic='<a class="item arrow" href="{0}">{1}</a>',
     foundation='<li class="arrow"><a href="{0}">{1}</a></li>',
     bulma=_bulma,
-    materialize=_materialize
+    materialize=_materialize,
 )
 
 _bs = '<li class="next"><a href="{0}">{1}</a></li>'
@@ -61,7 +61,7 @@ NEXT_PAGES = dict(
     semantic='<a class="item arrow" href="{0}">{1}</a>',
     foundation='<li class="arrow"><a href="{0}">{1}</a></li>',
     bulma=_bulma,
-    materialize=_materialize
+    materialize=_materialize,
 )
 
 _bs = '<li class="active"><a>{0}</a></li>'
@@ -81,7 +81,7 @@ CURRENT_PAGES = dict(
     semantic='<a class="item active">{0}</a>',
     foundation='<li class="current"><a>{0}</a></li>',
     bulma=_bulma,
-    materialize=_materialize
+    materialize=_materialize,
 )
 
 LINK = '<li><a href="{0}">{1}</a></li>'
@@ -97,7 +97,7 @@ _bs4 = '<li class="page-item disabled"><span class="page-link">...</span></li>'
 _se = '<a class="disabled item">...</a>'
 _fa = '<li class="unavailable"><a>...</a></li>'
 _bulma = '<li><span class="pagination-ellipsis">&hellip;</span></li>'
-_materialize='<li class="disabled"><a>...</a></li>'
+_materialize = '<li class="disabled"><a>...</a></li>'
 GAP_MARKERS = dict(
     bootstrap=_bs,
     bootstrap2=_bs,
@@ -107,7 +107,7 @@ GAP_MARKERS = dict(
     semantic=_se,
     foundation=_fa,
     bulma=_bulma,
-    materialize=_materialize
+    materialize=_materialize,
 )
 
 _bs = '<li class="previous disabled unavailable"><a> {0} </a></li>'
@@ -128,7 +128,7 @@ PREV_DISABLED_PAGES = dict(
     semantic=_se,
     foundation=_fa,
     bulma=_bulma,
-    materialize=_materialize
+    materialize=_materialize,
 )
 
 _bs = '<li class="next disabled"><a> {0} </a></li>'
@@ -149,7 +149,7 @@ NEXT_DISABLED_PAGES = dict(
     semantic=_se,
     foundation=_fa,
     bulma=_bulma,
-    materialize=_materialize
+    materialize=_materialize,
 )
 
 PREV_LABEL = "&laquo;"
@@ -175,7 +175,7 @@ CSS_LINKS = dict(
     semantic='<div class="ui pagination menu">',
     foundation='<ul class="pagination{0}{1}">',
     bulma=_bulma,
-    materialize='<ul class="pagination">'
+    materialize='<ul class="pagination">',
 )
 CSS_LINKS_END = dict(
     bootstrap="</ul></div>",
@@ -186,7 +186,7 @@ CSS_LINKS_END = dict(
     semantic="</div>",
     foundation="</ul>",
     bulma="</ul></nav>",
-    materialize="</ul>"
+    materialize="</ul>",
 )
 
 # foundation aligment
@@ -216,7 +216,7 @@ def get_per_page_parameter(param=None, args=None):
 
 
 def get_page_args(
-    page_parameter=None, per_page_parameter=None, for_test=False
+    page_parameter=None, per_page_parameter=None, for_test=False, **kwargs
 ):
     """param order: 1. passed parameter 2. request.args 3: config value
     for_test will return page_parameter and per_page_parameter"""
@@ -225,13 +225,17 @@ def get_page_args(
 
     page_name = get_page_parameter(page_parameter, args)
     per_page_name = get_per_page_parameter(per_page_parameter, args)
+    for name in (page_name, per_page_name):
+        if name in kwargs:
+            args.setdefault(name, kwargs[name])
+
     if for_test:
         return page_name, per_page_name
 
     page = int(args.get(page_name, 1))
     per_page = args.get(per_page_name)
     if not per_page:
-        per_page = current_app.config.get(per_page_name.upper(), 10)
+        per_page = int(current_app.config.get(per_page_name.upper(), 10))
     else:
         per_page = int(per_page)
 
@@ -310,13 +314,13 @@ class Pagination(object):
             page_parameter = get_page_parameter()
 
         self.page_parameter = page_parameter
-        self.page = kwargs.get(self.page_parameter, 1)
+        self.page = int(kwargs.get(self.page_parameter, 1))
         per_page_param = kwargs.get("per_page_parameter")
         if not per_page_param:
             per_page_param = get_per_page_parameter()
 
         self.per_page_parameter = per_page_param
-        self.per_page = kwargs.get(per_page_param, 10)
+        self.per_page = int(kwargs.get(per_page_param, 10))
         self.skip = (self.page - 1) * self.per_page
         self.inner_window = kwargs.get("inner_window", 2)
         self.outer_window = kwargs.get("outer_window", 1)

@@ -31,7 +31,7 @@ def index():
     g.cur.execute("select count(*) from users")
     total = g.cur.fetchone()[0]
     page, per_page, offset = get_page_args(
-        page_parameter="page", per_page_parameter="per_page"
+        page_parameter="p", per_page_parameter="pp", pp=10
     )
     sql = "select name from users order by name limit {}, {}".format(
         offset, per_page
@@ -39,18 +39,18 @@ def index():
     g.cur.execute(sql)
     users = g.cur.fetchall()
     pagination = get_pagination(
-        page=page,
-        per_page=per_page,
+        p=page,
+        pp=per_page,
         total=total,
         record_name="users",
         format_total=True,
         format_number=True,
+        page_parameter="p",
+        per_page_parameter="pp",
     )
     return render_template(
         "index.html",
         users=users,
-        page=page,
-        per_page=per_page,
         pagination=pagination,
     )
 
@@ -79,8 +79,6 @@ def users(page):
     return render_template(
         "index.html",
         users=users,
-        page=page,
-        per_page=per_page,
         pagination=pagination,
         active_url="users-page-url",
     )
@@ -100,7 +98,10 @@ def search(name):
     g.cur.execute(sql.format(offset, per_page), args)
     users = g.cur.fetchall()
     pagination = get_pagination(
-        page=page, per_page=per_page, total=total, record_name="users",
+        page=page,
+        per_page=per_page,
+        total=total,
+        record_name="users",
     )
     return render_template(
         "index.html",
