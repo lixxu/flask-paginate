@@ -9,7 +9,7 @@ Latest version: **0.7.1**
 
 **flask-paginate** is a simple paginate extension for
 `flask`_ which is reference to `will_paginate`_,
-and support several css frameworks.
+and supports several css frameworks.
 
 **0.6.0 update**: `bulma`_ is now supported (use **css_framework** parameter)::
 
@@ -30,19 +30,19 @@ and support several css frameworks.
     {{ pagination.info }}
 
 .. figure:: _static/paginate-info.png
-    :alt: The screenshot of paginate information
+    :alt: Screenshot of paginate information
 
 or
 
 .. figure:: _static/paginate-info2.png
-    :alt: The screenshot of paginate information when search
+    :alt: Screenshot of paginate information when search is used
 
 .. sourcecode:: html+jinja
 
     {{ pagination.links }}
 
 .. figure:: _static/paginate-links.png
-    :alt: The screenshot of paginate links
+    :alt: Screenshot of paginate links
 
 .. highlight:: bash
 
@@ -83,7 +83,7 @@ css file.
 
 Test
 ----
-Test file was added since *0.4.6* (thanks to `Rdbaker <https://github.com/Rdbaker>`_)::
+Test file was added in *0.4.6* (thanks to `Rdbaker <https://github.com/Rdbaker>`_)::
 
   $ pip install -r test-requirements.txt
   $ cd tests
@@ -152,7 +152,7 @@ In the **users/index.html**:
 Example
 -------
 
-**Note**: 0.2.9 requires `click <http://click.pocoo.org/>`_ to run example.
+**Note**: 0.2.9 requires `click <http://click.pocoo.org/>`_ to run this example.
 
 .. sourcecode:: sh
 
@@ -172,13 +172,13 @@ Open `<http://localhost:5000>`_ to see the example page.
 Deep into the Pagination
 --------------------------
 
-Below are the params for **Pagination.__init__()**, you can change the settings here.
+Below are the parameters for **Pagination.__init__()**. You can change the settings here.
 
     **found**: used when searching
 
     **page**: current page
 
-    **per_page**: how many records displayed on one page
+    **per_page**: how many records to display on one page
 
     **page_parameter**: a name(string) of a GET parameter that holds
     a page index. Use it if you want to iterate over multiple Pagination
@@ -203,7 +203,7 @@ Below are the params for **Pagination.__init__()**, you can change the settings 
 
     **search_msg**: text for search information
 
-    **record_name**: record name showed in pagination information
+    **record_name**: record name shown in pagination information
 
     **link_size**: font size of page links
 

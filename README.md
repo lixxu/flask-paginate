@@ -1,14 +1,14 @@
 flask-paginate
 ==============
 
-Paginate support for flask framework (study from will_paginate).
+Pagination support for flask framework (study from will_paginate).
 It supports several css frameworks.
 It requires Python2.6+ as string.format syntax.
 
 If you want to show pagination-info
 ("Total <b>100</b> posts, displaying <b>20 - 30</b>")
 above the pagination links,
-please add below lines to your css file::
+please add the below lines to your css file::
 
 .. sourcecode:: css
 
@@ -28,7 +28,7 @@ please add below lines to your css file::
         font-size: 150%;
     }
 
-Full documention: <http://flask-paginate.readthedocs.io>
+Full documentation: <http://flask-paginate.readthedocs.io>
 
 Run example:
 
