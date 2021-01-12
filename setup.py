@@ -9,9 +9,9 @@ import io
 import os.path
 from setuptools import setup
 
+version = ""
 work_dir = os.path.dirname(os.path.abspath(__file__))
 fp = os.path.join(work_dir, "flask_paginate/__init__.py")
-
 with io.open(fp, encoding="utf-8") as f:
     for line in f:
         if line.startswith("__version__ = "):
@@ -30,7 +30,7 @@ setup(
     packages=["flask_paginate"],
     zip_safe=False,
     platforms="any",
-    install_requires=["Flask",],
+    install_requires=["Flask"],
     classifiers=[
         "Environment :: Web Environment",
         "Intended Audience :: Developers",

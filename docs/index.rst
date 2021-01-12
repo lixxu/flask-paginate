@@ -5,7 +5,7 @@ flask-paginate |release| documentation
 
 Overview
 ---------
-Latest version: **0.7.1**
+Latest version: **0.7.2**
 
 **flask-paginate** is a simple paginate extension for
 `flask`_ which is reference to `will_paginate`_,
@@ -244,23 +244,30 @@ API
 Contributors
 ------------
 
+- `AlessandroPoletti <https://github.com/AlessandroPoletti>`_
+- `DYFeng <https://github.com/DYFeng>`_
 - `DoctorMalboro <https://github.com/DoctorMalboro>`_
 - `MasterMind2k <https://github.com/MasterMind2k>`_
+- `Rdbaker <https://github.com/Rdbaker>`_
 - `alcaras <https://github.com/alcaras>`_
-- `mozillazg <https://github.com/mozillazg>`_
-- `DYFeng <https://github.com/DYFeng>`_
+- `andodet <https://github.com/andodet>`_
 - `ilya-il <https://github.com/ilya-il>`_
 - `mkaplenko <https://github.com/mkaplenko>`_
-- `trein <https://github.com/trein>`_
-- `tark-hidden <https://github.com/tark-hidden>`_
-- `wong2 <https://github.com/wong2>`_
-- `voltterra <https://github.com/voltterra>`_
-- `Rdbaker <https://github.com/Rdbaker>`_
+- `mozillazg <https://github.com/mozillazg>`_
 - `skybber <https://github.com/skybber>`_
-- `andodet <https://github.com/andodet>`_
+- `tark-hidden <https://github.com/tark-hidden>`_
+- `trein <https://github.com/trein>`_
+- `voltterra <https://github.com/voltterra>`_
+- `wong2 <https://github.com/wong2>`_
 
 Changelog
 ---------
+Version 0.7.2
+-------------
+
+- fix bug: `issue 87 <https://github.com/lixxu/flask-paginate/issues/87>`_
+- fix bug: `issue 89 <https://github.com/lixxu/flask-paginate/pull/89>`_
+
 Version 0.7.1
 -------------
 

@@ -33,9 +33,13 @@ def index():
     page, per_page, offset = get_page_args(
         page_parameter="p", per_page_parameter="pp", pp=10
     )
-    sql = "select name from users order by name limit {}, {}".format(
-        offset, per_page
-    )
+    if per_page:
+        sql = "select name from users order by name limit {}, {}".format(
+            offset, per_page
+        )
+    else:
+        sql = "select name from users order by name"
+
     g.cur.execute(sql)
     users = g.cur.fetchall()
     pagination = get_pagination(
@@ -63,9 +67,13 @@ def users(page):
     g.cur.execute("select count(*) from users")
     total = g.cur.fetchone()[0]
     page, per_page, offset = get_page_args()
-    sql = "select name from users order by name limit {}, {}".format(
-        offset, per_page
-    )
+    if per_page:
+        sql = "select name from users order by name limit {}, {}".format(
+            offset, per_page
+        )
+    else:
+        sql = "select name from users order by name"
+
     g.cur.execute(sql)
     users = g.cur.fetchall()
     pagination = get_pagination(

@@ -7,7 +7,7 @@
 
     Adds pagination support to your application.
 
-    :copyright: (c) 2013 by Lix Xu.
+    :copyright: (c) 2012 by Lix Xu.
     :license: BSD, see LICENSE for more details
 """
 
@@ -15,7 +15,7 @@ from __future__ import unicode_literals
 import sys
 from flask import current_app, request, url_for, Markup
 
-__version__ = "0.7.1"
+__version__ = "0.7.2"
 
 PY2 = sys.version_info[0] == 2
 
@@ -29,7 +29,8 @@ _bs4 = '<li class="page-item">\
 _bulma = (
     '<a class="pagination-previous" href={0} aria-label="Previous">{1}</a>'
 )
-_materialize = '<li class="waves-effect"><a href="{0}"><i class="material-icons">chevron_left</i></a></li>'
+_materialize = '<li class="waves-effect"><a href="{0}">\
+<i class="material-icons">chevron_left</i></a></li>'
 
 PREV_PAGES = dict(
     bootstrap=_bs,
@@ -51,7 +52,8 @@ _bs4 = '<li class="page-item">\
 <span aria-hidden="true">{1}</span>\
 <span class="sr-only">Next</span></a></li>'
 _bulma = '<a class="pagination-next" href={0} aria-label="Next">{1}</a>'
-_materialize = '<li class="waves-effect"><a href="{0}"><i class="material-icons">chevron_right</i></a></li>'
+_materialize = '<li class="waves-effect"><a href="{0}">\
+<i class="material-icons">chevron_right</i></a></li>'
 NEXT_PAGES = dict(
     bootstrap=_bs,
     bootstrap2=_bs,
@@ -118,7 +120,8 @@ _bs4 = '<li class="page-item disabled"><span class="page-link"> {0} \
 _se = '<a class="item arrow disabled">{0}</a>'
 _fa = '<li class="unavailable"><a>{0}</a></li>'
 _bulma = '<a class="pagination-previous" disabled>{0}</a>'
-_materialize = '<li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>'
+_materialize = '<li class="disabled"><a href="#!">\
+<i class="material-icons">chevron_left</i></a></li>'
 PREV_DISABLED_PAGES = dict(
     bootstrap=_bs,
     bootstrap2=_bs,
@@ -139,7 +142,8 @@ _bs4 = '<li class="page-item disabled"><span class="page-link"> {0} \
 _se = '<a class="item arrow disabled">{0}</a>'
 _fa = '<li class="unavailable"><a>{0}</a></li>'
 _bulma = '<a class="pagination-next" disabled>{0}</a>'
-_materialize = '<li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>'
+_materialize = '<li class="disabled"><a href="#!">\
+<i class="material-icons">chevron_right</i></a></li>'
 NEXT_DISABLED_PAGES = dict(
     bootstrap=_bs,
     bootstrap2=_bs,
@@ -315,16 +319,17 @@ class Pagination(object):
 
         self.page_parameter = page_parameter
         self.page = int(kwargs.get(self.page_parameter, 1))
-        
+
         if self.page < 1:
             self.page = 1
-        
+
         per_page_param = kwargs.get("per_page_parameter")
         if not per_page_param:
             per_page_param = get_per_page_parameter()
 
         self.per_page_parameter = per_page_param
         self.per_page = int(kwargs.get(per_page_param, 10))
+        self.is_disabled = self.per_page < 1
         self.skip = (self.page - 1) * self.per_page
         self.inner_window = kwargs.get("inner_window", 2)
         self.outer_window = kwargs.get("outer_window", 1)
@@ -424,10 +429,14 @@ class Pagination(object):
 
     def init_values(self):
         current_total = self.found if self.search else self.total
-        pages = divmod(current_total, self.per_page)
-        self.total_pages = pages[0] + 1 if pages[1] else pages[0]
-        self.has_prev = self.page > 1
-        self.has_next = self.page < self.total_pages
+        if self.is_disabled:
+            self.total_pages = 1
+            self.has_prev = self.has_next = False
+        else:
+            pages = divmod(current_total, self.per_page)
+            self.total_pages = pages[0] + 1 if pages[1] else pages[0]
+            self.has_prev = self.page > 1
+            self.has_next = self.page < self.total_pages
 
         args = request.args.copy()
         args.update(request.view_args.copy())
@@ -581,20 +590,24 @@ class Pagination(object):
     @property
     def info(self):
         """Get the pagination information."""
-        start = 1 + (self.page - 1) * self.per_page
-        end = start + self.per_page - 1
-        if end > self.total:
-            end = self.total if not self.search else self.found
-
-        if start > self.total:
-            start = self.total if not self.search else self.found
-
         s = ['<div class="pagination-page-info">']
         page_msg = self.search_msg if self.search else self.display_msg
         if self.format_total:
             total_text = "{0:,}".format(self.total)
         else:
             total_text = "{0}".format(self.total)
+
+        if self.is_disabled:
+            start = 1
+            end = self.found if self.search else self.total
+        else:
+            start = 1 + (self.page - 1) * self.per_page
+            end = start + self.per_page - 1
+            if end > self.total:
+                end = self.found if self.search else self.total
+
+            if start > self.total:
+                start = self.found if self.search else self.total
 
         if self.format_number:
             start_text = "{0:,}".format(start)
