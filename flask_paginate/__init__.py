@@ -15,7 +15,7 @@ from __future__ import unicode_literals
 import sys
 from flask import current_app, request, url_for, Markup
 
-__version__ = "0.7.2"
+__version__ = "0.8.0"
 
 PY2 = sys.version_info[0] == 2
 
