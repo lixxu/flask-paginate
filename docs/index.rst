@@ -5,7 +5,7 @@ flask-paginate |release| documentation
 
 Overview
 ---------
-Latest version: **0.8.0**
+Latest version: **0.8.1**
 
 **flask-paginate** is a simple paginate extension for
 `flask`_ which is reference to `will_paginate`_,
@@ -251,6 +251,7 @@ Contributors
 - `Rdbaker <https://github.com/Rdbaker>`_
 - `alcaras <https://github.com/alcaras>`_
 - `andodet <https://github.com/andodet>`_
+- `dp92987 <https://github.com/dp92987>`_
 - `ilya-il <https://github.com/ilya-il>`_
 - `mkaplenko <https://github.com/mkaplenko>`_
 - `mozillazg <https://github.com/mozillazg>`_
@@ -260,8 +261,14 @@ Contributors
 - `voltterra <https://github.com/voltterra>`_
 - `wong2 <https://github.com/wong2>`_
 
+
 Changelog
 ---------
+Version 0.8.1
+-------------
+
+- Add type conversion for page and per_page args: `issue 90 <https://github.com/lixxu/flask-paginate/pull/90>`_
+
 Version 0.8.0
 -------------
 
