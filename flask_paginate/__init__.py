@@ -236,8 +236,8 @@ def get_page_args(
     if for_test:
         return page_name, per_page_name
 
-    page = int(args.get(page_name, 1))
-    per_page = args.get(per_page_name)
+    page = int(args.get(page_name, 1, type=int))
+    per_page = args.get(per_page_name, type=int)
     if not per_page:
         per_page = int(current_app.config.get(per_page_name.upper(), 10))
     else:
