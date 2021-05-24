@@ -295,7 +295,7 @@ class Pagination(object):
             **show_single_page**: decide whether or not a single page \
             returns pagination
 
-            **bs_version**: the version of bootstrap, default is **2**
+            **bs_version**: the version of bootstrap, default is **4**
 
             **css_framework**: the css framework, default is **bootstrap**
 
@@ -347,7 +347,7 @@ class Pagination(object):
         if self.css_framework not in CURRENT_PAGES:
             self.css_framework = "bootstrap"
 
-        self.bs_version = kwargs.get("bs_version") or 2
+        self.bs_version = kwargs.get("bs_version") or 4
         if self.css_framework.startswith("bootstrap"):
             if self.bs_version in (3, "3"):
                 self.css_framework = "bootstrap3"
