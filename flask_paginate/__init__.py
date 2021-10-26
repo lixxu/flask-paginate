@@ -320,9 +320,9 @@ class Pagination(object):
             **show_single_page**: decide whether or not a single page \
             returns pagination
 
-            **bs_version**: the version of bootstrap, default is **2**
+            **bs_version**: the version of bootstrap, default is **4**
 
-            **css_framework**: the css framework, default is **bootstrap**
+            **css_framework**: the css framework, default is **bootstrap4**
 
             **anchor**: anchor parameter, appends to page href
 
