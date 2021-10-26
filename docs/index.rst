@@ -5,13 +5,13 @@ flask-paginate |release| documentation
 
 Overview
 ---------
-Latest version: **2021.10.25**
+Latest version: **2021.10.26**
 
 **flask-paginate** is a simple paginate extension for
 `flask`_ which is reference to `will_paginate`_,
 and supports several css frameworks.
 
-**2021.10.25 update**: `bootstrap5`_ is now supported
+**2021.10.26 update**: **bootstrap5** is now supported
 
 **0.6.0 update**: `bulma`_ is now supported (use **css_framework** parameter)::
 
@@ -217,9 +217,9 @@ Below are the parameters for **Pagination.__init__()**. You can change the setti
     **show_single_page**: decide whether or not a single page \
     returns pagination
 
-    **bs_version**: the version of bootstrap, default is **2**
+    **bs_version**: the version of bootstrap, default is **4**
 
-    **css_framework**: the css framework, default is **'bootstrap'**
+    **css_framework**: the css framework, default is **'bootstrap4'**
 
     **anchor**: anchor parameter, appends to page href
 
