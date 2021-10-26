@@ -1,16 +1,15 @@
 """Tests for flask-paginate."""
 import unittest
 
-from flask import Flask
 import pytest
-
+from flask import Flask
 from flask_paginate import (
+    BS4_LINK,
     CSS_LINKS,
     CSS_LINKS_END,
     CURRENT_PAGES,
     DISPLAY_MSG,
     GAP_MARKERS,
-    LINK,
     NEXT_DISABLED_PAGES,
     NEXT_LABEL,
     NEXT_PAGES,
@@ -20,8 +19,8 @@ from flask_paginate import (
     RECORD_NAME,
     SEARCH_MSG,
     Pagination,
-    get_page_args,
-)
+    get_page_args
+    )
 
 
 class FlaskTestMixin(unittest.TestCase):
@@ -90,14 +89,14 @@ class TestPagination(FlaskTestMixin):
             assert pagination.display_msg == DISPLAY_MSG
             assert pagination.search_msg == SEARCH_MSG
             assert pagination.record_name == RECORD_NAME
-            assert pagination.css_framework == "bootstrap"
-            assert pagination.bs_version == 2
+            assert pagination.css_framework == "bootstrap4"
+            assert pagination.bs_version == 4
             assert pagination.link_size == ""
             assert pagination.alignment == ""
             assert pagination.href is None
             assert pagination.anchor is None
             assert pagination.show_single_page is False
-            assert pagination.link == LINK
+            assert pagination.link == BS4_LINK
             assert (
                 pagination.current_page_fmt
                 == CURRENT_PAGES[pagination.css_framework]

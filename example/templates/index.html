@@ -1,32 +1,33 @@
-{% extends 'base.html' %}
+{% if pagination.css_framework == "bootstrap5" %}
+  {% extends 'base5.html' %}
+{% else %}
+  {% extends "base.html" %}
+{% endif %}
 
 {% block body %}
-{% if users %}
-  {{ pagination.info }}
-  {{ pagination.links }}
-  <div class="table-responsive">
-    <table class="table table-hover">
-    <thead>
-      <tr><th>#</th><th>User Name</th></tr>
-    </thead>
-    <tbody>
-      {% for user in users %}
-      <tr>
-      <td>{{ loop.index + pagination.skip }}</td>
-      <td>{{ user.name }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-    </table>
-  </div>
-  {{ pagination.links }}
+  {% if users %}
+    {{ pagination.info }}
+    {{ pagination.links }}
+    <div class="table-responsive">
+      <table class="table table-hover">
+      <thead>
+        <tr><th>#</th><th>User Name</th></tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+        <tr>
+        <td>{{ loop.index + pagination.skip }}</td>
+        <td>{{ user.name }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      </table>
+    </div>
+    {{ pagination.links }}
   {% endif %}
 {% endblock %}
 
 {% block js %}
-  {% if active_url %}
-    $('#{{ active_url }}').addClass('active');
-  {% else %}
-  $('#users-url').addClass('active');
-  {% endif %}
+  var element = document.getElementById("{{ active_url or 'users-url'}}");
+  element.children[0].classList.add("active");
 {% endblock %}

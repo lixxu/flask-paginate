@@ -5,11 +5,13 @@ flask-paginate |release| documentation
 
 Overview
 ---------
-Latest version: **0.8.1**
+Latest version: **2021.10.25**
 
 **flask-paginate** is a simple paginate extension for
 `flask`_ which is reference to `will_paginate`_,
 and supports several css frameworks.
+
+**2021.10.25 update**: `bootstrap5`_ is now supported
 
 **0.6.0 update**: `bulma`_ is now supported (use **css_framework** parameter)::
 
@@ -264,6 +266,13 @@ Contributors
 
 Changelog
 ---------
+Version 2021.10.25
+-------------
+
+- Add `bootstrap5` support
+- use `YYYY.mm.dd` format for version number
+
+---------
 Version 0.8.1
 -------------
 
@@ -398,7 +407,7 @@ Version 0.2.8
 
 .. _Flask: http://flask.pocoo.org/
 .. _will_paginate: https://github.com/mislav/will_paginate/wiki
-.. _bootstrap: http://twitter.github.com/bootstrap/
+.. _bootstrap: https://getbootstrap.com/
 .. _foundation: http://foundation.zurb.com/
 .. _bulma: https://bulma.io/
 .. _materialize: https://materializecss.com/

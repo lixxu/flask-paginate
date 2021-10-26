@@ -2,10 +2,12 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
+
 import sqlite3
-from flask import Flask, render_template, g, current_app
-from flask_paginate import Pagination, get_page_args
+
 import click
+from flask import Flask, current_app, g, render_template, request
+from flask_paginate import Pagination, get_page_args
 
 click.disable_unicode_literals_warning = True
 
@@ -31,7 +33,7 @@ def index():
     g.cur.execute("select count(*) from users")
     total = g.cur.fetchone()[0]
     page, per_page, offset = get_page_args(
-        page_parameter="p", per_page_parameter="pp", pp=10
+        page_parameter="p", per_page_parameter="pp", pp=20
     )
     if per_page:
         sql = "select name from users order by name limit {}, {}".format(
@@ -59,14 +61,12 @@ def index():
     )
 
 
-@app.route("/users/", defaults={"page": 1})
 @app.route("/users", defaults={"page": 1})
-@app.route("/users/page/<int:page>/")
 @app.route("/users/page/<int:page>")
 def users(page):
     g.cur.execute("select count(*) from users")
     total = g.cur.fetchone()[0]
-    page, per_page, offset = get_page_args()
+    page, per_page, offset = get_page_args(per_page_parameter="pp", pp=20)
     if per_page:
         sql = "select name from users order by name limit {}, {}".format(
             offset, per_page
@@ -92,7 +92,6 @@ def users(page):
     )
 
 
-@app.route("/search/<name>/")
 @app.route("/search/<name>")
 def search(name):
     """The function is used to test multi values url."""
@@ -121,11 +120,15 @@ def search(name):
 
 
 def get_css_framework():
+    css = request.args.get("bs")
+    if css:
+        return css
+
     return current_app.config.get("CSS_FRAMEWORK", "bootstrap4")
 
 
 def get_link_size():
-    return current_app.config.get("LINK_SIZE", "sm")
+    return current_app.config.get("LINK_SIZE", "")
 
 
 def get_alignment():

@@ -5,17 +5,19 @@
     flask_paginate
     ~~~~~~~~~~~~~~~~~~
 
-    Adds pagination support to your application.
+    Adds pagination support to your flask application.
 
     :copyright: (c) 2012 by Lix Xu.
     :license: BSD, see LICENSE for more details
 """
 
 from __future__ import unicode_literals
-import sys
-from flask import current_app, request, url_for, Markup
 
-__version__ = "0.8.1"
+import sys
+
+from flask import Markup, current_app, request, url_for
+
+__version__ = "2021.10.26"
 
 PY2 = sys.version_info[0] == 2
 
@@ -26,6 +28,9 @@ _bs4 = '<li class="page-item">\
 <a class="page-link" href="{0}" aria-label="Previous">\
 <span aria-hidden="true">{1}</span>\
 <span class="sr-only">Previous</span></a></li>'
+_bs5 = '<li class="page-item">\
+<a class="page-link" href="{0}" aria-label="Previous">\
+<span aria-hidden="true">{1}</span></a></li>'
 _bulma = (
     '<a class="pagination-previous" href={0} aria-label="Previous">{1}</a>'
 )
@@ -38,6 +43,7 @@ PREV_PAGES = dict(
     bootstrap3=_bs,
     bootstrap3_3=_bs33,
     bootstrap4=_bs4,
+    bootstrap5=_bs5,
     semantic='<a class="item arrow" href="{0}">{1}</a>',
     foundation='<li class="arrow"><a href="{0}">{1}</a></li>',
     bulma=_bulma,
@@ -51,6 +57,9 @@ _bs4 = '<li class="page-item">\
 <a class="page-link" href="{0}" aria-label="Next">\
 <span aria-hidden="true">{1}</span>\
 <span class="sr-only">Next</span></a></li>'
+_bs5 = '<li class="page-item">\
+<a class="page-link" href="{0}" aria-label="Next">\
+<span aria-hidden="true">{1}</span></a></li>'
 _bulma = '<a class="pagination-next" href={0} aria-label="Next">{1}</a>'
 _materialize = '<li class="waves-effect"><a href="{0}">\
 <i class="material-icons">chevron_right</i></a></li>'
@@ -60,6 +69,7 @@ NEXT_PAGES = dict(
     bootstrap3=_bs,
     bootstrap3_3=_bs33,
     bootstrap4=_bs4,
+    bootstrap5=_bs5,
     semantic='<a class="item arrow" href="{0}">{1}</a>',
     foundation='<li class="arrow"><a href="{0}">{1}</a></li>',
     bulma=_bulma,
@@ -71,6 +81,8 @@ _bs33 = '<li class="active"><span>{0} \
 <span class="sr-only">(current)</span></span></li>'
 _bs4 = '<li class="page-item active"><a class="page-link">{0} \
 <span class="sr-only">(current)</span></a></li>'
+_bs5 = '<li class="page-item active" aria-current="page">\
+<span class="page-link">{0}</span></li>'
 _bulma = '<li><a class="pagination-link is-current" aria-current="page">\
 {0}</a></li>'
 _materialize = '<li class="active"><a href="#!">{0}</a></li>'
@@ -80,6 +92,7 @@ CURRENT_PAGES = dict(
     bootstrap3=_bs,
     bootstrap3_3=_bs33,
     bootstrap4=_bs4,
+    bootstrap5=_bs5,
     semantic='<a class="item active">{0}</a>',
     foundation='<li class="current"><a>{0}</a></li>',
     bulma=_bulma,
@@ -89,6 +102,7 @@ CURRENT_PAGES = dict(
 LINK = '<li><a href="{0}">{1}</a></li>'
 SEMANTIC_LINK = '<a class="item" href="{0}">{1}</a>'
 BS4_LINK = '<li class="page-item"><a class="page-link" href="{0}">{1}</a></li>'
+BS5_LINK = '<li class="page-item"><a class="page-link" href="{0}">{1}</a></li>'
 BULMA_LINK = '<li><a class="pagination-link" href={0}>{1}</a></li>'
 MATERIALIZE_LINK = '<li><a class="waves-effect" href="{0}">{1}</a></li>'
 
@@ -96,6 +110,7 @@ _bs = '<li class="disabled"><a>...</a></li>'
 _bs33 = '<li class="disabled"><span>\
 <span aria-hidden="true">...</span></span></li>'
 _bs4 = '<li class="page-item disabled"><span class="page-link">...</span></li>'
+_bs5 = '<li class="page-item disabled"><span class="page-link">...</span></li>'
 _se = '<a class="disabled item">...</a>'
 _fa = '<li class="unavailable"><a>...</a></li>'
 _bulma = '<li><span class="pagination-ellipsis">&hellip;</span></li>'
@@ -106,6 +121,7 @@ GAP_MARKERS = dict(
     bootstrap3=_bs,
     bootstrap3_3=_bs33,
     bootstrap4=_bs4,
+    bootstrap5=_bs5,
     semantic=_se,
     foundation=_fa,
     bulma=_bulma,
@@ -117,6 +133,8 @@ _bs33 = '<li class="disabled"><span>\
 <span aria-hidden="true">{0}</span></span></li>'
 _bs4 = '<li class="page-item disabled"><span class="page-link"> {0} \
 </span></li>'
+_bs5 = '<li class="page-item disabled">\
+<a class="page-link">{0}</a></li>'
 _se = '<a class="item arrow disabled">{0}</a>'
 _fa = '<li class="unavailable"><a>{0}</a></li>'
 _bulma = '<a class="pagination-previous" disabled>{0}</a>'
@@ -128,6 +146,7 @@ PREV_DISABLED_PAGES = dict(
     bootstrap3=_bs,
     bootstrap3_3=_bs33,
     bootstrap4=_bs4,
+    bootstrap5=_bs5,
     semantic=_se,
     foundation=_fa,
     bulma=_bulma,
@@ -139,6 +158,8 @@ _bs33 = '<li class="disabled"><span>\
 <span aria-hidden="true">{0}</span></span></li>'
 _bs4 = '<li class="page-item disabled"><span class="page-link"> {0} \
 </span></li>'
+_bs5 = '<li class="page-item disabled">\
+<a class="page-link">{0}</a></li>'
 _se = '<a class="item arrow disabled">{0}</a>'
 _fa = '<li class="unavailable"><a>{0}</a></li>'
 _bulma = '<a class="pagination-next" disabled>{0}</a>'
@@ -150,6 +171,7 @@ NEXT_DISABLED_PAGES = dict(
     bootstrap3=_bs,
     bootstrap3_3=_bs33,
     bootstrap4=_bs4,
+    bootstrap5=_bs5,
     semantic=_se,
     foundation=_fa,
     bulma=_bulma,
@@ -166,18 +188,20 @@ total <b>{total}</b>"
 SEARCH_MSG = "found <b>{found}</b> {record_name}, \
 displaying <b>{start} - {end}</b>"
 
-_bs4 = '<nav aria-label="..."><ul class="pagination{0}{1}">'
-_bs33 = '<nav aria-label="..."><ul class="pagination{0}{1}">'
-_bulma = '<nav class="pagination{0}{1}{2}" role="navigation">\
+_bs4 = '<nav aria-label="..."><ul class="pagination {0} {1}">'
+_bs5 = '<nav aria-label="..."><ul class="pagination {0} {1}">'
+_bs33 = '<nav aria-label="..."><ul class="pagination {0} {1}">'
+_bulma = '<nav class="pagination {0} {1} {2}" role="navigation">\
 {3}{4}<ul class="pagination-list">'
 CSS_LINKS = dict(
-    bootstrap='<div class="pagination{0}{1}"><ul>',
-    bootstrap2='<div class="pagination{0}{1}"><ul>',
-    bootstrap3='<ul class="pagination{0}{1}">',
+    bootstrap='<div class="pagination {0} {1}"><ul>',
+    bootstrap2='<div class="pagination {0} {1}"><ul>',
+    bootstrap3='<ul class="pagination {0} {1}">',
     bootstrap3_3=_bs33,
     bootstrap4=_bs4,
+    bootstrap5=_bs5,
     semantic='<div class="ui pagination menu">',
-    foundation='<ul class="pagination{0}{1}">',
+    foundation='<ul class="pagination {0} {1}">',
     bulma=_bulma,
     materialize='<ul class="pagination">',
 )
@@ -187,6 +211,7 @@ CSS_LINKS_END = dict(
     bootstrap3="</ul>",
     bootstrap3_3="</ul></nav>",
     bootstrap4="</ul></nav>",
+    bootstrap5="</ul></nav>",
     semantic="</div>",
     foundation="</ul>",
     bulma="</ul></nav>",
@@ -343,18 +368,22 @@ class Pagination(object):
         self.display_msg = kwargs.get("display_msg") or DISPLAY_MSG
         self.search_msg = kwargs.get("search_msg") or SEARCH_MSG
         self.record_name = kwargs.get("record_name") or RECORD_NAME
-        self.css_framework = kwargs.get("css_framework", "bootstrap").lower()
+        self.css_framework = kwargs.get("css_framework", "bootstrap4").lower()
         if self.css_framework not in CURRENT_PAGES:
-            self.css_framework = "bootstrap"
+            self.css_framework = "bootstrap4"
 
-        self.bs_version = kwargs.get("bs_version") or 2
+        self.bs_version = kwargs.get("bs_version") or 4
         if self.css_framework.startswith("bootstrap"):
-            if self.bs_version in (3, "3"):
+            if self.bs_version in (2, "2"):
+                self.css_framework = "bootstrap"
+            elif self.bs_version in (3, "3"):
                 self.css_framework = "bootstrap3"
             elif self.bs_version in ("3.3", "3_3"):
                 self.css_framework = "bootstrap3_3"
             elif self.bs_version in (4, "4"):
                 self.css_framework = "bootstrap4"
+            elif self.bs_version in (5, "5"):
+                self.css_framework = "bootstrap5"
 
         self.link_size = kwargs.get("link_size", "")
         if self.link_size:
@@ -371,7 +400,7 @@ class Pagination(object):
 
         self.alignment = kwargs.get("alignment", "")
         if self.alignment and self.css_framework.startswith("bootstrap"):
-            if self.css_framework == "bootstrap4":
+            if self.css_framework in ("bootstrap4", "bootstrap5"):
                 if self.alignment == "center":
                     self.alignment = " justify-content-center"
                 elif self.alignment in ("right", "end"):
@@ -394,6 +423,8 @@ class Pagination(object):
         self.link = LINK
         if self.css_framework == "bootstrap4":
             self.link = BS4_LINK
+        elif self.css_framework == "bootstrap5":
+            self.link = BS5_LINK
         elif self.css_framework == "semantic":
             self.link = SEMANTIC_LINK
         elif self.css_framework == "bulma":
