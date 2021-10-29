@@ -17,7 +17,7 @@ import sys
 
 from flask import Markup, current_app, request, url_for
 
-__version__ = "2021.10.26"
+__version__ = "2021.10.29"
 
 PY2 = sys.version_info[0] == 2
 
@@ -372,18 +372,24 @@ class Pagination(object):
         if self.css_framework not in CURRENT_PAGES:
             self.css_framework = "bootstrap4"
 
-        self.bs_version = kwargs.get("bs_version") or 4
         if self.css_framework.startswith("bootstrap"):
-            if self.bs_version in (2, "2"):
-                self.css_framework = "bootstrap"
-            elif self.bs_version in (3, "3"):
-                self.css_framework = "bootstrap3"
-            elif self.bs_version in ("3.3", "3_3"):
-                self.css_framework = "bootstrap3_3"
-            elif self.bs_version in (4, "4"):
-                self.css_framework = "bootstrap4"
-            elif self.bs_version in (5, "5"):
-                self.css_framework = "bootstrap5"
+            bs_version = self.css_framework[9:]
+            if bs_version in ("3_3", "3.3"):
+                self.bs_version = "3.3"
+            elif bs_version:
+                self.bs_version = bs_version
+            else:
+                self.bs_version = kwargs.get("bs_version", 4)
+                if self.bs_version in (2, "2"):
+                    self.css_framework = "bootstrap"
+                elif self.bs_version in (3, "3"):
+                    self.css_framework = "bootstrap3"
+                elif self.bs_version in ("3.3", "3_3"):
+                    self.css_framework = "bootstrap3_3"
+                elif self.bs_version in (4, "4"):
+                    self.css_framework = "bootstrap4"
+                elif self.bs_version in (5, "5"):
+                    self.css_framework = "bootstrap5"
 
         self.link_size = kwargs.get("link_size", "")
         if self.link_size:
