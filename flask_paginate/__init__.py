@@ -17,7 +17,7 @@ import sys
 
 from flask import Markup, current_app, request, url_for
 
-__version__ = "2021.12.28"
+__version__ = "2022.01.08"
 
 PY2 = sys.version_info[0] == 2
 
@@ -391,11 +391,11 @@ class Pagination(object):
                 elif self.bs_version in (5, "5"):
                     self.css_framework = "bootstrap5"
 
-        if not isinstance(self.bs_version, int):
-            if self.bs_version.isdigit():
-                self.bs_version = int(self.bs_version)
-            else:
-                self.bs_version = float(self.bs_version)
+            if not isinstance(self.bs_version, int):
+                if self.bs_version.isdigit():
+                    self.bs_version = int(self.bs_version)
+                else:
+                    self.bs_version = float(self.bs_version)
 
         self.link_size = kwargs.get("link_size", "")
         if self.link_size:
