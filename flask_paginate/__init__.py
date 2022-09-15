@@ -218,7 +218,7 @@ CSS_LINKS_END = dict(
     materialize="</ul>",
 )
 
-# foundation aligment
+# foundation alignment
 F_ALIGNMENT = '<div class="pagination-{0}">'
 
 
@@ -292,7 +292,7 @@ class Pagination(object):
             **per_page_parameter**: a name for per_page likes page_parameter.
             default is 'per_page'.
 
-            **inner_window**: how many links arround current page
+            **inner_window**: how many links around current page
 
             **outer_window**: how many links near first/last link
 
@@ -304,7 +304,7 @@ class Pagination(object):
 
             **total**: total records for pagination
 
-            **display_msg**: text for pagation information
+            **display_msg**: text for pagination information
 
             **search_msg**: text for search information
 
