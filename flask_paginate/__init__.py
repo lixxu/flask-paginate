@@ -15,9 +15,10 @@ from __future__ import unicode_literals
 
 import sys
 
-from flask import Markup, current_app, request, url_for
+from flask import current_app, request, url_for
+from markupsafe import Markup
 
-__version__ = "2022.01.08"
+__version__ = "2023.10.08"
 
 PY2 = sys.version_info[0] == 2
 
@@ -31,9 +32,7 @@ _bs4 = '<li class="page-item">\
 _bs5 = '<li class="page-item">\
 <a class="page-link" href="{0}" aria-label="Previous">\
 <span aria-hidden="true">{1}</span></a></li>'
-_bulma = (
-    '<a class="pagination-previous" href={0} aria-label="Previous">{1}</a>'
-)
+_bulma = '<a class="pagination-previous" href={0} aria-label="Previous">{1}</a>'
 _materialize = '<li class="waves-effect"><a href="{0}">\
 <i class="material-icons">chevron_left</i></a></li>'
 
@@ -610,17 +609,14 @@ class Pagination(object):
                 )
             ]
             for page in self.pages:
-                s.append(
-                    self.single_page(page) if page else self.gap_marker_fmt
-                )
+                s.append(self.single_page(page) if page else self.gap_marker_fmt)
+
             s.append(self.css_end_fmt)
         else:
             s = [self.link_css_fmt.format(self.link_size, self.alignment)]
             s.append(self.prev_page)
             for page in self.pages:
-                s.append(
-                    self.single_page(page) if page else self.gap_marker_fmt
-                )
+                s.append(self.single_page(page) if page else self.gap_marker_fmt)
 
             s.append(self.next_page)
             s.append(self.css_end_fmt)
