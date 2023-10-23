@@ -146,6 +146,8 @@ def get_pagination(**kwargs):
         link_size=get_link_size(),
         alignment=get_alignment(),
         show_single_page=show_single_page_or_not(),
+        prev_rel="prev",
+        next_rel="next prefetch",
         **kwargs
     )
 

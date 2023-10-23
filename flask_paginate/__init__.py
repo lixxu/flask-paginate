@@ -18,22 +18,23 @@ import sys
 from flask import current_app, request, url_for
 from markupsafe import Markup
 
-__version__ = "2023.10.08"
+__version__ = "2023.10.24"
 
 PY2 = sys.version_info[0] == 2
 
-_bs = '<li class="previous"><a href="{0}">{1}</a></li>'
-_bs33 = '<li><a href="{0}" aria-label="Previous">\
+# previous link
+_bs = '<li class="previous"><a href="{0}"{2}>{1}</a></li>'
+_bs33 = '<li><a href="{0}" aria-label="Previous"{2}>\
 <span aria-hidden="true">{1}</span></a></li>'
 _bs4 = '<li class="page-item">\
-<a class="page-link" href="{0}" aria-label="Previous">\
+<a class="page-link" href="{0}" aria-label="Previous"{2}>\
 <span aria-hidden="true">{1}</span>\
 <span class="sr-only">Previous</span></a></li>'
 _bs5 = '<li class="page-item">\
-<a class="page-link" href="{0}" aria-label="Previous">\
+<a class="page-link" href="{0}" aria-label="Previous"{2}>\
 <span aria-hidden="true">{1}</span></a></li>'
-_bulma = '<a class="pagination-previous" href={0} aria-label="Previous">{1}</a>'
-_materialize = '<li class="waves-effect"><a href="{0}">\
+_bulma = '<a class="pagination-previous" href={0} aria-label="Previous"{2}>{1}</a>'
+_materialize = '<li class="waves-effect"><a href="{0}"{1}>\
 <i class="material-icons">chevron_left</i></a></li>'
 
 PREV_PAGES = dict(
@@ -43,24 +44,25 @@ PREV_PAGES = dict(
     bootstrap3_3=_bs33,
     bootstrap4=_bs4,
     bootstrap5=_bs5,
-    semantic='<a class="item arrow" href="{0}">{1}</a>',
-    foundation='<li class="arrow"><a href="{0}">{1}</a></li>',
+    semantic='<a class="item arrow" href="{0}"{2}>{1}</a>',
+    foundation='<li class="arrow"><a href="{0}"{2}>{1}</a></li>',
     bulma=_bulma,
     materialize=_materialize,
 )
 
-_bs = '<li class="next"><a href="{0}">{1}</a></li>'
-_bs33 = '<li><a href="{0}" aria-label="Next">\
+# next link
+_bs = '<li class="next"><a href="{0}"{2}>{1}</a></li>'
+_bs33 = '<li><a href="{0}" aria-label="Next"{2}>\
 <span aria-hidden="true">{1}</span></a></li>'
 _bs4 = '<li class="page-item">\
-<a class="page-link" href="{0}" aria-label="Next">\
+<a class="page-link" href="{0}" aria-label="Next"{2}>\
 <span aria-hidden="true">{1}</span>\
 <span class="sr-only">Next</span></a></li>'
 _bs5 = '<li class="page-item">\
-<a class="page-link" href="{0}" aria-label="Next">\
+<a class="page-link" href="{0}" aria-label="Next"{2}>\
 <span aria-hidden="true">{1}</span></a></li>'
-_bulma = '<a class="pagination-next" href={0} aria-label="Next">{1}</a>'
-_materialize = '<li class="waves-effect"><a href="{0}">\
+_bulma = '<a class="pagination-next" href={0} aria-label="Next"{2}>{1}</a>'
+_materialize = '<li class="waves-effect"><a href="{0}"{1}>\
 <i class="material-icons">chevron_right</i></a></li>'
 NEXT_PAGES = dict(
     bootstrap=_bs,
@@ -69,12 +71,13 @@ NEXT_PAGES = dict(
     bootstrap3_3=_bs33,
     bootstrap4=_bs4,
     bootstrap5=_bs5,
-    semantic='<a class="item arrow" href="{0}">{1}</a>',
-    foundation='<li class="arrow"><a href="{0}">{1}</a></li>',
+    semantic='<a class="item arrow" href="{0}"{2}>{1}</a>',
+    foundation='<li class="arrow"><a href="{0}"{2}>{1}</a></li>',
     bulma=_bulma,
     materialize=_materialize,
 )
 
+# current page
 _bs = '<li class="active"><a>{0}</a></li>'
 _bs33 = '<li class="active"><span>{0} \
 <span class="sr-only">(current)</span></span></li>'
@@ -98,6 +101,7 @@ CURRENT_PAGES = dict(
     materialize=_materialize,
 )
 
+# normal link
 LINK = '<li><a href="{0}">{1}</a></li>'
 SEMANTIC_LINK = '<a class="item" href="{0}">{1}</a>'
 BS4_LINK = '<li class="page-item"><a class="page-link" href="{0}">{1}</a></li>'
@@ -105,6 +109,7 @@ BS5_LINK = '<li class="page-item"><a class="page-link" href="{0}">{1}</a></li>'
 BULMA_LINK = '<li><a class="pagination-link" href={0}>{1}</a></li>'
 MATERIALIZE_LINK = '<li><a class="waves-effect" href="{0}">{1}</a></li>'
 
+# disabled link
 _bs = '<li class="disabled"><a>...</a></li>'
 _bs33 = '<li class="disabled"><span>\
 <span aria-hidden="true">...</span></span></li>'
@@ -127,6 +132,7 @@ GAP_MARKERS = dict(
     materialize=_materialize,
 )
 
+# previous disabled link
 _bs = '<li class="previous disabled unavailable"><a> {0} </a></li>'
 _bs33 = '<li class="disabled"><span>\
 <span aria-hidden="true">{0}</span></span></li>'
@@ -152,6 +158,7 @@ PREV_DISABLED_PAGES = dict(
     materialize=_materialize,
 )
 
+# next disabled link
 _bs = '<li class="next disabled"><a> {0} </a></li>'
 _bs33 = '<li class="disabled"><span>\
 <span aria-hidden="true">{0}</span></span></li>'
@@ -335,6 +342,10 @@ class Pagination(object):
 
             **bulma_style**: page link style for bulma css framework
 
+            **prev_rel**: rel of previous page
+
+            **next_rel**: rel of next page
+
         """
         self.found = found
         page_parameter = kwargs.get("page_parameter")
@@ -408,6 +419,14 @@ class Pagination(object):
         self.bulma_style = kwargs.get("bulma_style", "")
         if self.bulma_style:
             self.bulma_style = " is-{0}".format(self.bulma_style)
+
+        self.prev_rel = kwargs.get("prev_rel", "")
+        if self.prev_rel:
+            self.prev_rel = ' rel="{}"'.format(self.prev_rel)
+
+        self.next_rel = kwargs.get("next_rel", "")
+        if self.next_rel:
+            self.next_rel = ' rel="{}"'.format(self.next_rel)
 
         self.alignment = kwargs.get("alignment", "")
         if self.alignment and self.css_framework.startswith("bootstrap"):
@@ -496,7 +515,12 @@ class Pagination(object):
         if self.has_prev:
             page = self.page - 1 if self.page > 2 else None
             url = self.page_href(page)
-            return self.prev_page_fmt.format(url, self.prev_label)
+            if self.css_framework == "materialize":
+                args = (url, self.prev_rel)
+            else:
+                args = (url, self.prev_label, self.prev_rel)
+
+            return self.prev_page_fmt.format(*args)
 
         return self.prev_disabled_page_fmt.format(self.prev_label)
 
@@ -504,7 +528,12 @@ class Pagination(object):
     def next_page(self):
         if self.has_next:
             url = self.page_href(self.page + 1)
-            return self.next_page_fmt.format(url, self.next_label)
+            if self.css_framework == "materialize":
+                args = (url, self.next_rel)
+            else:
+                args = (url, self.next_label, self.next_rel)
+
+            return self.next_page_fmt.format(*args)
 
         return self.next_disabled_page_fmt.format(self.next_label)
 

@@ -5,11 +5,13 @@ flask-paginate |release| documentation
 
 Overview
 ---------
-Latest version: **2021.10.29**
+Latest version: **2023.10.24**
 
 **flask-paginate** is a simple paginate extension for
 `flask`_ which is reference to `will_paginate`_,
 and supports several css frameworks.
+
+**2023.10.24 update**: **rel** parameters was added
 
 **2021.10.26 update**: **bootstrap5** is now supported
 
@@ -119,10 +121,11 @@ In your flask views file (e.g. views/users.py)::
         # you can set PER_PAGE parameter in config file
         # e.g. Pagination(per_page_parameter='pp')
 
-        return render_template('users/index.html',
-                               users=users,
-                               pagination=pagination,
-                               )
+        return render_template(
+            "index.html",
+            users=users,
+            pagination=pagination,
+        )
 
 In the **users/index.html**:
 
@@ -233,14 +236,18 @@ Below are the parameters for **Pagination.__init__()**. You can change the setti
 
     **bulma_style**: page link style for bulma css framework
 
+    **prev_rel**: rel of previous page
+
+    **next_rel**: rel of next page
+
 API
 ------------------
 
 .. autoclass:: Pagination
-   :members:
+  :members:
 
 .. toctree::
-   :maxdepth: 2
+  :maxdepth: 2
 
 
 Contributors
@@ -266,6 +273,26 @@ Contributors
 
 Changelog
 ---------
+Version 2023.10.24
+-------------
+
+- add rel `issue 109 <https://github.com/lixxu/flask-paginate/issues/109>`
+
+Version 2023.10.08
+-------------
+
+- fix typos `PR 104 <https://github.com/lixxu/flask-paginate/pull/104>`
+
+Version 2022.01.08
+-------------
+
+- make `bs_version` only for bootstrap
+
+Version 2021.12.28
+-------------
+
+- set `bs_version` to integer
+
 Version 2021.10.29
 -------------
 
