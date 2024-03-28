@@ -356,7 +356,7 @@ class Pagination(object):
 
             **next_rel**: rel of next page
 
-            **show_first_page_number**: show first page number or not
+            **include_first_page_number**: include 1 for first page or not
 
         """
         self.found = found
@@ -486,8 +486,8 @@ class Pagination(object):
         self.prev_page_fmt = PREV_PAGES[self.css_framework]
         self.next_page_fmt = NEXT_PAGES[self.css_framework]
         self.css_end_fmt = CSS_LINKS_END[self.css_framework]
-        self.show_first_page_number = get_param_value(
-            "show_first_page_number", kwargs, False
+        self.include_first_page_number = get_param_value(
+            "include_first_page_number", kwargs, False
         )
         self.init_values()
 
@@ -532,7 +532,10 @@ class Pagination(object):
     @property
     def prev_page(self):
         if self.has_prev:
-            page = self.page - 1 if self.page > 2 else None
+            page = self.page - 1
+            if self.page <= 2 and not self.include_first_page_number:
+                page = None
+
             url = self.page_href(page)
             if self.css_framework == "materialize":
                 args = (url, self.prev_rel)
@@ -560,7 +563,7 @@ class Pagination(object):
     def first_page(self):
         # current page is first page
         if self.has_prev:
-            if self.show_first_page_number:
+            if self.include_first_page_number:
                 return self.link.format(self.page_href(1), 1)
 
             return self.link.format(self.page_href(None), 1)
