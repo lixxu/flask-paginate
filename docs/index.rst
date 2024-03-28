@@ -5,11 +5,13 @@ flask-paginate |release| documentation
 
 Overview
 ---------
-Latest version: **2023.10.24**
+Latest version: **2024.03.28**
 
 **flask-paginate** is a simple paginate extension for
 `flask`_ which is reference to `will_paginate`_,
 and supports several css frameworks.
+
+**2024.03.28 update**: **show_first_page_number** parameters was added, some parameters got from config
 
 **2023.10.24 update**: **rel** parameters was added
 
@@ -240,6 +242,9 @@ Below are the parameters for **Pagination.__init__()**. You can change the setti
 
     **next_rel**: rel of next page
 
+    **show_first_page_number**: show first page number or not
+
+
 API
 ------------------
 
@@ -273,6 +278,12 @@ Contributors
 
 Changelog
 ---------
+Version 2024.03.28
+-------------
+
+- add show_first_page_number `issue 111 <https://github.com/lixxu/flask-paginate/issues/111>`
+- some parameters got from config
+
 Version 2023.10.24
 -------------
 

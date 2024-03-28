@@ -7,7 +7,7 @@ import sqlite3
 
 import click
 from flask import Flask, current_app, g, render_template, request
-from flask_paginate import Pagination, get_page_args
+from flask_paginate import Pagination, get_page_args, get_parameter
 
 click.disable_unicode_literals_warning = True
 
@@ -32,9 +32,7 @@ def teardown(error):
 def index():
     g.cur.execute("select count(*) from users")
     total = g.cur.fetchone()[0]
-    page, per_page, offset = get_page_args(
-        page_parameter="p", per_page_parameter="pp", pp=20
-    )
+    page, per_page, offset = get_page_args()
     if per_page:
         sql = "select name from users order by name limit {}, {}".format(
             offset, per_page
@@ -44,15 +42,12 @@ def index():
 
     g.cur.execute(sql)
     users = g.cur.fetchall()
+    page_name = get_parameter()
+    per_page_name = get_parameter(default="per_page")
     pagination = get_pagination(
-        p=page,
-        pp=per_page,
         total=total,
         record_name="users",
-        format_total=True,
-        format_number=True,
-        page_parameter="p",
-        per_page_parameter="pp",
+        **{page_name: page, per_page_name: per_page},
     )
     return render_template(
         "index.html",
@@ -66,7 +61,7 @@ def index():
 def users(page):
     g.cur.execute("select count(*) from users")
     total = g.cur.fetchone()[0]
-    page, per_page, offset = get_page_args(per_page_parameter="pp", pp=20)
+    page, per_page, offset = get_page_args(per_page_parameter="pp", pp=15)
     if per_page:
         sql = "select name from users order by name limit {}, {}".format(
             offset, per_page
@@ -81,8 +76,6 @@ def users(page):
         per_page=per_page,
         total=total,
         record_name="users",
-        format_total=True,
-        format_number=True,
     )
     return render_template(
         "index.html",
@@ -127,29 +120,8 @@ def get_css_framework():
     return current_app.config.get("CSS_FRAMEWORK", "bootstrap4")
 
 
-def get_link_size():
-    return current_app.config.get("LINK_SIZE", "")
-
-
-def get_alignment():
-    return current_app.config.get("LINK_ALIGNMENT", "")
-
-
-def show_single_page_or_not():
-    return current_app.config.get("SHOW_SINGLE_PAGE", False)
-
-
 def get_pagination(**kwargs):
-    kwargs.setdefault("record_name", "records")
-    return Pagination(
-        css_framework=get_css_framework(),
-        link_size=get_link_size(),
-        alignment=get_alignment(),
-        show_single_page=show_single_page_or_not(),
-        prev_rel="prev",
-        next_rel="next prefetch",
-        **kwargs
-    )
+    return Pagination(css_framework=get_css_framework(), **kwargs)
 
 
 @click.command()

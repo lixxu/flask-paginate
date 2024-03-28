@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 
 """
-    flask_paginate
-    ~~~~~~~~~~~~~~~~~~
+flask_paginate
+~~~~~~~~~~~~~~~~~~
 
-    Adds pagination support to your flask application.
+Adds pagination support to your flask application.
 
-    :copyright: (c) 2012 by Lix Xu.
-    :license: BSD, see LICENSE for more details
+:copyright: (c) 2012 by Lix Xu.
+:license: BSD, see LICENSE for more details
 """
 
 from __future__ import unicode_literals
@@ -18,7 +18,7 @@ import sys
 from flask import current_app, request, url_for
 from markupsafe import Markup
 
-__version__ = "2023.10.24"
+__version__ = "2024.03.28"
 
 PY2 = sys.version_info[0] == 2
 
@@ -270,12 +270,22 @@ def get_page_args(
     page = int(args.get(page_name, 1, type=int))
     per_page = args.get(per_page_name, type=int)
     if not per_page:
-        per_page = int(current_app.config.get(per_page_name.upper(), 10))
+        per_page = int(current_app.config.get("PER_PAGE", 10))
     else:
         per_page = int(per_page)
 
     offset = (page - 1) * per_page
     return page, per_page, offset
+
+
+def get_param_value(name, kwargs={}, default=None, cfg_name="", prefix="pagination"):
+    """Get parameter value from kwargs or config"""
+    config_name = cfg_name or name
+    if prefix:
+        config_name = "{}_{}".format(prefix, config_name)
+
+    cfg_value = current_app.config.get(config_name.upper(), default)
+    return kwargs.get(name, cfg_value)
 
 
 class Pagination(object):
@@ -346,6 +356,8 @@ class Pagination(object):
 
             **next_rel**: rel of next page
 
+            **show_first_page_number**: show first page number or not
+
         """
         self.found = found
         page_parameter = kwargs.get("page_parameter")
@@ -363,22 +375,26 @@ class Pagination(object):
             per_page_param = get_per_page_parameter()
 
         self.per_page_parameter = per_page_param
-        self.per_page = int(kwargs.get(per_page_param, 10))
+        self.per_page = int(
+            get_param_value(per_page_param, kwargs, 10, cfg_name="per_page", prefix="")
+        )
         self.is_disabled = self.per_page < 1
         self.skip = (self.page - 1) * self.per_page
-        self.inner_window = kwargs.get("inner_window", 2)
-        self.outer_window = kwargs.get("outer_window", 1)
-        self.prev_label = kwargs.get("prev_label") or PREV_LABEL
-        self.next_label = kwargs.get("next_label") or NEXT_LABEL
+        self.inner_window = int(get_param_value("inner_window", kwargs, 2))
+        self.outer_window = int(get_param_value("outer_window", kwargs, 1))
+        self.prev_label = get_param_value("prev_label", kwargs, PREV_LABEL)
+        self.next_label = get_param_value("next_label", kwargs, NEXT_LABEL)
         self.search = kwargs.get("search", False)
         self.total = kwargs.get("total", 0)
-        self.format_total = kwargs.get("format_total", False)
-        self.format_number = kwargs.get("format_number", False)
-        self.url_coding = kwargs.get("url_coding", "utf-8")
-        self.display_msg = kwargs.get("display_msg") or DISPLAY_MSG
-        self.search_msg = kwargs.get("search_msg") or SEARCH_MSG
-        self.record_name = kwargs.get("record_name") or RECORD_NAME
-        self.css_framework = kwargs.get("css_framework", "bootstrap4").lower()
+        self.format_total = get_param_value("format_total", kwargs, False)
+        self.format_number = get_param_value("format_number", kwargs, False)
+        self.url_coding = get_param_value("url_coding", kwargs, "utf-8")
+        self.display_msg = get_param_value("display_msg", kwargs, DISPLAY_MSG)
+        self.search_msg = get_param_value("search_msg", kwargs, SEARCH_MSG)
+        self.record_name = get_param_value("record_name", kwargs, RECORD_NAME)
+        self.css_framework = get_param_value(
+            "css_framework", kwargs, "bootstrap4"
+        ).lower()
         if self.css_framework not in CURRENT_PAGES:
             self.css_framework = "bootstrap4"
 
@@ -389,7 +405,7 @@ class Pagination(object):
             elif bs_version:
                 self.bs_version = bs_version
             else:
-                self.bs_version = kwargs.get("bs_version", 4)
+                self.bs_version = get_param_value("bs_version", kwargs, 4)
                 if self.bs_version in (2, "2"):
                     self.css_framework = "bootstrap"
                 elif self.bs_version in (3, "3"):
@@ -407,7 +423,7 @@ class Pagination(object):
                 else:
                     self.bs_version = float(self.bs_version)
 
-        self.link_size = kwargs.get("link_size", "")
+        self.link_size = get_param_value("link_size", kwargs, "")
         if self.link_size:
             if self.css_framework == "foundation":
                 self.link_size = ""
@@ -416,19 +432,19 @@ class Pagination(object):
             else:
                 self.link_size = " pagination-{0}".format(self.link_size)
 
-        self.bulma_style = kwargs.get("bulma_style", "")
+        self.bulma_style = get_param_value("bulma_style", kwargs, "")
         if self.bulma_style:
             self.bulma_style = " is-{0}".format(self.bulma_style)
 
-        self.prev_rel = kwargs.get("prev_rel", "")
+        self.prev_rel = get_param_value("prev_rel", kwargs, "")
         if self.prev_rel:
             self.prev_rel = ' rel="{}"'.format(self.prev_rel)
 
-        self.next_rel = kwargs.get("next_rel", "")
+        self.next_rel = get_param_value("next_rel", kwargs, "")
         if self.next_rel:
             self.next_rel = ' rel="{}"'.format(self.next_rel)
 
-        self.alignment = kwargs.get("alignment", "")
+        self.alignment = get_param_value("alignment", kwargs, "")
         if self.alignment and self.css_framework.startswith("bootstrap"):
             if self.css_framework in ("bootstrap4", "bootstrap5"):
                 if self.alignment == "center":
@@ -446,9 +462,9 @@ class Pagination(object):
         if self.alignment and self.css_framework == "bulma":
             self.alignment = " is-{0}".format(self.alignment)
 
-        self.href = kwargs.get("href", None)
-        self.anchor = kwargs.get("anchor", None)
-        self.show_single_page = kwargs.get("show_single_page", False)
+        self.href = kwargs.get("href")
+        self.anchor = kwargs.get("anchor")
+        self.show_single_page = get_param_value("show_single_page", kwargs, False)
 
         self.link = LINK
         if self.css_framework == "bootstrap4":
@@ -470,6 +486,9 @@ class Pagination(object):
         self.prev_page_fmt = PREV_PAGES[self.css_framework]
         self.next_page_fmt = NEXT_PAGES[self.css_framework]
         self.css_end_fmt = CSS_LINKS_END[self.css_framework]
+        self.show_first_page_number = get_param_value(
+            "show_first_page_number", kwargs, False
+        )
         self.init_values()
 
     def page_href(self, page):
@@ -541,6 +560,9 @@ class Pagination(object):
     def first_page(self):
         # current page is first page
         if self.has_prev:
+            if self.show_first_page_number:
+                return self.link.format(self.page_href(1), 1)
+
             return self.link.format(self.page_href(None), 1)
 
         return self.current_page_fmt.format(1)
