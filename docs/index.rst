@@ -5,11 +5,13 @@ flask-paginate |release| documentation
 
 Overview
 ---------
-Latest version: **2024.03.28**
+Latest version: **2024.04.12**
 
 **flask-paginate** is a simple paginate extension for
 `flask`_ which is reference to `will_paginate`_,
 and supports several css frameworks.
+
+**2024.04.12 update**: fix bug url not unquoted for bulma
 
 **2024.03.28 update**: **include_first_page_number** parameter was added, and some parameters got from config
 
@@ -278,6 +280,11 @@ Contributors
 
 Changelog
 ---------
+Version 2024.04.12
+-------------
+
+- fix a bug url not unquoted for bulma `issue 112 <https://github.com/lixxu/flask-paginate/issues/112>`
+
 Version 2024.03.28
 -------------
 

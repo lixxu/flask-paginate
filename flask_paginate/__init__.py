@@ -18,7 +18,7 @@ import sys
 from flask import current_app, request, url_for
 from markupsafe import Markup
 
-__version__ = "2024.03.28"
+__version__ = "2024.04.12"
 
 PY2 = sys.version_info[0] == 2
 
@@ -33,7 +33,7 @@ _bs4 = '<li class="page-item">\
 _bs5 = '<li class="page-item">\
 <a class="page-link" href="{0}" aria-label="Previous"{2}>\
 <span aria-hidden="true">{1}</span></a></li>'
-_bulma = '<a class="pagination-previous" href={0} aria-label="Previous"{2}>{1}</a>'
+_bulma = '<a class="pagination-previous" href="{0}" aria-label="Previous"{2}>{1}</a>'
 _materialize = '<li class="waves-effect"><a href="{0}"{1}>\
 <i class="material-icons">chevron_left</i></a></li>'
 
@@ -61,7 +61,7 @@ _bs4 = '<li class="page-item">\
 _bs5 = '<li class="page-item">\
 <a class="page-link" href="{0}" aria-label="Next"{2}>\
 <span aria-hidden="true">{1}</span></a></li>'
-_bulma = '<a class="pagination-next" href={0} aria-label="Next"{2}>{1}</a>'
+_bulma = '<a class="pagination-next" href="{0}" aria-label="Next"{2}>{1}</a>'
 _materialize = '<li class="waves-effect"><a href="{0}"{1}>\
 <i class="material-icons">chevron_right</i></a></li>'
 NEXT_PAGES = dict(
@@ -106,7 +106,7 @@ LINK = '<li><a href="{0}">{1}</a></li>'
 SEMANTIC_LINK = '<a class="item" href="{0}">{1}</a>'
 BS4_LINK = '<li class="page-item"><a class="page-link" href="{0}">{1}</a></li>'
 BS5_LINK = '<li class="page-item"><a class="page-link" href="{0}">{1}</a></li>'
-BULMA_LINK = '<li><a class="pagination-link" href={0}>{1}</a></li>'
+BULMA_LINK = '<li><a class="pagination-link" href="{0}">{1}</a></li>'
 MATERIALIZE_LINK = '<li><a class="waves-effect" href="{0}">{1}</a></li>'
 
 # disabled link
