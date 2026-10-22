@@ -18,7 +18,7 @@ import sys
 from flask import current_app, request, url_for
 from markupsafe import Markup
 
-__version__ = "2024.04.12"
+__version__ = "2026.10.22"
 
 PY2 = sys.version_info[0] == 2
 
@@ -367,9 +367,7 @@ class Pagination(object):
         self.page_parameter = page_parameter
         self.page = int(kwargs.get(self.page_parameter, 1))
 
-        if self.page < 1:
-            self.page = 1
-
+        self.page = max(self.page, 1)
         per_page_param = kwargs.get("per_page_parameter")
         if not per_page_param:
             per_page_param = get_per_page_parameter()
